@@ -1,0 +1,19 @@
+
+.paysera-delivery-input {
+    transition-property: all;
+    transition-duration: 0.5s;
+    position: relative;
+}
+
+.wc-modal-shipping-method-settings .wc-shipping-zone-method-fields .paysera-delivery-input-validation-error {
+    border: 1px solid #f94d4d;
+    background-color: #f3d3d3;
+}
+
+.paysera-error-message {
+    color: #cc0033;
+    display: inline-block;
+    font-size: 12px;
+    line-height: 15px;
+    margin: 5px 0 0;
+}

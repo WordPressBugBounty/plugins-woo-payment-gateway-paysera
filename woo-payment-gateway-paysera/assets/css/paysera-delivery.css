@@ -1,0 +1,156 @@
+.paysera-delivery-about-container {
+    max-width: 800px;
+    margin: auto;
+}
+
+.paysera-delivery-about-container p {
+    font-size: 14px;
+}
+
+.paysera-delivery-about-container h1 {
+    margin-top: 50px;
+}
+
+.paysera-delivery-about-container ul {
+    list-style: initial;
+    margin-left: 15px;
+}
+
+.paysera-delivery-inline-container-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.paysera-delivery-inline-container {
+    width: 49%;
+}
+
+.paysera-delivery-logo-container {
+    text-align: center;
+}
+
+.paysera-delivery-settings-logo {
+    width: 150px;
+    height: 100px;
+    padding-left: 8px;
+}
+
+.paysera-delivery-list-row {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    border-bottom: 1px solid #dddddd;
+}
+
+.paysera-delivery-list-col {
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    text-align: center;
+}
+
+.paysera-delivery-gateway-title {
+    text-align: center;
+}
+
+.paysera-delivery-terminal {
+    padding-bottom: 20px;
+    display: none;
+}
+
+.paysera-delivery-extra-description {
+    margin-top: 5px;
+}
+
+.paysera-delivery-error-link {
+    color: #a00;
+    cursor: default;
+    pointer-events: none;
+}
+
+#order_review .paysera-delivery-terminal .select2-container {
+    min-width: 100%;
+}
+
+.paysera-delivery-terminal-city {
+    display: none;
+}
+
+.paysera-delivery-terminal-location {
+    display: none;
+}
+
+.paysera-settings .form-table {
+    margin: 20px 10px 0 10px;
+}
+
+.paysera-settings .submit {
+    margin-left: 10px;
+}
+
+.paysera-settings .paysera-settings-input {
+    width: 300px;
+}
+
+.paysera-delivery-gateways-list th {
+    display: none;
+}
+
+.paysera-settings {
+    overflow: hidden;
+}
+
+.paysera-delivery-required {
+    color: #b22222;
+}
+
+#shipping_method .paysera-delivery-checkout-logo {
+    max-width: 100px;
+}
+
+.paysera-delivery-small-paragraph {
+    line-height: 0.7;
+}
+
+.paysera-delivery-error {
+    color: #a00;
+    margin-bottom: 0;
+}
+
+.woocommerce ul#shipping_method li,
+.wc-block-checkout .wc-block-components-radio-control__option-layout .wc-block-components-radio-control__label,
+.wc-block-components-totals-item__description,
+.wc-block-components-shipping-rates-control__package .wc-block-components-radio-control .wc-block-components-radio-control__option .wc-block-components-radio-control__label-group span
+{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 30ch;
+}
+
+.wc-block-components-totals-item__description {
+    max-width: 100%;
+}
+
+@media (max-width: 500px) {
+    ul#shipping_method li.paysera_shipping_method {
+        width: 220px;
+        display: inline-block;
+        text-align: left;
+    }
+    .woocommerce-shipping-totals.shipping th {
+        align-content: start;
+    }
+}
+
+@media (min-width: 501px) and (max-width: 775px) {
+    ul#shipping_method li.paysera_shipping_method {
+        width: 350px;
+        max-width: 350px;
+        display: inline-block;
+    }
+    .woocommerce-shipping-totals th {
+        align-content: start;
+    }
+}

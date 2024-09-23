@@ -1,0 +1,31 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Argument of an invalid type array\\<string, bool\\|string\\>\\|bool\\|string supplied for foreach, only iterables are supported\\.$#"
+			count: 1
+			path: src/Validator/AbstractValidator.php
+
+		-
+			message: "#^Parameter \\#1 \\$string of function substr expects string, bool\\|string given\\.$#"
+			count: 1
+			path: src/Validator/AbstractValidator.php
+
+		-
+			message: "#^Parameter \\#2 \\$key of static method MadeSimple\\\\Arrays\\\\ArrDots\\:\\:get\\(\\) expects string, array\\<string, bool\\|string\\>\\|bool\\|string given\\.$#"
+			count: 2
+			path: src/Validator/AbstractValidator.php
+
+		-
+			message: "#^Parameter \\#2 \\$replace of function str_replace expects array\\|string, bool\\|string given\\.$#"
+			count: 1
+			path: src/Validator/AbstractValidator.php
+
+		-
+			message: "#^Possibly invalid array key type array\\<string, bool\\|string\\>\\|bool\\|string\\.$#"
+			count: 2
+			path: src/Validator/AbstractValidator.php
+
+		-
+			message: "#^Parameter \\#3 \\$subject of function str_replace expects array\\|string, bool\\|string given\\.$#"
+			count: 1
+			path: src/Validator/Helper/Str.php
