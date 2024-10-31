@@ -107,7 +107,7 @@ final class PayseraBlock extends AbstractPaymentMethodType
             $version,
             true
         );
-        wp_set_script_translations('wc-paysera-blocks-integration', 'paysera');
+        wp_set_script_translations('wc-paysera-blocks-integration', 'paysera', PayseraPluginPath  . '/languages/');
 
         $this->localizeScripts();
 

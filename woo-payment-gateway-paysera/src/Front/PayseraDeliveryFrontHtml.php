@@ -69,7 +69,7 @@ class PayseraDeliveryFrontHtml
             $fields['billing'][PayseraDeliverySettings::BILLING_HOUSE_NO] = [
                 'label' => __('House Number', PayseraPaths::PAYSERA_TRANSLATIONS),
                 'placeholder' => __('House Number', PayseraPaths::PAYSERA_TRANSLATIONS),
-                'priority' => 51,
+                'priority' => 61,
                 'required' => true,
                 'clear' => true,
             ];
@@ -77,7 +77,7 @@ class PayseraDeliveryFrontHtml
             $fields['shipping'][PayseraDeliverySettings::SHIPPING_HOUSE_NO] = [
                 'label' => __('House Number', PayseraPaths::PAYSERA_TRANSLATIONS),
                 'placeholder' => __('House Number', PayseraPaths::PAYSERA_TRANSLATIONS),
-                'priority' => 51,
+                'priority' => 61,
                 'required' => true,
                 'clear' => true,
             ];

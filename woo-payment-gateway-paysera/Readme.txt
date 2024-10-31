@@ -1,11 +1,11 @@
 === WooCommerce Payment Gateway - Paysera ===
-Version: 3.5.7
-Date: 2024-09-18
+Version: 3.5.8
+Date: 2024-10-11
 Contributors: Paysera
 Tags: online payment, payment, payment gateway, international payments, shipping
 Requires at least: 4.0
 Tested up to: 6.6
-Stable tag: 3.5.7
+Stable tag: 3.5.8
 Requires PHP: 7.4
 Requires PHP Extension: BCMath, Zip
 Minimum requirements: WooCommerce 5.0
@@ -130,6 +130,15 @@ Follow video tutorial or instructions below.
 9. Delivery Gateways Selection
 
 == Changelog ==
+= 3.5.8 =
+* Fix - Delivery terminal address not changed after proceeding with failed payment
+* Fix - Slow execution on large, high-loaded sites
+* Fix - 'House number' field is located in unpropper position on old checkout page
+* Fix - Move buyer consent in the bottom of the List of payments
+* Update - Update checkout sdk
+* Fix - Missing Lithuanian translations
+* Fix - Editing checkout blocks give an error
+
 = 3.5.7 =
 * Fix error on Classic Checkout page
 
@@ -454,6 +463,15 @@ Follow video tutorial or instructions below.
 * Fix - Admin textfield fix
 
 == Upgrade Notice ==
+= 3.5.8 =
+* Fix - Delivery terminal address not changed after proceeding with failed payment
+* Fix - Slow execution on large, high-loaded sites
+* Fix - 'House number' field is located in unpropper position on old checkout page
+* Fix - Move buyer consent in the bottom of the List of payments
+* Update - Update checkout sdk
+* Fix - Missing Lithuanian translations
+* Fix - Editing checkout blocks give an error
+
 = 3.5.7 =
 * Fix error on Classic Checkout page
 

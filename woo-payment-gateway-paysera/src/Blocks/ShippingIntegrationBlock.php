@@ -118,7 +118,7 @@ class ShippingIntegrationBlock implements IntegrationInterface
         wp_set_script_translations(
             'paysera-shipping-block-editor',
             PayseraPaths::PAYSERA_TRANSLATIONS,
-            dirname(__FILE__) . '/languages'
+            PayseraPluginPath . '/languages/'
         );
     }
 
@@ -144,7 +144,7 @@ class ShippingIntegrationBlock implements IntegrationInterface
         wp_set_script_translations(
             'paysera-shipping-block-frontend',
             PayseraPaths::PAYSERA_TRANSLATIONS,
-            dirname(__FILE__) . '/languages'
+            PayseraPluginPath  . '/languages/'
         );
     }
 

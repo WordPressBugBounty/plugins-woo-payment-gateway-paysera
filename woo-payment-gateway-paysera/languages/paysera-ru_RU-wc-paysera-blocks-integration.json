@@ -1,0 +1,30 @@
+{
+    "translation-revision-date": "2024-05-28 11:20+0300",
+    "generator": "WP-CLI\/2.11.0",
+    "source": "assets\/build\/paysera-shipping-block-frontend.js",
+    "domain": "paysera",
+    "locale_data": {
+        "messages": {
+            "": {
+                "domain": "paysera",
+                "lang": "ru_RU",
+                "plural-forms": "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10 >= 2 && n%10<=4 &&(n%100<10||n%100 >= 20)? 1 : 2);"
+            },
+            "All popular payment methods": [
+                "\u0412\u0441\u0435 \u043f\u043e\u043f\u0443\u043b\u044f\u0440\u043d\u044b\u0435 \u0441\u043f\u043e\u0441\u043e\u0431\u044b \u043e\u043f\u043b\u0430\u0442\u044b"
+            ],
+            "Cart weight is not sufficient": [
+                "\u0412\u0435\u0441 \u0442\u0435\u043b\u0435\u0436\u043a\u0438 \u043d\u0435\u0434\u043e\u0441\u0442\u0430\u0442\u043e\u0447\u0435\u043d"
+            ],
+            "Terminal city": [
+                "\u0413\u043e\u0440\u043e\u0434 \u043f\u043e\u0447\u0442\u043e\u043c\u0430\u0442\u0430"
+            ],
+            "Terminal country": [
+                "\u0421\u0442\u0440\u0430\u043d\u0430 \u043f\u043e\u0447\u0442\u043e\u043c\u0430\u0442\u0430"
+            ],
+            "Terminal location": [
+                "\u041c\u0435\u0441\u0442\u043e \u043f\u043e\u0447\u0442\u043e\u043c\u0430\u0442\u0430"
+            ]
+        }
+    }
+}

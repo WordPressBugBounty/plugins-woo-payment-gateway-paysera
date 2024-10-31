@@ -13,6 +13,7 @@ use Paysera\Entity\PayseraPaths;
 use Paysera\Entity\PayseraPaymentSettings;
 use Paysera\Helper\EventHandlingHelper;
 use Paysera\Helper\PayseraDeliveryHelper;
+use Paysera\Helper\PayseraURLHelper;
 use Paysera\Helper\SessionHelperInterface;
 use Paysera\Provider\PayseraDeliverySettingsProvider;
 use Paysera\Provider\PayseraPaymentSettingsProvider;
@@ -552,8 +553,13 @@ class ' . $deliveryEntity . ' extends Paysera_Delivery_Gateway
     public static function isAvailableToEnqueueScripts(): bool
     {
         if (self::$isAvailableToEnqueueScripts === null) {
-            $pageId = url_to_postid(set_url_scheme('//' .$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']));
-            self::$isAvailableToEnqueueScripts = $pageId === wc_get_page_id( 'checkout' ) || $pageId === wc_get_page_id( 'cart' );
+            global $pagenow;
+            if (is_blog_admin() && ($pagenow === 'post.php' || $pagenow === 'post-new.php')) {
+                self::$isAvailableToEnqueueScripts = true;
+            } else {
+                $pageId = (new PayseraURLHelper())->urlToPageId(set_url_scheme('//' .$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']));
+                self::$isAvailableToEnqueueScripts = $pageId === wc_get_page_id( 'checkout' ) || $pageId === wc_get_page_id( 'cart' );
+            }
         }
 
         return self::$isAvailableToEnqueueScripts;

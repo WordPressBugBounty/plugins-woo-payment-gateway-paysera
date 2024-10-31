@@ -11,10 +11,8 @@ use Paysera\Scoped\Paysera\CheckoutSdk\CheckoutFacadeFactory;
 use Paysera\Scoped\Paysera\CheckoutSdk\Entity\Order;
 use Paysera\Scoped\Paysera\CheckoutSdk\Entity\Request\PaymentRedirectRequest;
 use Paysera\Scoped\Paysera\CheckoutSdk\Exception\ProviderException;
-use Paysera\Scoped\Paysera\CheckoutSdk\Provider\WebToPay\Adapter\PaymentRedirectRequestNormalizer;
 use Paysera\Service\LoggerInterface;
 use WC_Order;
-use WebToPay_Factory;
 
 class PayseraPaymentRequestGenerator
 {
@@ -75,16 +73,7 @@ class PayseraPaymentRequestGenerator
             return '';
         }
 
-        $paymentData = (new PaymentRedirectRequestNormalizer())->normalize($redirectRequest);
-        $request = (new WebToPay_Factory([
-            'projectId' => $redirectRequest->getProjectId(),
-            'password' => $redirectRequest->getProjectPassword(),
-        ]))
-            ->getRequestBuilder()
-            ->buildRequest($paymentData)
-        ;
-
-        $this->logger->info(sprintf('Payment request for order id %d: %s', $wcOrder->get_id(), $request['data']));
+        $this->logger->info(sprintf('Payment request for order id %d: %s', $wcOrder->get_id(), $paymentRedirectResponse->getData()));
 
         return $paymentRedirectResponse->getRedirectUrl();
     }

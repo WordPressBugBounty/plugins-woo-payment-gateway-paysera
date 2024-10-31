@@ -44,6 +44,7 @@ msgstr ""
 "Wszystkie wpisane tu kraje, które nie znajdują się na liście głównych krajów Paysera, podczas "
 "procesu płatności będą wyświetlane jako „Inne kraje”"
 
+#: assets/build/paysera-shipping-block-frontend.js:1
 msgid "All popular payment methods"
 msgstr "Все популярные способы оплаты"
 
@@ -69,6 +70,7 @@ msgstr "Согласие покупателя"
 msgid "Cart weight is exceeded"
 msgstr "Вес корзины превышен"
 
+#: assets/build/paysera-shipping-block-frontend.js:1
 msgid "Cart weight is not sufficient"
 msgstr "Вес тележки недостаточен"
 
@@ -304,12 +306,24 @@ msgstr "Paysera: Выбранный посылочный автомат - %s, %s
 msgid "Paysera: Customer came back to page"
 msgstr "Paysera: Статус создания нового заказа"
 
+# src/Service/PayseraDeliveryOrderService.php:20
 msgid "Paysera: Delivery order created - %s"
 msgstr "Paysera: Заказ на доставку создан - %s"
 
+# src/Service/PayseraDeliveryOrderService.php:21
+msgid "Paysera: Delivery order updated - %s"
+msgstr "Paysera: Заказ доставки обновлен - %s"
+
+# src/Helper/PayseraDeliveryOrderRequestHelper.php:19
 msgid "Paysera: Delivery order creation failed, please create order manually in Paysera system"
-msgstr ""
+msgstr
 "Paysera: Не удалось создать заказ на доставку, пожалуйста, создайте заказ вручную в системе "
+"Paysera."
+
+# src/Helper/PayseraDeliveryOrderRequestHelper.php:20
+msgid "Paysera: Delivery order update failed, please update order manually in Paysera system"
+msgstr ""
+"Paysera: Не удалось обновить заказ доставки. Пожалуйста, обновите заказ вручную в системе "
 "Paysera."
 
 msgid "Paysera: Order checkout process is started"
@@ -340,6 +354,7 @@ msgstr ""
 msgid "Please select the city/municipality"
 msgstr "Пожалуйста, выберите город / муниципалитет почтомата"
 
+#: assets/build/index.js:1
 msgid "Please select the country"
 msgstr "Пожалуйста, выберите страну"
 
@@ -394,12 +409,15 @@ msgstr "К сожалению, %d кг это меньше минимально�
 msgid "Specific countries"
 msgstr "Определенные страны"
 
+#: assets/build/paysera-shipping-block-frontend.js:1
 msgid "Terminal city"
 msgstr "Город почтомата"
 
+#: assets/build/paysera-shipping-block-frontend.js:1
 msgid "Terminal country"
 msgstr "Страна почтомата"
 
+#: assets/build/paysera-shipping-block-frontend.js:1
 msgid "Terminal location"
 msgstr "Место почтомата"
 

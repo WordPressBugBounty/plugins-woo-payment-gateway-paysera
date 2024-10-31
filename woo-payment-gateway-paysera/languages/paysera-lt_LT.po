@@ -310,13 +310,26 @@ msgstr "Paysera: Pasirinktas terminalas - %s, %s, %s"
 msgid "Paysera: Customer came back to page"
 msgstr "Paysera: Naujo užsakymo kūrimo būsena"
 
+# src/Service/PayseraDeliveryOrderService.php:20
 msgid "Paysera: Delivery order created - %s"
 msgstr "Paysera: Pristatymo užsakymas sukurtas - %s"
 
+# src/Service/PayseraDeliveryOrderService.php:21
+msgid "Paysera: Delivery order updated - %s"
+msgstr "Paysera: Pristatymo užsakymas atnaujintas - %s"
+
+# src/Helper/PayseraDeliveryOrderRequestHelper.php:19
 msgid ""
 "Paysera: Delivery order creation failed, please create order manually in Paysera system"
 msgstr ""
 "Paysera: Nepavyko sukurti pristatymo užsakymo, prašome sukurti rankiniu būdu Paysera "
+"sistemoje"
+
+# src/Helper/PayseraDeliveryOrderRequestHelper.php:20
+msgid ""
+"Paysera: Delivery order update failed, please update order manually in Paysera system"
+msgstr ""
+"Paysera: Nepavyko atnaujinti pristatymo užsakymo, atnaujinkite užsakymą rankiniu būdu Paysera "
 "sistemoje"
 
 msgid "Paysera: Order checkout process is started"
@@ -346,6 +359,7 @@ msgstr ""
 msgid "Please select the city/municipality"
 msgstr "Prašome pasirinkti miestą/savivaldybę"
 
+#: assets/build/index.js:1
 msgid "Please select the country"
 msgstr "Prašome pasirinkti šalį"
 
@@ -400,12 +414,15 @@ msgstr "Atsiprašome, %d kg svoris yra per mažas. Minimalus svoris - %d kg. Bū
 msgid "Specific countries"
 msgstr "Konkrečios šalys"
 
+#: assets/build/paysera-shipping-block-frontend.js:1
 msgid "Terminal city"
 msgstr "Paštomato miestas"
 
+#: assets/build/paysera-shipping-block-frontend.js:1
 msgid "Terminal country"
 msgstr "Paštomato šalis"
 
+#: assets/build/paysera-shipping-block-frontend.js:1
 msgid "Terminal location"
 msgstr "Paštomato vieta"
 

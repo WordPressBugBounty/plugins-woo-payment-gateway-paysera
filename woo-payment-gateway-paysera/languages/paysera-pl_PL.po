@@ -307,12 +307,24 @@ msgstr "Paysera: Wybrany paczkomat - %s, %s, %s"
 msgid "Paysera: Customer came back to page"
 msgstr "Paysera: Status tworzenia nowego zamówienia"
 
+# src/Service/PayseraDeliveryOrderService.php:20
 msgid "Paysera: Delivery order created - %s"
 msgstr "Paysera: Utworzono zlecenie dostawy - %s"
 
+# src/Service/PayseraDeliveryOrderService.php:21
+msgid "Paysera: Delivery order updated - %s"
+msgstr "Paysera: Zamówienie dostawy zaktualizowane - %s"
+
+# src/Helper/PayseraDeliveryOrderRequestHelper.php:19
 msgid "Paysera: Delivery order creation failed, please create order manually in Paysera system"
 msgstr ""
 "Paysera: Utworzenie zamówienia dostawy nie powiodło się, proszę utwórz zamówienie ręcznie w "
+"systemie Paysera"
+
+# src/Helper/PayseraDeliveryOrderRequestHelper.php:20
+msgid "Paysera: Delivery order update failed, please update order manually in Paysera system"
+msgstr ""
+"Paysera: Aktualizacja zamówienia dostawy nie powiodła się, prosimy o ręczne zaktualizowanie zamówienia w "
 "systemie Paysera"
 
 msgid "Paysera: Order checkout process is started"
@@ -343,6 +355,7 @@ msgstr ""
 msgid "Please select the city/municipality"
 msgstr "Wybierz miasto/samorząd"
 
+#: assets/build/index.js:1
 msgid "Please select the country"
 msgstr "Wybierz państwo"
 
@@ -397,12 +410,15 @@ msgstr "Przepraszamy, waga wynosząca %d kg nie jest wystarczająca - minimalna 
 msgid "Specific countries"
 msgstr "Wybrane kraje"
 
+#: assets/build/paysera-shipping-block-frontend.js:1
 msgid "Terminal city"
 msgstr "Miasto, w którym znajduje się paczkomat Paczkomat"
 
+#: assets/build/paysera-shipping-block-frontend.js:1
 msgid "Terminal country"
 msgstr "Państwo, w którym znajduje się paczkomat Paczkomat"
 
+#: assets/build/paysera-shipping-block-frontend.js:1
 msgid "Terminal location"
 msgstr "Lokalizacja paczkomatu Paczkomat"
 

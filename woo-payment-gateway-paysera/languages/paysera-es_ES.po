@@ -311,12 +311,24 @@ msgstr "Paysera: Valin pakkavél - %s, %s, %s"
 msgid "Paysera: Customer came back to page"
 msgstr "Paysera: Estado del pedido con pago no finalizado"
 
+# src/Service/PayseraDeliveryOrderService.php:20
 msgid "Paysera: Delivery order created - %s"
 msgstr "Paysera: Orden de entrega creada - %s"
 
+# src/Service/PayseraDeliveryOrderService.php:21
+msgid "Paysera: Delivery order updated - %s"
+msgstr "Paysera: Pedido de entrega actualizado - %s"
+
+# src/Helper/PayseraDeliveryOrderRequestHelper.php:19
 msgid "Paysera: Delivery order creation failed, please create order manually in Paysera system"
 msgstr ""
 "Paysera: La creación del pedido de entrega falló, cree el pedido manualmente en el sistema "
+"Paysera"
+
+# src/Helper/PayseraDeliveryOrderRequestHelper.php:20
+msgid "Paysera: Delivery order update failed, please update order manually in Paysera system"
+msgstr ""
+"Paysera: Error al actualizar el pedido de entrega, actualice el pedido manualmente en el sistema "
 "Paysera"
 
 msgid "Paysera: Order checkout process is started"
@@ -347,6 +359,7 @@ msgstr ""
 msgid "Please select the city/municipality"
 msgstr "Seleccione la ciudad/municipio"
 
+#: assets/build/index.js:1
 msgid "Please select the country"
 msgstr "Elija el país"
 
@@ -401,12 +414,15 @@ msgstr "Lo sentimos,%d kg no es suficiente para el peso mínimo de %s kg"
 msgid "Specific countries"
 msgstr "Países específicos"
 
+#: assets/build/paysera-shipping-block-frontend.js:1
 msgid "Terminal city"
 msgstr "Ciudad de casillero"
 
+#: assets/build/paysera-shipping-block-frontend.js:1
 msgid "Terminal country"
 msgstr "País de casillero"
 
+#: assets/build/paysera-shipping-block-frontend.js:1
 msgid "Terminal location"
 msgstr "Ubicación del casillero"
 

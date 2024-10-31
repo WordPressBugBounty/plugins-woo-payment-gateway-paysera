@@ -1,0 +1,30 @@
+{
+    "translation-revision-date": "2024-05-28 11:20+0300",
+    "generator": "WP-CLI\/2.11.0",
+    "source": "assets\/build\/paysera-shipping-block-frontend.js",
+    "domain": "paysera",
+    "locale_data": {
+        "messages": {
+            "": {
+                "domain": "paysera",
+                "lang": "lv",
+                "plural-forms": "nplurals=3; plural=n % 10 == 1 && n % 100 != 11 ? 0 : n != 0 ? 1 : 2;"
+            },
+            "Terminal city": [
+                "Pakom\u0101ta pils\u0113ta"
+            ],
+            "Terminal country": [
+                "Pakom\u0101ta valsts"
+            ],
+            "Terminal location": [
+                "Pakom\u0101ta atra\u0161an\u0101s vieta"
+            ],
+            "All popular payment methods": [
+                "Visi populārie apmaksas veidi"
+            ],
+            "Cart weight is not sufficient": [
+                "Ratiņa svars nav pietiekams"
+            ]
+        }
+    }
+}

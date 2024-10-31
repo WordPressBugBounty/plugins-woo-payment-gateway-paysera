@@ -17,7 +17,7 @@ class PayseraDeliveryOrderRequestHelper
     private const ACTION_UPDATE = 'update';
     private const NOTES_MAP = [
         self::ACTION_CREATE => 'Delivery order creation failed, please create order manually in Paysera system',
-        self::ACTION_UPDATE => 'Delivery order updating failed, please update order manually in Paysera system',
+        self::ACTION_UPDATE => 'Delivery order update failed, please update order manually in Paysera system',
     ];
 
     private PayseraDeliveryOrderHelper $deliveryOrderHelper;

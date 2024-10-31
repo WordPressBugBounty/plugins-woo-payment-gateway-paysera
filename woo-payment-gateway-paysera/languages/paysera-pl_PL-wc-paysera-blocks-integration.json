@@ -1,0 +1,30 @@
+{
+    "translation-revision-date": "2024-05-28 11:20+0300",
+    "generator": "WP-CLI\/2.11.0",
+    "source": "assets\/build\/paysera-shipping-block-frontend.js",
+    "domain": "paysera",
+    "locale_data": {
+        "messages": {
+            "": {
+                "domain": "paysera",
+                "lang": "pl_PL",
+                "plural-forms": "nplurals=3; plural=(n==1 ? 0 : n%10 >= 2 && n%10<=4 &&(n%100<10||n%100 >= 20)? 1 : 2);"
+            },
+            "Terminal city": [
+                "Miasto, w kt\u00f3rym znajduje si\u0119 paczkomat Paczkomat"
+            ],
+            "Terminal country": [
+                "Pa\u0144stwo, w kt\u00f3rym znajduje si\u0119 paczkomat Paczkomat"
+            ],
+            "Terminal location": [
+                "Lokalizacja paczkomatu Paczkomat"
+            ],
+            "All popular payment methods": [
+                "Wszystkie popularne metody płatności"
+            ],
+            "Cart weight is not sufficient": [
+                "Waga koszyka jest niewystarczająca"
+            ]
+        }
+    }
+}

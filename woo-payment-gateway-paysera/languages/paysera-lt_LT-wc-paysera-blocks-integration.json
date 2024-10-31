@@ -1,0 +1,30 @@
+{
+    "translation-revision-date": "2024-05-28 11:20+0300",
+    "generator": "WP-CLI\/2.11.0",
+    "source": "assets\/build\/paysera-shipping-block-frontend.js",
+    "domain": "paysera",
+    "locale_data": {
+        "messages": {
+            "": {
+                "domain": "paysera",
+                "lang": "lt_LT",
+                "plural-forms": "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10 >= 2 &&(n%100<10||n%100 >= 20)? 1 : 2);"
+            },
+            "Terminal city": [
+                "Pa\u0161tomato miestas"
+            ],
+            "Terminal country": [
+                "Pa\u0161tomato \u0161alis"
+            ],
+            "Terminal location": [
+                "Pa\u0161tomato vieta"
+            ],
+            "All popular payment methods": [
+                "Visi populiariausi mokėjimo būdai"
+            ],
+            "Cart weight is not sufficient": [
+                "Krepšelio svoris per mažas"
+            ]
+        }
+    }
+}

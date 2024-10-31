@@ -308,13 +308,27 @@ msgstr "Paysera: Izvēlēts pakomāts - %s, %s, %s"
 msgid "Paysera: Customer came back to page"
 msgstr "Paysera: Pasūtījuma statuss pēc tā izveidošanas"
 
+# src/Service/PayseraDeliveryOrderService.php:20
 msgid "Paysera: Delivery order created - %s"
 msgstr "Paysera: Piegādes pasūtījums ir izveidots - %s"
 
+
+# src/Service/PayseraDeliveryOrderService.php:21
+msgid "Paysera: Delivery order updated - %s"
+msgstr "Paysera: Piegādes pasūtījums atjaunināt - %s"
+
+# src/Helper/PayseraDeliveryOrderRequestHelper.php:19
 msgid ""
 "Paysera: Delivery order creation failed, please create order manually in Paysera system"
 msgstr ""
 "Paysera: Piegādes pasūtījuma izveide neizdevās, lūdzu, izveidojiet pasūtījumu manuāli "
+"Paysera sistēmā"
+
+# src/Helper/PayseraDeliveryOrderRequestHelper.php:20
+msgid ""
+"Paysera: Delivery order update failed, please update order manually in Paysera system"
+msgstr ""
+"Paysera: Piegādes pasūtījuma atjaunināšana neizdevās; lūdzu, atjauniniet pasūtījumu manuāli "
 "Paysera sistēmā"
 
 msgid "Paysera: Order checkout process is started"
@@ -345,6 +359,7 @@ msgstr ""
 msgid "Please select the city/municipality"
 msgstr "Lūdzu, izvēlieties pilsētu/pašvaldību"
 
+#: assets/build/index.js:1
 msgid "Please select the country"
 msgstr "Lūdzu, izvēlieties valsti"
 
@@ -399,12 +414,15 @@ msgstr "Atvainojiet, %d kg nav pietiekami minimālajam svaram %s kg"
 msgid "Specific countries"
 msgstr "Valstis"
 
+#: assets/build/paysera-shipping-block-frontend.js:1
 msgid "Terminal city"
 msgstr "Pakomāta pilsēta"
 
+#: assets/build/paysera-shipping-block-frontend.js:1
 msgid "Terminal country"
 msgstr "Pakomāta valsts"
 
+#: assets/build/paysera-shipping-block-frontend.js:1
 msgid "Terminal location"
 msgstr "Pakomāta atrašanās vieta"
 
