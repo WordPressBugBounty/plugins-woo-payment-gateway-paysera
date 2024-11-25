@@ -1,8 +1,8 @@
 <?php return array(
     'root' => array(
         'name' => 'paysera/wordpress-paysera-module',
-        'pretty_version' => '3.5.8',
-        'version' => '3.5.8.0',
+        'pretty_version' => '3.5.9',
+        'version' => '3.5.9.0',
         'reference' => NULL,
         'type' => 'wordpress-module',
         'install_path' => __DIR__ . '/../../',
@@ -128,8 +128,8 @@
             'dev_requirement' => false,
         ),
         'paysera/wordpress-paysera-module' => array(
-            'pretty_version' => '3.5.8',
-            'version' => '3.5.8.0',
+            'pretty_version' => '3.5.9',
+            'version' => '3.5.9.0',
             'reference' => NULL,
             'type' => 'wordpress-module',
             'install_path' => __DIR__ . '/../../',

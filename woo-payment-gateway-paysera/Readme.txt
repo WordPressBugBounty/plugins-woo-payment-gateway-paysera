@@ -1,11 +1,11 @@
 === WooCommerce Payment Gateway - Paysera ===
-Version: 3.5.8
+Version: 3.5.9
 Date: 2024-10-11
 Contributors: Paysera
 Tags: online payment, payment, payment gateway, international payments, shipping
 Requires at least: 4.0
 Tested up to: 6.6
-Stable tag: 3.5.8
+Stable tag: 3.5.9
 Requires PHP: 7.4
 Requires PHP Extension: BCMath, Zip
 Minimum requirements: WooCommerce 5.0
@@ -130,6 +130,9 @@ Follow video tutorial or instructions below.
 9. Delivery Gateways Selection
 
 == Changelog ==
+= 3.5.9 =
+* Improvement - It is allowed to send 'XK' and 'KO' codes for Kosovo
+
 = 3.5.8 =
 * Fix - Delivery terminal address not changed after proceeding with failed payment
 * Fix - Slow execution on large, high-loaded sites
@@ -463,6 +466,9 @@ Follow video tutorial or instructions below.
 * Fix - Admin textfield fix
 
 == Upgrade Notice ==
+= 3.5.9 =
+* Improvement - It is allowed to send 'XK' and 'KO' codes for Kosovo
+
 = 3.5.8 =
 * Fix - Delivery terminal address not changed after proceeding with failed payment
 * Fix - Slow execution on large, high-loaded sites

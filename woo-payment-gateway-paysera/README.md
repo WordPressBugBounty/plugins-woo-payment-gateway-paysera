@@ -1,7 +1,7 @@
 WooCommerce Payment Gateway - Paysera
 =======================
 
-Version: 3.5.8
+Version: 3.5.9
 
 Date: 2024-10-11
 
@@ -13,7 +13,7 @@ Requires at least: 4.0
 
 Tested up to: 6.6
 
-Stable tag: 3.5.8
+Stable tag: 3.5.9
 
 Requires PHP: 7.4
 
@@ -55,11 +55,11 @@ Features and benefits
 Logging
 -----------
 To keep track of the plugin's errors, default log level for payment and delivery is set to 'Error'.
-The logs can be viewed and downloaded from the plugin 'Extra Settings' page. To download the zip, php zip extension is required. 
+The logs can be viewed and downloaded from the plugin 'Extra Settings' page. To download the zip, php zip extension is required.
 Log files can be deleted from the 'WooCommerce -> Status -> Logs' page. Available logging levels are:
- - None: it disables logging and no logs are saved.
- - Error: only plugin errors are saved.
- - Info: plugin errors and related debug information are saved.
+- None: it disables logging and no logs are saved.
+- Error: only plugin errors are saved.
+- Info: plugin errors and related debug information are saved.
 
 Fees
 -----------
@@ -104,18 +104,18 @@ Installation by FTP:
 2. Connect to server and go to WordPress base directory.
 
 3. Create New Folder and name it 'Paysera' in:
-    /wp-content/plugins
+   /wp-content/plugins
 
 4. Extract files and directories from zip file to newly created 'Paysera' folder.
 
 5. Activate Paysera plugin:
-    Plugins -> Installed Plugins -> Paysera Payment And Delivery -> Activate
+   Plugins -> Installed Plugins -> Paysera Payment And Delivery -> Activate
 
 6. Configure Paysera plugin in:
-    Paysera -> Payments
-    Paysera -> Delivery
+   Paysera -> Payments
+   Paysera -> Delivery
 
-    Enter checkout project id, password and other required information.
+   Enter checkout project id, password and other required information.
 
 7. Save changes.
 
@@ -127,14 +127,14 @@ Installation from admin panel:
 2. Connect to WordPress admin panel.
 
 3. Install Paysera plugin to WordPress:
-    Plugins -> Add New -> Upload Plugin -> Choose File -> Choose downloaded zip -> Install Now
+   Plugins -> Add New -> Upload Plugin -> Choose File -> Choose downloaded zip -> Install Now
 
 4. Activate Paysera plugin:
-    Plugins -> Installed Plugins -> Paysera Payment And Delivery -> Activate
+   Plugins -> Installed Plugins -> Paysera Payment And Delivery -> Activate
 
 5. Configure Paysera plugin in:
-    Paysera -> Payments
-    Paysera -> Delivery
+   Paysera -> Payments
+   Paysera -> Delivery
 
    Enter checkout project id, password and other required information.
 
@@ -147,18 +147,18 @@ Installation from admin panel (marketplace):
 
 2. Install Paysera plugin to WordPress:
 
-    2.1. Plugins -> Add New;
+   2.1. Plugins -> Add New;
 
-    2.2. Find 'WooCommerce Payment Gateway - Paysera';
+   2.2. Find 'WooCommerce Payment Gateway - Paysera';
 
-    2.3. Install.
+   2.3. Install.
 
 4. Activate Paysera plugin:
-    Plugins -> Installed Plugins -> Paysera Payment And Delivery -> Activate
+   Plugins -> Installed Plugins -> Paysera Payment And Delivery -> Activate
 
 5. Configure Paysera plugin in:
-    Paysera -> Payments
-    Paysera -> Delivery
+   Paysera -> Payments
+   Paysera -> Delivery
 
    Enter checkout project id, password and other required information.
 
@@ -166,6 +166,9 @@ Installation from admin panel (marketplace):
 
 Changelog
 ---------
+= 3.5.9 =
+* Improvement - It is allowed to send 'XK' and 'KO' codes for Kosovo
+
 = 3.5.8 =
 * Fix - Delivery terminal address not changed after proceeding with failed payment
 * Fix - Slow execution on large, high-loaded sites
@@ -499,6 +502,9 @@ Changelog
 
 Upgrade Notice
 --------------
+= 3.5.9 =
+* Improvement - It is allowed to send 'XK' and 'KO' codes for Kosovo
+
 = 3.5.8 =
 * Fix - Delivery terminal address not changed after proceeding with failed payment
 * Fix - Slow execution on large, high-loaded sites
@@ -520,7 +526,7 @@ Fix - Changing of the phone number is logged while it was not changed
 Fix - min/max weight validations are not working on new checkout page
 
 = 3.5.5 =
-Fix - Fix errors in Delivery plugin 
+Fix - Fix errors in Delivery plugin
 Improvement - Add validation errors text into callback logs
 
 = 3.5.4 =
@@ -533,7 +539,7 @@ Improvement - Optimized Paysera plugin queries speed.
 Improvement - Optimized plugin CSS, prevented it affect the shipping methods and options
 
 = 3.5.3 =
-Fix - Errors with PHP 8.2 version 
+Fix - Errors with PHP 8.2 version
 Fix - Shipping logo displayed incorrect in grid view (Mobile)
 Improve CSS selectors: remove all "!important" tags
 New - Add Enable/Disable button for Delivery settings
@@ -542,7 +548,7 @@ Added form validations in the Shipping gateway settings window in WooCommerce sh
 Fix - Delivery gateway options received default values after migrating to versions 3.5.*
 Fix - Order requires a shipping option error for WooCommerce 8.8 versions
 Fix - Shipping method configuration values are taken from latest shipping method instead of selected method for same courier company
-Added synchronisation between WC orders and Delivery API 
+Added synchronisation between WC orders and Delivery API
 Fix - After updating, plugin becomes deactivated and it's delivery settings are reset to default values
 
 = 3.5.2 =
