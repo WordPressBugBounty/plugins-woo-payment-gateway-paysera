@@ -16,6 +16,10 @@ use WC_Order;
 
 class PayseraPaymentRequestGenerator
 {
+    private const COUNTRY_CODE_SERBIA = 'RS';
+    private const COUNTRY_CODE_KOSOVO = 'XK';
+    private const STATE_CODE_KOSOVO = ['RS29', 'RS28', 'RS25', 'RSKM'];
+
     private PayseraPaymentSettings $payseraPaymentSettings;
     private LoggerInterface $logger;
 
@@ -104,5 +108,17 @@ class PayseraPaymentRequestGenerator
         }
 
         return PayseraPaymentSettings::DEFAULT_ISO_639_2_LANGUAGE;
+    }
+
+    private function getCountryCode(WC_Order $wcOrder): string
+    {
+        if (
+            $wcOrder->get_billing_country() === self::COUNTRY_CODE_SERBIA &&
+            in_array($wcOrder->get_billing_state(), self::STATE_CODE_KOSOVO, true)
+        ) {
+            return self::COUNTRY_CODE_KOSOVO;
+        }
+
+        return $this->limitStringLength($wcOrder->get_billing_country(), 2);
     }
 }

@@ -1,9 +1,9 @@
 WooCommerce Payment Gateway - Paysera
 =======================
 
-Version: 3.5.9
+Version: 3.5.10
 
-Date: 2024-10-11
+Date: 2024-11-25
 
 Contributors: Paysera
 
@@ -13,7 +13,7 @@ Requires at least: 4.0
 
 Tested up to: 6.6
 
-Stable tag: 3.5.9
+Stable tag: 3.5.10
 
 Requires PHP: 7.4
 
@@ -166,6 +166,9 @@ Installation from admin panel (marketplace):
 
 Changelog
 ---------
+= 3.5.10 =
+* Fix with allowing to send 'XK' and 'KO' codes for Kosovo
+
 = 3.5.9 =
 * Improvement - It is allowed to send 'XK' and 'KO' codes for Kosovo
 
@@ -502,6 +505,9 @@ Changelog
 
 Upgrade Notice
 --------------
+= 3.5.10 =
+* Fix with allowing to send 'XK' and 'KO' codes for Kosovo
+
 = 3.5.9 =
 * Improvement - It is allowed to send 'XK' and 'KO' codes for Kosovo
 

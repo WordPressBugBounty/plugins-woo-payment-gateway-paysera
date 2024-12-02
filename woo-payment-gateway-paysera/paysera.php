@@ -5,7 +5,7 @@
   Text Domain: paysera
   Domain Path: /languages
   Description: Paysera offers payment and delivery gateway services for your e-shops
-  Version: 3.5.9
+  Version: 3.5.10
   Requires PHP: 7.4
   Author: Paysera
   Author URI: https://www.paysera.com
@@ -58,7 +58,7 @@ use Paysera\Service\PayseraDeliveryOrderService;
 class PayseraWoocommerce
 {
     const PAYSERA_MIN_REQUIRED_PHP_VERSION = '7.4';
-    const PAYSERA_PLUGIN_VERSION = '3.5.9';
+    const PAYSERA_PLUGIN_VERSION = '3.5.10';
     public static $isInitialized = false;
     private DatabaseHelper $databaseHelper;
     private PayseraDeliveryAdmin $payseraDeliveryAdmin;
