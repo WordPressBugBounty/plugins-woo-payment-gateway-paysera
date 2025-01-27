@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Paysera\Entity;
 
+use Paysera\Scoped\Paysera\DeliverySdk\Entity\PayseraDeliverySettingsInterface;
+
 defined('ABSPATH') || exit;
 
-class PayseraDeliverySettings
+class PayseraDeliverySettings implements PayseraDeliverySettingsInterface
 {
     public const SETTINGS_NAME = 'paysera_delivery_settings';
     public const EXTRA_SETTINGS_NAME = 'paysera_delivery_extra_settings';
@@ -49,10 +51,6 @@ class PayseraDeliverySettings
     public const SHIPMENT_METHOD_PARCEL_MACHINE_2_COURIER = 'parcel-machine2courier';
     public const SHIPMENT_METHOD_PARCEL_MACHINE_2_PARCEL_MACHINE = 'parcel-machine2parcel-machine';
 
-    public const TYPE_COURIER = 'courier';
-    public const TYPE_PARCEL_MACHINE = 'parcel-machine';
-    public const TYPE_TERMINALS = 'terminals';
-
     public const VALIDATION_ERROR_MIN_VALUE = 'minVal';
     public const VALIDATION_ERROR_GRATER_OR_EQUALS = 'greaterOrEquals';
     public const VALIDATION_ERROR_LESS_OR_EQUALS = 'lessOrEquals';
@@ -72,17 +70,16 @@ class PayseraDeliverySettings
     ];
 
     public const PARCEL_MACHINE_DISABLED_DELIVERY_GATEWAYS = [
-        'tnt',
         'itella',
     ];
-
-    public const DELIVERY_GATEWAY_PREFIX = 'paysera_delivery_';
 
     public const OPTION_DECIMAL_SEPARATOR = 'decimalSeparator';
 
     public const DELIVERY_ORDER_EVENT_UPDATED = 'order_updated';
 
     public const WC_ORDER_EVENT_CREATED = 'wc_order_created';
+
+    public const WC_ORDER_EVENT_PAYMENT_COMPLETED = 'wc_order_payment_completed';
 
     public const ORDER_META_KEY_HOUSE_NO = '_shipping_house_no';
 
@@ -92,7 +89,7 @@ class PayseraDeliverySettings
     public const DELIVERY_ORDER_TERMINAL_CITY_META_KEY = '_paysera_delivery_order_terminal_city';
     public const DELIVERY_ORDER_TERMINAL_KEY = '_paysera_delivery_order_terminal_id';
 
-    private ?bool $enabled;
+    private bool $enabled;
     private ?int $projectId;
     private ?string $resolvedProjectId;
     private ?string $projectPassword;
@@ -107,7 +104,7 @@ class PayseraDeliverySettings
 
     public function __construct()
     {
-        $this->enabled = null;
+        $this->enabled = false;
         $this->projectId = null;
         $this->resolvedProjectId = null;
         $this->projectPassword = null;
@@ -121,12 +118,12 @@ class PayseraDeliverySettings
         $this->shipmentMethods = [];
     }
 
-    public function isEnabled(): ?bool
+    public function isEnabled(): bool
     {
         return $this->enabled;
     }
 
-    public function setEnabled(?bool $enabled): PayseraDeliverySettings
+    public function setEnabled(bool $enabled): PayseraDeliverySettings
     {
         $this->enabled = $enabled;
 

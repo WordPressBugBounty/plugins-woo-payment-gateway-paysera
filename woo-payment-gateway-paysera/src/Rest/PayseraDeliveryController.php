@@ -18,8 +18,6 @@ use WP_REST_Server;
 
 class PayseraDeliveryController extends PayseraRestController
 {
-    public const ORDER_EVENT_UPDATED = 'order_updated';
-
     public const CONTROLLER_BASE = 'delivery';
 
     protected $base = self::CONTROLLER_BASE;
@@ -318,6 +316,7 @@ class PayseraDeliveryController extends PayseraRestController
 
         try {
             $params = $request->get_params();
+
             $this->eventHandlingHelper->handle(
                 PayseraDeliverySettings::DELIVERY_ORDER_EVENT_UPDATED,
                 ['orderId' => $params['id']]

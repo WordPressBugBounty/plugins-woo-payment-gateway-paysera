@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Paysera\Entity;
 
+use Paysera\Scoped\Paysera\DeliverySdk\Entity\PayseraDeliveryGatewaySettingsInterface;
+
 defined('ABSPATH') || exit;
 
-class PayseraDeliveryGatewaySettings
+class PayseraDeliveryGatewaySettings implements PayseraDeliveryGatewaySettingsInterface
 {
     /**
      * @var float

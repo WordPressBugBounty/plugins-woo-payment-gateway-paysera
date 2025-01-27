@@ -11,6 +11,11 @@ class EventHandlingHelper
      */
     private array $eventHandlers = [];
 
+    public function __construct(array $eventHandlers)
+    {
+        $this->eventHandlers = $eventHandlers;
+    }
+
     public function registerHandler(string $event, EventHandlerInterface $eventHandler): self
     {
         $this->eventHandlers[$event] = $eventHandler;

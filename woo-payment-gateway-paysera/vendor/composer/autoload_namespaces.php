@@ -6,5 +6,5 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Evp\\Component\\Money' => array($vendorDir . '/evp/money/src'),
+    'JsonpCallbackValidator' => array($vendorDir . '/willdurand/jsonp-callback-validator/src'),
 );

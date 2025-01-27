@@ -1,9 +1,9 @@
 WooCommerce Payment Gateway - Paysera
 =======================
 
-Version: 3.5.10
+Version: 3.6.0.3
 
-Date: 2024-11-25
+Date: 2025-01-20
 
 Contributors: Paysera
 
@@ -11,9 +11,9 @@ Tags: online payment, payment, payment gateway, international payments, shipping
 
 Requires at least: 4.0
 
-Tested up to: 6.6
+Tested up to: 6.7
 
-Stable tag: 3.5.10
+Stable tag: 3.6.0.3
 
 Requires PHP: 7.4
 
@@ -46,7 +46,7 @@ In order to receive full benefits of both Paysera Payment and Delivery plugins, 
 Features and benefits
 -----------
 - One plugin for integration of different payment methods: cards, SMS, online banking, more.
-- One plugin for integration of different courier services: Omniva, Venipak, LP Express, TNT, and others.
+- One plugin for integration of different courier services: Omniva, Venipak, LP Express, and others.
 - Integration takes up to 5 min (if you are already a Paysera client).
 - One agreement for all the couriers and all banks.
 - Easy to manage: turn couriers and payment methods ON and OFF as you like.
@@ -166,6 +166,25 @@ Installation from admin panel (marketplace):
 
 Changelog
 ---------
+= 3.6.0 =
+* Fix - Show Free shipping for equal or more than subtotal
+* Fix - After disable Delivery shipping methods, they are still displayed
+* Fix - Delivery logs show Paysera delivery error if user proceed with delivery that is not in our plugin
+* Improvement - Add plugin version to all asset files
+* Improvement - Add full GPLv3 license text
+* Fix - Improve UI layout for Terminal selection list
+* Improvement - Optimizing plugin asset loading logic for enhanced performance
+* Fix - The dropdown for the selecting the country for the payment is too small
+* Improvement - The new Order status "Prepaid" was implemented in Delivery 
+* Improvement - Delivery SDK was updated to be compatible
+* Fix - The payment by 'the link for a later payment' is not proceeded like paid
+* Fix - Show error about exceeded the maximum weight
+* Fix - Show Order id instead of Delivery id in Order notes after successful order
+* Fix - Choose correct pickup type Delivery Orders
+* Fix - Payment methods are not displayed in case billing country is absent in allowed country list
+* Fix - Error messages after calling callback
+* Fix - Free shipping hint not displayed on Classic Checkout page
+
 = 3.5.10 =
 * Fix with allowing to send 'XK' and 'KO' codes for Kosovo
 
@@ -505,6 +524,25 @@ Changelog
 
 Upgrade Notice
 --------------
+= 3.6.0 =
+* Fix - Show Free shipping for equal or more than subtotal
+* Fix - After disable Delivery shipping methods, they are still displayed
+* Fix - Delivery logs show Paysera delivery error if user proceed with delivery that is not in our plugin
+* Improvement - Add plugin version to all asset files
+* Improvement - Add full GPLv3 license text
+* Fix - Improve UI layout for Terminal selection list
+* Improvement - Optimizing plugin asset loading logic for enhanced performance
+* Fix - The dropdown for the selecting the country for the payment is too small
+* Improvement - The new Order status "Prepaid" was implemented in Delivery
+* Improvement - Delivery SDK was updated to be compatible
+* Fix - The payment by 'the link for a later payment' is not proceeded like paid
+* Fix - Show error about exceeded the maximum weight
+* Fix - Show Order id instead of Delivery id in Order notes after successful order
+* Fix - Choose correct pickup type Delivery Orders
+* Fix - Payment methods are not displayed in case billing country is absent in allowed country list
+* Fix - Error messages after calling callback
+* Fix - Free shipping hint not displayed on Classic Checkout page
+
 = 3.5.10 =
 * Fix with allowing to send 'XK' and 'KO' codes for Kosovo
 

@@ -5,7 +5,7 @@
   Text Domain: paysera
   Domain Path: /languages
   Description: Paysera offers payment and delivery gateway services for your e-shops
-  Version: 3.5.10
+  Version: 3.6.0.3
   Requires PHP: 7.4
   Author: Paysera
   Author URI: https://www.paysera.com
@@ -27,49 +27,27 @@ use Paysera\Admin\PayseraAdmin;
 use Paysera\Admin\PayseraDeliveryAdmin;
 use Paysera\Admin\PayseraPaymentAdmin;
 use Paysera\Blocks\ShippingIntegrationBlock;
-use Paysera\Builder\DatabaseBuilder;
-use Paysera\Builder\ShipmentRequestTableBuilder;
 use Paysera\Entity\PayseraDeliverySettings;
 use Paysera\Entity\PayseraPaths;
 use Paysera\Entity\PayseraPaymentSettings;
-use Paysera\EventHandler\DeliveryOrderUpdatedHandler;
-use Paysera\EventHandler\WCOrderCreatedHandler;
-use Paysera\Factory\LoggerFactory;
-use Paysera\Factory\PayseraDeliveryActionsFactory;
 use Paysera\Front\PayseraDeliveryFrontHtml;
-use Paysera\Helper\CallbackHelper;
 use Paysera\Helper\DatabaseHelper;
-use Paysera\Helper\EventHandlingHelper;
 use Paysera\Helper\LogHelper;
 use Paysera\Helper\PayseraDeliveryHelper;
-use Paysera\Helper\PayseraDeliveryLibraryHelper;
-use Paysera\Helper\PayseraDeliveryOrderHelper;
-use Paysera\Helper\PayseraDeliveryOrderRequestHelper;
 use Paysera\Helper\SessionHelperInterface;
-use Paysera\Helper\WCOrderFieldUpdateHelper;
-use Paysera\Helper\WCOrderMetaUpdateHelper;
-use Paysera\Helper\WCSessionHelper;
 use Paysera\PayseraInit;
-use Paysera\Provider\MerchantClientProvider;
+use Paysera\Provider\ContainerProvider;
 use Paysera\Provider\PayseraDeliverySettingsProvider;
-use Paysera\Service\LoggerInterface;
-use Paysera\Service\PayseraDeliveryOrderService;
+use Paysera\Scoped\Psr\Container\ContainerInterface;
+use Paysera\Scoped\Symfony\Component\Dotenv\Dotenv;
 
 class PayseraWoocommerce
 {
     const PAYSERA_MIN_REQUIRED_PHP_VERSION = '7.4';
-    const PAYSERA_PLUGIN_VERSION = '3.5.10';
-    public static $isInitialized = false;
-    private DatabaseHelper $databaseHelper;
-    private PayseraDeliveryAdmin $payseraDeliveryAdmin;
-    private LoggerInterface $deliveryLogger;
+    const PAYSERA_PLUGIN_VERSION = '3.6.0.3';
+    public static bool $isInitialized = false;
     private PayseraDeliveryActions $payseraDeliveryActions;
-    private PayseraDeliveryHelper $payseraDeliveryHelper;
-    private PayseraDeliverySettingsProvider $payseraDeliverySettingsProvider;
-    private SessionHelperInterface $sessionHelper;
-    private LoggerFactory $loggerFactory;
-    private PayseraDeliveryLibraryHelper $payseraDeliveryLibraryHelper;
-    private EventHandlingHelper $eventHandlingHelper;
+    private ContainerInterface $container;
 
     public function __construct()
     {
@@ -79,35 +57,12 @@ class PayseraWoocommerce
         register_deactivation_hook(__FILE__, [$this, 'deactivate']);
 
         $this->defineConstants();
+        $this->loadEnvVars();
 
-        global $wpdb;
-
-        $this->loggerFactory = new LoggerFactory();
-        $databaseBuilder = new DatabaseBuilder([
-            new ShipmentRequestTableBuilder($wpdb->prefix . 'paysera_delivery_shipping_request'),
-        ]);
-        $this->databaseHelper = new DatabaseHelper($databaseBuilder);
-        $this->deliveryLogger = $this->loggerFactory->createLogger(LogHelper::LOGGER_TYPE_DELIVERY);
-        $this->payseraDeliveryActions = (new PayseraDeliveryActionsFactory())->create();
-        $this->payseraDeliveryLibraryHelper = new PayseraDeliveryLibraryHelper(
-            $this->payseraDeliveryActions,
-            new MerchantClientProvider($this->deliveryLogger),
-            $this->deliveryLogger
-        );
-        $this->sessionHelper = new WCSessionHelper();
-        $this->payseraDeliveryHelper = new PayseraDeliveryHelper($this->payseraDeliveryLibraryHelper, $this->sessionHelper);
-        $this->payseraDeliverySettingsProvider = new PayseraDeliverySettingsProvider();
-        $this->eventHandlingHelper = (new EventHandlingHelper());
-        $this->payseraDeliveryAdmin = new PayseraDeliveryAdmin(
-            $this->payseraDeliveryHelper,
-            $this->payseraDeliveryLibraryHelper,
-            $this->deliveryLogger,
-            $this->payseraDeliverySettingsProvider,
-            $this->eventHandlingHelper
-        );
+        $this->container = (new ContainerProvider())->getContainer();
+        $this->payseraDeliveryActions = $this->container->get(PayseraDeliveryActions::class);
 
         add_action('plugins_loaded', [$this, 'loadPluginInternalDependencies']);
-        add_action('woocommerce_loaded', [$this, 'initEventHandlers']);
         add_action('woocommerce_loaded', [$this, 'initPlugin']);
         add_action('woocommerce_blocks_loaded', [$this, 'initBlocks']);
         add_action('admin_init', [$this, 'maybeDeactivatePlugin']);
@@ -153,7 +108,7 @@ class PayseraWoocommerce
     {
         $this->loadTextDomain();
         $this->loadDeliverySettings();
-        $this->databaseHelper->applySchemaChanges();
+        $this->container->get(DatabaseHelper::class)->applySchemaChanges();
     }
 
     public function loadTextDomain(): void
@@ -169,7 +124,10 @@ class PayseraWoocommerce
     {
         $settings = get_option(PayseraDeliverySettings::SETTINGS_NAME);
         if (!isset($settings[PayseraDeliverySettings::ENABLED])) {
-            $deliverySettings = $this->payseraDeliverySettingsProvider->getPayseraDeliverySettings();
+            $deliverySettings = $this->container
+                ->get(PayseraDeliverySettingsProvider::class)
+                ->getPayseraDeliverySettings()
+            ;
             $this->payseraDeliveryActions->updateSettingsOption(
                 PayseraDeliverySettings::ENABLED,
                 !empty($deliverySettings->getProjectId()) && !empty($deliverySettings->getProjectPassword()) ? 'yes' : 'no'
@@ -179,25 +137,13 @@ class PayseraWoocommerce
 
     public function initPlugin(): void
     {
-        $paymentLogger = $this->loggerFactory->createLogger(LogHelper::LOGGER_TYPE_PAYMENT);
-
-        (new PayseraInit(
-            $this->payseraDeliveryHelper,
-            $this->sessionHelper,
-            $this->eventHandlingHelper,
-            $paymentLogger,
-            $this->deliveryLogger,
-        ))->build();
-        (new PayseraAdmin($this->payseraDeliveryAdmin))->build();
-        $this->payseraDeliveryAdmin->build();
-        (new PayseraPaymentAdmin())->build();
-        $this->payseraDeliveryActions->build();
-        (new PayseraDeliveryFrontHtml(
-            $this->payseraDeliveryHelper,
-            $this->payseraDeliverySettingsProvider,
-            $this->sessionHelper
-        ))->build();
-        (new PayseraPaymentActions($paymentLogger))->build();
+        $this->container->get(PayseraInit::class)->build();
+        $this->container->get(PayseraAdmin::class)->build();
+        $this->container->get(PayseraDeliveryAdmin::class)->build();
+        $this->container->get(PayseraPaymentAdmin::class)->build();
+        $this->container->get(PayseraDeliveryActions::class)->build();
+        $this->container->get(PayseraDeliveryFrontHtml::class)->build();
+        $this->container->get(PayseraPaymentActions::class)->build();
     }
 
     public function initBlocks(): void
@@ -209,10 +155,10 @@ class PayseraWoocommerce
     {
         $integrationRegistry->register(
             new ShippingIntegrationBlock(
-                $this->payseraDeliveryHelper,
-                $this->payseraDeliverySettingsProvider,
-                $this->sessionHelper
-            )
+                $this->container->get(PayseraDeliveryHelper::class),
+                $this->container->get(PayseraDeliverySettingsProvider::class),
+                $this->container->get(SessionHelperInterface::class),
+            ),
         );
     }
 
@@ -251,7 +197,7 @@ class PayseraWoocommerce
             WC_Cache_Helper::get_transient_version('shipping', true);
         }
 
-        $this->databaseHelper->revertSchemaChanges();
+        $this->container->get(DatabaseHelper::class)->revertSchemaChanges();
     }
 
     public function defineConstants(): void
@@ -264,6 +210,9 @@ class PayseraWoocommerce
         }
         if (!defined('PayseraPluginUrl')) {
             define('PayseraPluginUrl', plugin_dir_url(__FILE__));
+        }
+        if (!defined('PayseraPluginBuildDir')) {
+            define('PayseraPluginBuildDir', __DIR__ . '/');
         }
         if (!defined('PayseraPluginPath')) {
             define('PayseraPluginPath', untrailingslashit(plugin_dir_path(__FILE__)));
@@ -290,7 +239,7 @@ class PayseraWoocommerce
 
     public function showWoocommerceMissingNoticeOnActivation(): void
     {
-    ?>
+        ?>
         <div class="error">
             <p><b><?php esc_html_e('Paysera Payment And Delivery', PayseraPaths::PAYSERA_TRANSLATIONS); ?></b></p>
             <p><?php esc_html_e($this->getDepencyErrorMessages()['woocommerce_missing']); ?></p>
@@ -300,27 +249,27 @@ class PayseraWoocommerce
                 </a>
             </p>
         </div>
-    <?php
+        <?php
     }
 
     public function showWoocommerceMissingNotice(): void
     {
-    ?>
+        ?>
         <div class="error">
             <p><b><?php esc_html_e(__('Paysera Payment And Delivery', PayseraPaths::PAYSERA_TRANSLATIONS)); ?></b></p>
             <p><?php esc_html_e($this->getDepencyErrorMessages()['woocommerce_missing']); ?></p>
         </div>
-    <?php
+        <?php
     }
 
     public function showPayseraMinPhpVersionNotice(): void
     {
-    ?>
+        ?>
         <div class="error">
             <p><b><?php esc_html_e(__('Paysera Payment And Delivery', PayseraPaths::PAYSERA_TRANSLATIONS)); ?></b></p>
             <p><?php esc_html_e($this->getDepencyErrorMessages()['php_min_version']); ?></p>
         </div>
-    <?php
+        <?php
     }
 
     public function getDepencyErrorMessages(): array
@@ -331,7 +280,7 @@ class PayseraWoocommerce
                 PayseraPaths::PAYSERA_TRANSLATIONS
             ),
             'php_min_version' => sprintf(
-                /* translators: 1: Min Required PHP Version */
+            /* translators: 1: Min Required PHP Version */
                 __('Paysera plugin requires at least PHP %s', PayseraPaths::PAYSERA_TRANSLATIONS),
                 self::PAYSERA_MIN_REQUIRED_PHP_VERSION
             ),
@@ -356,43 +305,15 @@ class PayseraWoocommerce
         exit;
     }
 
-    public function initEventHandlers(): void
+    private function loadEnvVars(): void
     {
-        $this->eventHandlingHelper
-            ->registerHandler(
-                PayseraDeliverySettings::DELIVERY_ORDER_EVENT_UPDATED,
-                new DeliveryOrderUpdatedHandler(
-                    $this->payseraDeliveryHelper,
-                    $this->payseraDeliveryLibraryHelper,
-                    $this->deliveryLogger,
-                    new WCOrderMetaUpdateHelper(),
-                    new WCOrderFieldUpdateHelper(),
-                )
-            )
-            ->registerHandler(
-                PayseraDeliverySettings::WC_ORDER_EVENT_CREATED,
-                new WCOrderCreatedHandler(
-                    new PayseraDeliveryOrderService(
-                        new PayseraDeliveryOrderRequestHelper(
-                            new PayseraDeliveryOrderHelper(
-                                $this->payseraDeliverySettingsProvider,
-                                $this->payseraDeliveryLibraryHelper,
-                                $this->payseraDeliveryHelper,
-                                $this->deliveryLogger,
-                                $this->sessionHelper,
-                                new CallbackHelper(),
-                            ),
-                            $this->deliveryLogger,
-                        ),
-                        $this->deliveryLogger,
-                    ),
-                    $this->payseraDeliveryLibraryHelper,
-                    $this->payseraDeliverySettingsProvider,
-                    $this->payseraDeliveryHelper,
-                    $this->sessionHelper,
-                    $this->deliveryLogger,
-                )
-            );
+        $envFilePath = __DIR__ . '/.env';
+
+        if (file_exists($envFilePath)) {
+            $dotenv = new Dotenv();
+            $dotenv->usePutenv();
+            $dotenv->load($envFilePath);
+        }
     }
 }
 

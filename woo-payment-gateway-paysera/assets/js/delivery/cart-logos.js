@@ -57,8 +57,8 @@ function setupPayseraLogos() {
         }, 1000);
     }
 
-    applyCSS('');
+    applyCSS('')
     applySingleShippingLogoStyles()
 }
 
-setupPayseraLogos();
+setupPayseraLogos()

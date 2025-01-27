@@ -9,49 +9,34 @@ defined('ABSPATH') || exit;
 use Exception;
 use Paysera\Action\PayseraDeliveryActions;
 use Paysera\DeliveryApi\MerchantClient\Entity\CityFilter;
-use Paysera\DeliveryApi\MerchantClient\Entity\Contact;
 use Paysera\DeliveryApi\MerchantClient\Entity\CountryFilter;
 use Paysera\DeliveryApi\MerchantClient\Entity\GatewaysFilter;
 use Paysera\DeliveryApi\MerchantClient\Entity\MethodsFilter;
-use Paysera\DeliveryApi\MerchantClient\Entity\ParcelMachine;
 use Paysera\DeliveryApi\MerchantClient\Entity\ParcelMachineFilter;
-use Paysera\DeliveryApi\MerchantClient\Entity\ShipmentCreate;
 use Paysera\DeliveryApi\MerchantClient\Entity\ShipmentGateway;
 use Paysera\DeliveryApi\MerchantClient\Entity\ShipmentMethod;
-use Paysera\DeliveryApi\MerchantClient\Entity\ShipmentPointCreate;
 use Paysera\DeliveryApi\MerchantClient\MerchantClient;
-use Paysera\Dto\DeliveryTerminalLocationDto;
+use Paysera\Scoped\Paysera\DeliverySdk\Client\Provider\MerchantClientProvider;
+use Paysera\Scoped\Paysera\DeliverySdk\Entity\DeliveryTerminalLocationInterface;
+use Paysera\Scoped\Paysera\DeliverySdk\Exception\MerchantClientNotFoundException;
+use Paysera\Scoped\Paysera\DeliverySdk\Service\DeliveryLoggerInterface;
 use Paysera\Entity\PayseraDeliverySettings;
-use Paysera\Entity\PayseraPaths;
-use Paysera\Provider\MerchantClientProvider;
 use Paysera\Provider\PayseraDeliverySettingsProvider;
-use Paysera\Provider\PayseraRatesProvider;
-use Paysera\Service\LoggerInterface;
 use WC_Product;
 
 class PayseraDeliveryLibraryHelper
 {
-    private const NOTE_CHOSEN_TERMINAL_LOCATION = 'Chosen terminal location - %s, %s, %s';
-    private const NOTE_TERMINAL_LOCATION_CHANGED = self::MSG_TERMINAL_LOCATION_CHANGED . ' - %s, %s, %s';
-    private const MSG_TERMINAL_LOCATION_CHANGED = 'Terminal location has been changed';
-    private const PREVIOUS_TERMINAL_LOG_MSG = 'Previous: %s, %s, %s';
-    private const CURRENT_TERMINAL_LOG_MSG = 'Current: %s, %s, %s';
-
-    private PayseraDeliverySettings $payseraDeliverySettings;
-    private PayseraDeliveryActions $payseraDeliveryActions;
-    private PayseraRatesProvider $payseraRatesProvider;
+    private PayseraDeliverySettings $deliverySettings;
     private MerchantClientProvider $merchantClientProvider;
-    private LoggerInterface $logger;
+    private DeliveryLoggerInterface $logger;
 
     public function __construct(
-        PayseraDeliveryActions $payseraDeliveryActions,
         MerchantClientProvider $merchantClientProvider,
-        LoggerInterface $logger
+        PayseraDeliverySettingsProvider $deliverySettingsProvider,
+        DeliveryLoggerInterface $logger
     ) {
-        $this->payseraDeliveryActions = $payseraDeliveryActions;
         $this->merchantClientProvider = $merchantClientProvider;
-        $this->payseraRatesProvider = new PayseraRatesProvider();
-        $this->payseraDeliverySettings = (new PayseraDeliverySettingsProvider())->getPayseraDeliverySettings();
+        $this->deliverySettings = $deliverySettingsProvider->getPayseraDeliverySettings();
         $this->logger = $logger;
     }
 
@@ -62,7 +47,7 @@ class PayseraDeliveryLibraryHelper
     {
         $gatewaysFilter = (new GatewaysFilter());
 
-        $resolvedProjectId = $this->payseraDeliverySettings->getResolvedProjectId();
+        $resolvedProjectId = $this->deliverySettings->getResolvedProjectId();
 
         if ($resolvedProjectId !== null) {
             $gatewaysFilter->setProjectId($resolvedProjectId);
@@ -92,7 +77,7 @@ class PayseraDeliveryLibraryHelper
     {
         $methodsFilter = (new MethodsFilter());
 
-        $resolvedProjectId = $this->payseraDeliverySettings->getResolvedProjectId();
+        $resolvedProjectId = $this->deliverySettings->getResolvedProjectId();
 
         if ($resolvedProjectId !== null) {
             $methodsFilter->setProjectId($resolvedProjectId);
@@ -115,10 +100,10 @@ class PayseraDeliveryLibraryHelper
         return $shipmentMethods;
     }
 
-    public function getParcelMachinesLocations(DeliveryTerminalLocationDto $terminalLocationDto): array
+    public function getParcelMachinesLocations(DeliveryTerminalLocationInterface $terminalLocationDto): array
     {
         $parcelMachineFilter = (new ParcelMachineFilter())
-            ->setCountry($terminalLocationDto->getCountryCode())
+            ->setCountry($terminalLocationDto->getCountry())
             ->setCity($terminalLocationDto->getCity())
             ->setShipmentGatewayCode($terminalLocationDto->getDeliveryGatewayCode())
         ;
@@ -215,68 +200,6 @@ class PayseraDeliveryLibraryHelper
         return $normalizedCities;
     }
 
-    public function getMerchantClient(): ?MerchantClient
-    {
-        return $this->merchantClientProvider->getMerchantClient(
-            $this->payseraDeliverySettings->getProjectId(),
-            $this->payseraDeliverySettings->getProjectPassword()
-        );
-    }
-
-    public function createOrderParty(
-        string $orderPartyMethod,
-        string $type,
-        ?Contact $contact,
-        string $parcelMachineId = null
-    ): ShipmentPointCreate {
-        $orderParty = (new ShipmentPointCreate())
-            ->setType($type)
-            ->setSaved(false)
-            ->setDefaultContact(false)
-        ;
-
-        if ($this->payseraDeliverySettings->getResolvedProjectId() !== null) {
-            $orderParty->setProjectId($this->payseraDeliverySettings->getResolvedProjectId());
-        }
-
-        if ($contact !== null) {
-            $orderParty->setContact($contact);
-        }
-
-        if (
-            ($orderPartyMethod === PayseraDeliverySettings::TYPE_PARCEL_MACHINE)
-            && $type === 'receiver'
-            && $parcelMachineId !== null
-        ) {
-            $orderParty->setParcelMachineId($parcelMachineId);
-        }
-
-        return $orderParty;
-    }
-
-    public function createShipment(WC_Product $product): ShipmentCreate
-    {
-        $weightRate = $this->payseraRatesProvider->getRateByKey(get_option('woocommerce_weight_unit'));
-        $dimensionRate = $this->payseraRatesProvider->getRateByKey(get_option('woocommerce_dimension_unit'));
-
-        $weight = !empty($product->get_weight()) ? $product->get_weight() : '0';
-        $length = !empty($product->get_length()) ? $product->get_length() : '0';
-        $width = !empty($product->get_width()) ? $product->get_width() : '0';
-        $height = !empty($product->get_height()) ? $product->get_height() : '0';
-
-        return (new ShipmentCreate())
-            ->setWeight((int) ($weight * $weightRate))
-            ->setLength((int) ($length * $dimensionRate))
-            ->setWidth((int) ($width * $dimensionRate))
-            ->setHeight((int) ($height * $dimensionRate))
-        ;
-    }
-
-    public function formatSelectedTerminalNote(DeliveryTerminalLocationDto $selectedTerminalLocation): string
-    {
-        return $this->formatTerminalNote($selectedTerminalLocation, self::NOTE_CHOSEN_TERMINAL_LOCATION);
-    }
-
     public function getShippingOptionLogoUrls(): array
     {
         $logos = [];
@@ -301,82 +224,14 @@ class PayseraDeliveryLibraryHelper
         return $logos;
     }
 
-    public function getPayseraDeliveryActions(): PayseraDeliveryActions
+    private function getMerchantClient(): ?MerchantClient
     {
-        return $this->payseraDeliveryActions;
-    }
-
-    public function formatChangedTerminalNote(DeliveryTerminalLocationDto $selectedTerminalLocation): string
-    {
-        return $this->formatTerminalNote($selectedTerminalLocation, self::NOTE_TERMINAL_LOCATION_CHANGED);
-    }
-
-
-    public function formatChangedTerminalLogMsg(
-        DeliveryTerminalLocationDto $newTerminalLocation,
-        ?DeliveryTerminalLocationDto $oldTerminalLocation = null
-    ): string {
-        $countries = WC()->countries->get_countries();
-        $msg = implode(
-            "\n",
-            array_filter(
-                [
-                    PayseraPaths::PAYSERA_MESSAGE .  self::MSG_TERMINAL_LOCATION_CHANGED . ':',
-                    $this->formatPreviousTerminalLogMsg($oldTerminalLocation, $countries),
-                    $this->formatCurrentTerminalLogMsg($newTerminalLocation, $countries),
-                ]
-            )
-        );
-
-        return __($msg, PayseraPaths::PAYSERA_TRANSLATIONS);
-    }
-
-    private function formatTerminalNote(
-        DeliveryTerminalLocationDto $selectedTerminalLocation,
-        string $noteTemplate
-    ): string {
-        $countryName = WC()->countries->get_countries()[$selectedTerminalLocation->getCountryCode()];
-        $terminals = $this->getParcelMachinesLocations($selectedTerminalLocation);
-
-        return sprintf(
-            __(
-                PayseraPaths::PAYSERA_MESSAGE . $noteTemplate,
-                PayseraPaths::PAYSERA_TRANSLATIONS
-            ),
-            $countryName,
-            $selectedTerminalLocation->getCity(),
-            $terminals[$selectedTerminalLocation->getSelectedTerminalId()]
-        );
-    }
-
-    private function formatPreviousTerminalLogMsg(
-        ?DeliveryTerminalLocationDto $oldTerminalLocation,
-        array $countries
-    ): ?string {
-        return $oldTerminalLocation === null
-            ? null
-            : $this->formatTerminalLogMsg($oldTerminalLocation, $countries, self::PREVIOUS_TERMINAL_LOG_MSG);
-    }
-
-    private function formatCurrentTerminalLogMsg(
-        DeliveryTerminalLocationDto $newTerminalLocation,
-        array $countries
-    ): string {
-        return $this->formatTerminalLogMsg($newTerminalLocation, $countries, self::CURRENT_TERMINAL_LOG_MSG);
-    }
-
-    private function formatTerminalLogMsg(
-        DeliveryTerminalLocationDto $terminalLocation,
-        array $countries,
-        string $msgTemplate
-    ): string {
-        $terminals = $this->getParcelMachinesLocations($terminalLocation);
-
-        return sprintf(
-            $msgTemplate,
-            $countries[$terminalLocation->getCountryCode()],
-            $terminalLocation->getCity(),
-            $terminals[$terminalLocation->getSelectedTerminalId()]
-        );
+        try {
+            return $this->merchantClientProvider->getMerchantClient(
+                $this->deliverySettings
+            );
+        } catch (MerchantClientNotFoundException $e) {
+            return null;
+        }
     }
 }

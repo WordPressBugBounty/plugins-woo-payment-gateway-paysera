@@ -10,6 +10,7 @@ use Paysera\DeliveryApi\MerchantClient\Entity\ShipmentGateway;
 use Paysera\Helper\PayseraDeliveryHelper;
 use Paysera\Entity\PayseraPaths;
 use Paysera\Entity\PayseraDeliverySettings;
+use Paysera\Helper\PayseraHTMLHelper;
 
 class PayseraDeliveryAdminHtml
 {
@@ -22,10 +23,10 @@ class PayseraDeliveryAdminHtml
 
     public function buildDeliverySettings(string $activeTab, ?int $projectId): void
     {
-        wp_enqueue_style('paysera-delivery-css', PayseraPaths::PAYSERA_DELIVERY_CSS);
-        wp_enqueue_style('paysera-select-2-css', PayseraPaths::PAYSERA_SELECT_2_CSS);
-        wp_enqueue_script('paysrea-select-2-js', PayseraPaths::PAYSERA_SELECT_2_JS, ['jquery']);
-        wp_enqueue_script('paysera-delivery-backend-js', PayseraPaths::PAYSERA_DELIVERY_BACKEND_JS, ['jquery']);
+        PayseraHTMLHelper::enqueueCSS('paysera-delivery-css', PayseraPaths::PAYSERA_DELIVERY_CSS);
+        PayseraHTMLHelper::enqueueCSS('paysera-select-2-css', PayseraPaths::PAYSERA_SELECT_2_CSS);
+        PayseraHTMLHelper::enqueueJS('paysrea-select-2-js', PayseraPaths::PAYSERA_SELECT_2_JS, ['jquery']);
+        PayseraHTMLHelper::enqueueJS('paysera-delivery-backend-js', PayseraPaths::PAYSERA_DELIVERY_BACKEND_JS, ['jquery']);
 
         printf('<form action="options.php" class="paysera-settings" method="post">');
         printf(
@@ -104,8 +105,6 @@ class PayseraDeliveryAdminHtml
      */
     public function buildDeliveryGatewaysHtml(array $deliveryGateways, array $options): string
     {
-        wp_enqueue_style('paysera-delivery-css', PayseraPaths::PAYSERA_DELIVERY_CSS);
-
         $html = '';
 
         foreach ($deliveryGateways as $deliveryGateway) {
@@ -158,7 +157,7 @@ class PayseraDeliveryAdminHtml
         ;
     }
 
-    public function enablePayseraDeliveryHtml(?bool $isEnabled): string
+    public function enablePayseraDeliveryHtml(bool $isEnabled): string
     {
         $html = '<input type="hidden" name="' . PayseraDeliverySettings::SETTINGS_NAME . '[' . PayseraDeliverySettings::ENABLED . ']" value="' . (($isEnabled === true) ? 'yes' : 'no') . '">';
         $html .= '<a href="' . admin_url('admin-post.php?action=paysera_delivery_change_status&status=enable')
@@ -167,7 +166,7 @@ class PayseraDeliveryAdminHtml
         ;
 
         $html .= '<a href="' . admin_url('admin-post.php?action=paysera_delivery_change_status&status=disable')
-            . '" class="button paysera-button' . (($isEnabled === false || $isEnabled === null) ? ' paysera-button-active"' : '"') . '>'
+            . '" class="button paysera-button' . (($isEnabled === false) ? ' paysera-button-active"' : '"') . '>'
             . __('Disable', PayseraPaths::PAYSERA_TRANSLATIONS)
         ;
 

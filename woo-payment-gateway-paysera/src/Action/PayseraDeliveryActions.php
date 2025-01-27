@@ -9,22 +9,25 @@ defined('ABSPATH') || exit;
 use Exception;
 use Paysera\Admin\PayseraDeliveryAdmin;
 use Paysera\DeliveryApi\MerchantClient\MerchantClient;
+use Paysera\Scoped\Paysera\DeliverySdk\Client\Provider\MerchantClientProvider;
+use Paysera\Scoped\Paysera\DeliverySdk\Exception\MerchantClientNotFoundException;
+use Paysera\Scoped\Paysera\DeliverySdk\Service\DeliveryLoggerInterface;
+use Paysera\Dto\PayseraSettingsValidationDto;
 use Paysera\Entity\PayseraDeliverySettings;
-use Paysera\Provider\MerchantClientProviderInterface;
+use Paysera\Entity\PayseraPaths;
 use Paysera\Provider\PayseraDeliverySettingsProvider;
 use Paysera\Scoped\Paysera\Component\RestClientCommon\Entity\Filter;
-use Paysera\Service\LoggerInterface;
 use WC_Cache_Helper;
 
 class PayseraDeliveryActions
 {
-    private MerchantClientProviderInterface $merchantClientProvider;
-    private LoggerInterface $logger;
+    private MerchantClientProvider $merchantClientProvider;
+    private DeliveryLoggerInterface $logger;
     private PayseraDeliverySettingsProvider $deliverySettingsProvider;
 
     public function __construct(
-        MerchantClientProviderInterface $merchantClientProvider,
-        LoggerInterface $logger,
+        MerchantClientProvider $merchantClientProvider,
+        DeliveryLoggerInterface $logger,
         PayseraDeliverySettingsProvider $deliverySettingsProvider
     ) {
         $this->merchantClientProvider = $merchantClientProvider;
@@ -196,19 +199,22 @@ class PayseraDeliveryActions
             return;
         }
 
-        $projectId = $value['project_id'] ?? null;
-        $projectPassword = $value['project_password'] ?? null;
+        $settings = new PayseraSettingsValidationDto(
+            $value['project_id'] ?? null,
+                $value['project_password'] ?? null
+        );
 
-        if ($projectId && $projectPassword) {
-            $merchantClient = $this->merchantClientProvider->getMerchantClient((int) $projectId, $projectPassword);
-
-            if ($merchantClient !== null) {
+        if ($settings->getProjectId() && $settings->getProjectPassword()) {
+            try {
+                $merchantClient = $this->merchantClientProvider->getMerchantClient($settings);
                 $resolvedProjectId = $this->getResolvedProjectId($merchantClient);
 
                 if ($resolvedProjectId !== null) {
                     $this->updateResolvedProjectId($resolvedProjectId);
                     return;
                 }
+            } catch (MerchantClientNotFoundException $e) {
+                $this->logger->info(PayseraPaths::PAYSERA_MESSAGE . ' Credentials are invalid');
             }
         }
 

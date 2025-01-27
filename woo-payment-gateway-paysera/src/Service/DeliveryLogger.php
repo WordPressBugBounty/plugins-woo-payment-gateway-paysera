@@ -4,15 +4,19 @@ declare(strict_types=1);
 
 namespace Paysera\Service;
 
+use Paysera\Scoped\Paysera\DeliverySdk\Service\DeliveryLoggerInterface;
 use Paysera\Helper\LogHelper;
+use Throwable;
 
-class DeliveryLogger implements LoggerInterface
+class DeliveryLogger implements LoggerInterface, DeliveryLoggerInterface
 {
     private LogHelper $logHelper;
     private string $logLevel;
 
-    public function __construct(LogHelper $logHelper, string $logLevel = LogHelper::LOG_LEVEL_ERROR)
-    {
+    public function __construct(
+        LogHelper $logHelper,
+        string $logLevel = LogHelper::LOG_LEVEL_ERROR
+    ) {
         $this->logHelper = $logHelper;
         $this->logLevel = $logLevel;
     }
@@ -30,7 +34,7 @@ class DeliveryLogger implements LoggerInterface
         );
     }
 
-    public function error(string $message, \Exception $exception = null): void
+    public function error(string $message, Throwable $exception = null): void
     {
         if ($this->logLevel === LogHelper::LOG_LEVEL_NONE) {
             return;

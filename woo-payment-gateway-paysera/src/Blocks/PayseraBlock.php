@@ -7,6 +7,7 @@ namespace Paysera\Blocks;
 use Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType;
 use Paysera\Entity\PayseraPaths;
 use Paysera\Front\PayseraPaymentFrontHtml;
+use Paysera\Helper\PayseraHTMLHelper;
 use Paysera\PayseraInit;
 use Paysera\Provider\PayseraDeliverySettingsProvider;
 use Paysera\Provider\PayseraPaymentSettingsProvider;
@@ -23,6 +24,7 @@ final class PayseraBlock extends AbstractPaymentMethodType
 {
     public const PAYSERA_BILLING_HOUSE_NO = 'payseraBillingHouseNo';
     public const PAYSERA_SHIPPING_HOUSE_NO = 'payseraShippingHouseNo';
+    private const ASSETS_INIT_ACTION_KEY = 'paysera_enqueue_payment_assets';
 
     /**
      * Payment method name defined by payment methods extending this class.
@@ -30,6 +32,8 @@ final class PayseraBlock extends AbstractPaymentMethodType
      * @var string
      */
     protected $name = 'paysera';
+
+    private ?bool $isActive = null;
 
     /**
      * Initializes the payment method type.
@@ -42,7 +46,7 @@ final class PayseraBlock extends AbstractPaymentMethodType
             [
                 'projectId' => $payseraPaymentSettings->getProjectId(),
                 'projectPassword' => $payseraPaymentSettings->getProjectPassword(),
-                'isEnabled'       => $payseraPaymentSettings->isEnabled(),
+                'isEnabled' => $payseraPaymentSettings->isEnabled(),
             ]
         );
     }
@@ -64,10 +68,6 @@ final class PayseraBlock extends AbstractPaymentMethodType
      */
     public function is_active()
     {
-        if (!PayseraInit::isAvailableToEnqueueScripts()) {
-            return false;
-        }
-
         if (
             !$this->getSettings()['isEnabled']
             && !(new PayseraDeliverySettingsProvider())->getPayseraDeliverySettings()->isEnabled()
@@ -76,8 +76,7 @@ final class PayseraBlock extends AbstractPaymentMethodType
         }
 
         return !empty($this->getSettings()['projectId'])
-            && !empty($this->getSettings()['projectPassword'])
-        ;
+            && !empty($this->getSettings()['projectPassword']);
     }
 
     /**
@@ -87,35 +86,59 @@ final class PayseraBlock extends AbstractPaymentMethodType
      */
     public function get_payment_method_script_handles()
     {
+        add_action(self::ASSETS_INIT_ACTION_KEY, [$this, 'paymentScripts']);
+
+        if (is_admin()) {
+            $this->initPaymentSign();
+        }
+
+        add_action('woocommerce_blocks_enqueue_cart_block_scripts_after', [$this, 'initPaymentSign']);
+        add_action('woocommerce_blocks_enqueue_checkout_block_scripts_after', [$this, 'initPaymentSign']);
+        add_action('woocommerce_after_cart', [$this, 'initPaymentSign']);
+        add_action('woocommerce_after_checkout_form', [$this, 'initPaymentSign']);
+
+        return ['wc-paysera-blocks-integration'];
+    }
+
+    public function initPaymentSign(): void
+    {
+        if (!did_action(self::ASSETS_INIT_ACTION_KEY)) {
+            do_action(self::ASSETS_INIT_ACTION_KEY);
+        }
+    }
+
+    public function paymentScripts(): void
+    {
         $assetPath = PayseraPluginPath . '/assets/build/index.asset.php';
-        $version = PAYSERA_PLUGIN_VERSION;
         $dependencies = [];
 
         if (file_exists($assetPath)) {
             $asset = require $assetPath;
-            $version = is_array($asset) && isset($asset['version'])
-                ? $asset['version']
-                : $version;
             $dependencies = is_array($asset) && isset($asset['dependencies'])
                 ? array_merge($asset['dependencies'], ['wp-components'])
                 : $dependencies;
         }
-        wp_register_script(
+        PayseraHTMLHelper::registerJS(
             'wc-paysera-blocks-integration',
             PayseraPluginUrl . '/assets/build/index.js',
             $dependencies,
-            $version,
-            true
+            ['in_footer' => true]
         );
         wp_set_script_translations('wc-paysera-blocks-integration', 'paysera', PayseraPluginPath  . '/languages/');
 
         $this->localizeScripts();
 
-        wp_enqueue_style('wc-paysera-blocks-integration-css', PayseraPaths::PAYSERA_BLOCK_INTEGRATION_CSS);
+        PayseraHTMLHelper::enqueueCSS('wc-paysera-blocks-integration-css', PayseraPaths::PAYSERA_BLOCK_INTEGRATION_CSS);
 
-        wp_enqueue_style('paysera-payment-css', PayseraPaths::PAYSERA_PAYMENT_CSS);
-
-        return ['wc-paysera-blocks-integration'];
+        if ($this->getSettings()['isEnabled']) {
+            PayseraHTMLHelper::enqueueCSS('paysera-payment-css', PayseraPaths::PAYSERA_PAYMENT_CSS);
+            if (
+                defined('WC_VERSION')
+                && version_compare(WC_VERSION, '9.0', '>=')
+            ) {
+                PayseraHTMLHelper::enqueueCSS('paysera-checkout-css', PayseraPaths::PAYSERA_CHECKOUT_CSS);
+            }
+        }
     }
 
     public function localizeScripts(): void
@@ -168,6 +191,7 @@ final class PayseraBlock extends AbstractPaymentMethodType
     private function getSupportedFeatures(): array
     {
         $gateway = new Paysera_Payment_Gateway();
+
         return array_filter($gateway->supports, [$gateway, 'supports']);
     }
 }

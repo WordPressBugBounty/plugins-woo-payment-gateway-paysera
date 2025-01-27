@@ -12,13 +12,13 @@ use Paysera\Scoped\Paysera\CheckoutSdk\Entity\Collection\PaymentMethodCountryCol
 use Paysera\Scoped\Paysera\CheckoutSdk\Entity\Request\PaymentMethodsRequest;
 use Paysera\Scoped\Psr\Container\ContainerExceptionInterface;
 use Paysera\Scoped\Psr\Container\NotFoundExceptionInterface;
-use Paysera\Service\LoggerInterface;
+use Paysera\Service\PaymentLoggerInterface;
 
 class PayseraPaymentLibraryHelper
 {
-    private LoggerInterface $logger;
+    private PaymentLoggerInterface $logger;
 
-    public function __construct(LoggerInterface $logger)
+    public function __construct(PaymentLoggerInterface $logger)
     {
         $this->logger = $logger;
     }

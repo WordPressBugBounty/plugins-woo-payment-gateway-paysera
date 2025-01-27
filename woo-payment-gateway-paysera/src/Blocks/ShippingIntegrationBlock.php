@@ -7,6 +7,7 @@ namespace Paysera\Blocks;
 use Automattic\WooCommerce\Blocks\Integrations\IntegrationInterface;
 use Paysera\Entity\PayseraPaths;
 use Paysera\Helper\PayseraDeliveryHelper;
+use Paysera\Helper\PayseraHTMLHelper;
 use Paysera\Helper\SessionHelperInterface;
 use Paysera\PayseraInit;
 use Paysera\Provider\PayseraDeliverySettingsProvider;
@@ -62,11 +63,9 @@ class ShippingIntegrationBlock implements IntegrationInterface
      */
     public function get_script_handles()
     {
-        if (PayseraDeliveryHelper::isAvailableForDeliveryToEnqueueScripts()) {
-            return ['paysera-shipping-block-frontend'];
-        }
-
-        return [];
+        return $this->payseraDeliverySettingsProvider->getPayseraDeliverySettings()->isEnabled()
+            ? ['paysera-shipping-block-frontend']
+            : [];
     }
 
     /**
@@ -76,7 +75,9 @@ class ShippingIntegrationBlock implements IntegrationInterface
      */
     public function get_editor_script_handles()
     {
-        return ['paysera-shipping-block-editor'];
+        return $this->payseraDeliverySettingsProvider->getPayseraDeliverySettings()->isEnabled()
+            ? ['paysera-shipping-block-editor']
+            : [];
     }
 
     /**
@@ -97,63 +98,53 @@ class ShippingIntegrationBlock implements IntegrationInterface
 
     public function registerBlockEditorScripts(): void
     {
-        $script_path = '/assets/build/paysera-shipping-block.js';
-        $script_url = plugins_url($script_path, __FILE__);
-        $scriptAssetPath = dirname(__FILE__) . '/assets/build/paysera-shipping-block.asset.php';
-        $script_asset = file_exists($scriptAssetPath)
-            ? require $scriptAssetPath
-            : [
-                'dependencies' => [],
-                'version' => $this->getFileVersion($scriptAssetPath),
-            ];
+        if ($this->payseraDeliverySettingsProvider->getPayseraDeliverySettings()->isEnabled()) {
+            $scriptAssetPath = dirname(__FILE__) . '/assets/build/paysera-shipping-block.asset.php';
+            $script_asset = file_exists($scriptAssetPath)
+                ? require $scriptAssetPath
+                : [
+                    'dependencies' => [],
+                    'version' => PAYSERA_PLUGIN_VERSION,
+                ];
 
-        wp_register_script(
-            'paysera-shipping-block-editor',
-            $script_url,
-            $script_asset['dependencies'],
-            $script_asset['version'],
-            true
-        );
+            PayseraHTMLHelper::registerJS(
+                'paysera-shipping-block-editor',
+                PayseraPaths::PAYSERA_SHIPPING_BLOCK_JS,
+                $script_asset['dependencies'],
+                ['in_footer' => true]
+            );
 
-        wp_set_script_translations(
-            'paysera-shipping-block-editor',
-            PayseraPaths::PAYSERA_TRANSLATIONS,
-            PayseraPluginPath . '/languages/'
-        );
+            wp_set_script_translations(
+                'paysera-shipping-block-editor',
+                PayseraPaths::PAYSERA_TRANSLATIONS,
+                PayseraPluginPath . '/languages/'
+            );
+        }
     }
 
     public function registerBlockFrontendScripts(): void
     {
-        $scriptUrl = PayseraPluginUrl . 'assets/build/paysera-shipping-block-frontend.js';
-        $scriptAssetPath = dirname(__FILE__) . '/assets/build/paysera-shipping-block-frontend.asset.php';
-        $scriptAsset = file_exists($scriptAssetPath)
-            ? require $scriptAssetPath
-            : [
-                'dependencies' => [],
-                'version' => $this->getFileVersion($scriptAssetPath),
-            ];
+         if ($this->payseraDeliverySettingsProvider->getPayseraDeliverySettings()->isEnabled()) {
+            $scriptAssetPath = dirname(__FILE__) . '/assets/build/paysera-shipping-block-frontend.asset.php';
+            $scriptAsset = file_exists($scriptAssetPath)
+                ? require $scriptAssetPath
+                : [
+                    'dependencies' => [],
+                    'version' => PAYSERA_PLUGIN_VERSION,
+                ];
 
-        wp_register_script(
-            'paysera-shipping-block-frontend',
-            $scriptUrl,
-            array_merge($scriptAsset['dependencies'], ['wp-components']),
-            $scriptAsset['version'],
-            true
-        );
+            PayseraHTMLHelper::registerJS(
+                'paysera-shipping-block-frontend',
+                PayseraPaths::PAYSERA_SHIPPING_BLOCK_FRONTEND_JS,
+                array_merge($scriptAsset['dependencies'], ['wp-components']),
+                ['in_footer' => true]
+            );
 
-        wp_set_script_translations(
-            'paysera-shipping-block-frontend',
-            PayseraPaths::PAYSERA_TRANSLATIONS,
-            PayseraPluginPath  . '/languages/'
-        );
-    }
-
-    protected function getFileVersion(string $file): string
-    {
-        if (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG && file_exists($file)) {
-            return (string) filemtime($file);
+            wp_set_script_translations(
+                'paysera-shipping-block-frontend',
+                PayseraPaths::PAYSERA_TRANSLATIONS,
+                PayseraPluginPath . '/languages/'
+            );
         }
-
-        return PAYSERA_PLUGIN_VERSION;
     }
 }

@@ -6,7 +6,9 @@ namespace Paysera\Front;
 
 defined('ABSPATH') || exit;
 
+use Paysera\Helper\PayseraHTMLHelper;
 use Paysera\Validation\PayseraDeliveryWeightValidator;
+use Paysera\PayseraInit;
 use WP_Error;
 use Paysera\Helper\PayseraDeliveryHelper;
 use Paysera\Helper\SessionHelperInterface;
@@ -18,6 +20,7 @@ use WC_Shipping_Rate;
 class PayseraDeliveryFrontHtml
 {
     private const WEIGHT_ERROR_MESSAGE_KEY = 'weight_error_message';
+    private const DELIVERY_ASSETS_INIT_ACTION_KEY = 'paysera_enqueue_delivery_assets';
 
     private PayseraDeliveryHelper $payseraDeliveryHelper;
     private PayseraDeliverySettingsProvider $payseraDeliverySettingsProvider;
@@ -57,14 +60,20 @@ class PayseraDeliveryFrontHtml
         add_filter('woocommerce_shipping_packages', [$this, 'setActivePayseraShippingPackageRates']);
         add_action('woocommerce_store_api_checkout_update_order_from_request', [$this, 'storeHouseNoInOrderMeta'], 9999, 2);
         add_filter('woocommerce_package_rates', [$this, 'filterShippingRatesByCartWeightSuitability'], 9999, 1);
+        add_action(self::DELIVERY_ASSETS_INIT_ACTION_KEY, [$this, 'deliveryAssets']);
+        add_action('woocommerce_blocks_enqueue_cart_block_scripts_after', [$this, 'initDeliveryAssets']);
+        add_action('woocommerce_blocks_enqueue_checkout_block_scripts_after', [$this, 'initDeliveryAssets']);
+        add_action('woocommerce_after_cart', [$this, 'initDeliveryAssets']);;
+        add_action('woocommerce_after_checkout_form', [$this, 'initDeliveryAssets']);
     }
 
 
     public function addRequiredHouseField(array $fields): array
     {
         if (
-            $this->payseraDeliverySettingsProvider->getPayseraDeliverySettings()->isHouseNumberFieldEnabled()
-            === true
+            $this->payseraDeliverySettingsProvider
+                ->getPayseraDeliverySettings()
+                ->isHouseNumberFieldEnabled() === true
         ) {
             $fields['billing'][PayseraDeliverySettings::BILLING_HOUSE_NO] = [
                 'label' => __('House Number', PayseraPaths::PAYSERA_TRANSLATIONS),
@@ -232,14 +241,98 @@ class PayseraDeliveryFrontHtml
         }
     }
 
-    public function terminalLocationSelection(): void
+    public function initDeliveryAssets(): void
     {
-        if (PayseraDeliveryHelper::isAvailableForDeliveryToEnqueueScripts()) {
-            wp_enqueue_style('paysera-delivery-css', PayseraPaths::PAYSERA_DELIVERY_CSS, ['wc-components']);
+        if (!did_action(self::DELIVERY_ASSETS_INIT_ACTION_KEY)) {
+            do_action(self::DELIVERY_ASSETS_INIT_ACTION_KEY);
+        }
+    }
+
+    public function deliveryAssets(): void
+    {
+        if ($this->payseraDeliverySettingsProvider->getPayseraDeliverySettings()->isEnabled()) {
+            PayseraHTMLHelper::enqueueCSS('paysera-select-2-css', PayseraPaths::PAYSERA_SELECT_2_CSS);
+            PayseraHTMLHelper::enqueueJS('paysera-select-2-js', PayseraPaths::PAYSERA_SELECT_2_JS, ['jquery']);
+
+            PayseraHTMLHelper::enqueueJS('paysera-cart-logos-js', PayseraPaths::PAYSERA_DELIVERY_CART_LOGOS_JS);
+
+            wp_localize_script(
+                'paysera-cart-logos-js',
+                'data',
+                [
+                    'shippingLogos' => $this->payseraDeliveryHelper->getShippingOptionLogoUrls(),
+                ]
+            );
+
+            PayseraHTMLHelper::enqueueJS('paysera-delivery-frontend-js', PayseraPaths::PAYSERA_DELIVERY_FRONTEND_JS, ['jquery']);
+            PayseraHTMLHelper::registerJS(
+                'paysera-delivery-frontend-ajax-js',
+                PayseraPaths::PAYSERA_DELIVERY_FRONTEND_AJAX_JS,
+                [],
+                ['in_footer' => true]
+            );
+            PayseraHTMLHelper::enqueueJS('paysera-delivery-frontend-ajax-js');
+            wp_localize_script(
+                'paysera-delivery-frontend-ajax-js',
+                'ajax_object',
+                ['ajaxurl' => admin_url('admin-ajax.php')]
+            );
+
+            PayseraHTMLHelper::enqueueCSS('paysera-shipping-block-frontend-css', PayseraPluginUrl . 'assets/build/style-paysera-shipping-block-frontend.css');
 
             if ($this->payseraDeliverySettingsProvider->getPayseraDeliverySettings()->isGridViewEnabled() === true) {
-                wp_enqueue_style('paysera-delivery-grid-css', PayseraPaths::PAYSERA_DELIVERY_GRID_CSS);
-                wp_enqueue_script(
+                PayseraHTMLHelper::enqueueCSS('paysera-delivery-grid-css', PayseraPaths::PAYSERA_DELIVERY_GRID_CSS);
+                PayseraHTMLHelper::enqueueJS(
+                    'paysera-delivery-frontend-grid-js',
+                    PayseraPaths::PAYSERA_DELIVERY_FRONTEND_GRID_JS,
+                    ['jquery']
+                );
+            }
+
+            $scriptAssetPath = PayseraPaths::PAYSERA_DELIVERY_CART_VALIDATION_ASSETS;
+            $scriptAsset = file_exists($scriptAssetPath)
+                ? require $scriptAssetPath
+                : [
+                    'dependencies' => [],
+                    'version' => PAYSERA_PLUGIN_VERSION,
+                ];
+            PayseraHTMLHelper::registerJS(
+                'paysera-cart-shipping-validation',
+                PayseraPaths::PAYSERA_DELIVERY_CART_VALIDATION_JS,
+                array_merge($scriptAsset['dependencies'], ['wp-components']),
+                ['in_footer' => true]
+            );
+
+            wp_set_script_translations(
+                'paysera-cart-shipping-validation',
+                PayseraPaths::PAYSERA_TRANSLATIONS,
+                PayseraPluginPath . '/languages/'
+            );
+            PayseraHTMLHelper::enqueueJS('paysera-cart-shipping-validation');
+            PayseraHTMLHelper::enqueueJS(
+                'paysera-cart-shipping-selector',
+                PayseraPaths::PAYSERA_DELIVERY_SELECTOR_JS
+            );
+            wp_localize_script(
+                'paysera-cart-shipping-selector',
+                'data',
+                [
+                    'weightRestrictionHints' => $this->sessionHelper->getData(
+                        PayseraInit::DELIVERY_GATEWAY_WEIGHT_HINT_SESSION_KEY
+                    ),
+                ]
+            );
+        }
+    }
+
+    public function terminalLocationSelection(): void
+    {
+        if ($this->payseraDeliverySettingsProvider->getPayseraDeliverySettings()->isEnabled()) {
+            PayseraHTMLHelper::enqueueCSS('paysera-delivery-css', PayseraPaths::PAYSERA_DELIVERY_CSS, ['wc-components']);
+
+            if ($this->payseraDeliverySettingsProvider->getPayseraDeliverySettings()->isGridViewEnabled() === true) {
+                PayseraHTMLHelper::enqueueCSS('paysera-delivery-grid-css', PayseraPaths::PAYSERA_DELIVERY_GRID_CSS);
+                PayseraHTMLHelper::enqueueJS(
                     'paysera-delivery-frontend-grid-js',
                     PayseraPaths::PAYSERA_DELIVERY_FRONTEND_GRID_JS,
                     ['jquery']
@@ -302,6 +395,9 @@ class PayseraDeliveryFrontHtml
             $packageRateId = $packageRate->get_id();
 
             if ($this->payseraDeliveryHelper->isPayseraDeliveryGateway($packageRateId)) {
+                if (!$this->payseraDeliverySettingsProvider->getPayseraDeliverySettings()->isEnabled()) {
+                    continue;
+                }
                 $deliveryGateway = str_replace(PayseraDeliverySettings::DELIVERY_GATEWAY_PREFIX, '', $packageRateId);
                 $deliveryGateway = strtok($deliveryGateway, '_');
 

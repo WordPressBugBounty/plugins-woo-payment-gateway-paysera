@@ -7,31 +7,36 @@ namespace Paysera\Helper;
 defined('ABSPATH') || exit;
 
 use Paysera\DeliveryApi\MerchantClient\Entity\Address;
-use Paysera\DeliveryApi\MerchantClient\Entity\Order;
-use Paysera\DeliveryApi\MerchantClient\MerchantClient;
-use Paysera\Dto\DeliveryTerminalLocationDto;
+use Paysera\Scoped\Paysera\DeliverySdk\Entity\DeliveryTerminalLocationFactoryInterface;
+use Paysera\Scoped\Paysera\DeliverySdk\Util\DeliveryGatewayUtils;
 use Paysera\Entity\PayseraDeliverySettings;
 use Paysera\Entity\PayseraPaths;
 use Paysera\PayseraInit;
 use Paysera\Provider\PayseraDeliverySettingsProvider;
-use Paysera_Delivery_Gateway;
 use WC;
-use WC_Data_Store;
 use WC_Order;
+use WC_Order_Item_Shipping;
 use WC_Shipping_Zone;
 use WC_Shipping_Zones;
-use WC_Order_Item_Shipping;
 
 class PayseraDeliveryHelper
 {
     private PayseraDeliveryLibraryHelper $payseraDeliveryLibraryHelper;
     private SessionHelperInterface $sessionHelper;
     private ?float $cartTotalWeight = null;
+    private DeliveryTerminalLocationFactoryInterface $terminalLocationFactory;
+    private DeliveryGatewayUtils $deliveryGatewayUtils;
 
-    public function __construct(PayseraDeliveryLibraryHelper $payseraDeliveryLibraryHelper, SessionHelperInterface $sessionHelper)
-    {
+    public function __construct(
+        PayseraDeliveryLibraryHelper $payseraDeliveryLibraryHelper,
+        SessionHelperInterface $sessionHelper,
+        DeliveryTerminalLocationFactoryInterface $terminalLocationFactory,
+        DeliveryGatewayUtils $deliveryGatewayUtils
+    ) {
         $this->payseraDeliveryLibraryHelper = $payseraDeliveryLibraryHelper;
         $this->sessionHelper = $sessionHelper;
+        $this->terminalLocationFactory = $terminalLocationFactory;
+        $this->deliveryGatewayUtils = $deliveryGatewayUtils;
     }
 
     public function settingsUrl(array $query = []): string
@@ -157,11 +162,12 @@ class PayseraDeliveryHelper
         $terminalLocations = array_merge(
             $terminalLocations,
             $this->payseraDeliveryLibraryHelper->getParcelMachinesLocations(
-                new DeliveryTerminalLocationDto(
-                    $shippingCountry,
-                    $shippingCity,
-                    $this->resolveDeliveryGatewayCode($shippingMethod)
-                )
+                $this->terminalLocationFactory->create()
+                    ->setCountry($shippingCountry)
+                    ->setCity($shippingCity)
+                    ->setDeliveryGatewayCode(
+                        $this->deliveryGatewayUtils->resolveDeliveryGatewayCode($shippingMethod)
+                    )
             )
         );
 
@@ -180,80 +186,7 @@ class PayseraDeliveryHelper
         return $this->payseraDeliveryLibraryHelper->getPayseraDeliveryGateways();
     }
 
-    public function getMerchantDeliveryClient(): ?MerchantClient
-    {
-        return $this->payseraDeliveryLibraryHelper->getMerchantClient();
-    }
-
-    public function getMatchedActiveGatewayForDeliveryOrder(Order $deliveryOrder): ?Paysera_Delivery_Gateway
-    {
-        $deliveryGatewayCode = $this->getGatewayCodeFromDeliveryOrder($deliveryOrder);
-
-        $data_store = WC_Data_Store::load('shipping-zone');
-        $raw_zones = $data_store->get_zones();
-
-        $shippingAddress = $deliveryOrder->getReceiver()->getContact()->getAddress();
-
-        foreach ($raw_zones as $raw_zone) {
-            $zone = new WC_Shipping_Zone($raw_zone);
-            $availableShippingMethods = $zone->get_shipping_methods(true, 'admin');
-
-            if (!$this->canApplyShippingZone($zone, $shippingAddress)) {
-                continue;
-            }
-
-            foreach ($availableShippingMethods as $shippingMethod) {
-                if (
-                    $this->isPayseraDeliveryGateway($shippingMethod->id)
-                    && $shippingMethod->deliveryGatewayCode === $deliveryGatewayCode
-                ) {
-                    return $shippingMethod;
-                }
-            }
-        }
-
-        return null;
-    }
-
-    public function getPayseraShippingFromOrder(WC_Order $order): ?WC_Order_Item_Shipping
-    {
-        foreach ($order->get_items('shipping') as $shippingItem) {
-            if ($this->isPayseraDeliveryGateway($shippingItem->get_method_id())) {
-                return $shippingItem;
-            }
-        }
-
-        return null;
-    }
-
-    public function getWCCountry(string $countryCode): string
-    {
-        return WC()->countries->get_countries()[$countryCode];
-    }
-
-    public function getGatewayCodeFromDeliveryOrder(Order $order): string
-    {
-        $receiverCode = $order->getShipmentMethod()->getReceiverCode();
-        $shipmentMethodCode = PayseraDeliverySettings::TYPE_COURIER;
-
-        if ($receiverCode === PayseraDeliverySettings::TYPE_PARCEL_MACHINE) {
-            $shipmentMethodCode = PayseraDeliverySettings::TYPE_TERMINALS;
-        }
-
-        return sprintf(
-            '%s_%s',
-            $order->getShipmentGateway()->getCode(),
-            $shipmentMethodCode
-        );
-    }
-
-    public static function isAvailableForDeliveryToEnqueueScripts(): bool
-    {
-        return PayseraInit::isAvailableToEnqueueScripts()
-            && (new PayseraDeliverySettingsProvider())->getPayseraDeliverySettings()->isEnabled();
-    }
-
-    private function canApplyShippingZone(WC_Shipping_Zone $zone, Address $address): bool
+    public function canApplyShippingZone(WC_Shipping_Zone $zone, Address $address): bool
     {
         $locations = $zone->get_zone_locations();
         $countries = array_column(array_filter($locations, fn ($location) => 'country' === $location->type), 'code');

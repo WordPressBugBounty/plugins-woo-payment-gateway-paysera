@@ -9,14 +9,15 @@ use Exception;
 use Paysera\Blocks\PayseraBlock;
 use Paysera\Provider\PayseraPaymentSettingsProvider;
 use Paysera\Service\LoggerInterface;
+use Paysera\Service\PaymentLoggerInterface;
 
 defined('ABSPATH') || exit;
 
 class PayseraPaymentActions
 {
-    private LoggerInterface $logger;
+    private PaymentLoggerInterface $logger;
 
-    public function __construct(LoggerInterface $logger)
+    public function __construct(PaymentLoggerInterface $logger)
     {
         $this->logger = $logger;
     }

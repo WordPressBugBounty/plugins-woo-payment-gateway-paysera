@@ -6,6 +6,7 @@ namespace Paysera\Validation;
 
 use Paysera\Entity\PayseraDeliverySettings;
 use Paysera\Entity\PayseraPaths;
+use Paysera\Helper\PayseraHTMLHelper;
 use Paysera\PayseraInit;
 
 class PayseraDeliverySettingsClientValidator
@@ -23,9 +24,9 @@ class PayseraDeliverySettingsClientValidator
         $this->options = array_merge($this->options, $options);
 
         if (is_admin()) {
-            wp_enqueue_style('paysera-delivery-css', PayseraPaths::PAYSERA_ADMIN_DELIVERY_SETTINGS_CSS);
-            wp_register_script('delievery-settings-admin', PayseraPaths::PAYSERA_ADMIN_DELIVERY_SETTINGS_JS, ['jquery'], false);
-            wp_enqueue_script('delievery-settings-admin');
+            PayseraHTMLHelper::enqueueCSS('paysera-delivery-settings-css', PayseraPaths::PAYSERA_ADMIN_DELIVERY_SETTINGS_CSS);
+            PayseraHTMLHelper::registerJS('delievery-settings-admin', PayseraPaths::PAYSERA_ADMIN_DELIVERY_SETTINGS_JS, ['jquery']);
+            PayseraHTMLHelper::enqueueJS('delievery-settings-admin');
         }
 
         wp_localize_script(

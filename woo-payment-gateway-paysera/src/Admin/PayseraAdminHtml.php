@@ -8,12 +8,13 @@ defined('ABSPATH') || exit;
 
 use Paysera\Entity\PayseraPaths;
 use Paysera\Helper\LogHelper;
+use Paysera\Helper\PayseraHTMLHelper;
 
 class PayseraAdminHtml
 {
     public function buildAboutPage(): string
     {
-        wp_enqueue_style('paysera-delivery-css', PayseraPaths::PAYSERA_DELIVERY_CSS);
+        PayseraHTMLHelper::enqueueCSS('paysera-delivery-css', PayseraPaths::PAYSERA_DELIVERY_CSS);
 
         return '<div class="paysera-delivery-about-container"><div class="paysera-delivery-logo-container">'
             . '<img src="' . PayseraPaths::PAYSERA_LOGO . '" alt="paysera-logo"/></div>'

@@ -6,7 +6,7 @@ namespace Paysera\Service;
 
 use Paysera\Helper\LogHelper;
 
-class PaymentLogger implements LoggerInterface
+class PaymentLogger implements PaymentLoggerInterface
 {
     private LogHelper $logHelper;
     private string $logLevel;

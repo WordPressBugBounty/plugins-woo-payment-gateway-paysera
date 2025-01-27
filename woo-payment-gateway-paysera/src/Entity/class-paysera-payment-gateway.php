@@ -13,18 +13,27 @@ use Paysera\Front\PayseraPaymentFrontHtml;
 use Paysera\Generator\PayseraPaymentFieldGenerator;
 use Paysera\Generator\PayseraPaymentRequestGenerator;
 use Paysera\Helper\LogHelper;
+use Paysera\Helper\PayseraHTMLHelper;
 use Paysera\Helper\PayseraPaymentLibraryHelper;
+use Paysera\Provider\ContainerProvider;
 use Paysera\Provider\PayseraPaymentSettingsProvider;
 use Paysera\Scoped\Paysera\CheckoutSdk\CheckoutFacadeFactory;
 use Paysera\Scoped\Paysera\CheckoutSdk\Entity\PaymentCallbackValidationResponse;
 use Paysera\Scoped\Paysera\CheckoutSdk\Entity\Request\PaymentCallbackValidationRequest;
+use Paysera\Scoped\Psr\Container\ContainerExceptionInterface;
+use Paysera\Scoped\Psr\Container\ContainerInterface;
+use Paysera\Scoped\Psr\Container\NotFoundExceptionInterface;
 use Paysera\Service\LoggerInterface;
+use Paysera\Helper\EventHandlingHelper;
+use Paysera\Entity\PayseraDeliverySettings;
+use Paysera\Service\PaymentLoggerInterface;
 
 class Paysera_Payment_Gateway extends WC_Payment_Gateway
 {
     private const RESPONSE_STATUS_CONFIRMED = 1;
     private const RESPONSE_STATUS_ADDITIONAL_INFO = 3;
 
+    private ContainerInterface $container;
     private PayseraPaymentSettings $payseraPaymentSettings;
     private PayseraPaymentFieldGenerator $payseraPaymentFieldGenerator;
     private PayseraPaymentRequestGenerator $payseraPaymentRequestGenerator;
@@ -32,8 +41,12 @@ class Paysera_Payment_Gateway extends WC_Payment_Gateway
 
     public function __construct()
     {
-        $this->payseraPaymentSettings = (new PayseraPaymentSettingsProvider())->getPayseraPaymentSettings();
-        $this->logger = (new LoggerFactory())->createLogger(LogHelper::LOGGER_TYPE_PAYMENT);
+        $this->container = (new ContainerProvider())->getContainer();
+        $this->payseraPaymentSettings = $this->container
+            ->get(PayseraPaymentSettingsProvider::class)
+            ->getPayseraPaymentSettings()
+        ;
+        $this->logger = $this->container->get(PaymentLoggerInterface::class);
         $this->payseraPaymentRequestGenerator = new PayseraPaymentRequestGenerator(
             $this->logger,
             $this->payseraPaymentSettings
@@ -41,7 +54,7 @@ class Paysera_Payment_Gateway extends WC_Payment_Gateway
         $this->payseraPaymentFieldGenerator = new PayseraPaymentFieldGenerator(
             $this->payseraPaymentSettings,
             new PayseraPaymentFrontHtml(),
-            new PayseraPaymentLibraryHelper($this->logger)
+            $this->container->get(PayseraPaymentLibraryHelper::class),
         );
 
         $this->id = 'paysera';
@@ -67,8 +80,8 @@ class Paysera_Payment_Gateway extends WC_Payment_Gateway
 
     public function payment_fields(): void
     {
-        wp_enqueue_style('paysera-payment-css', PayseraPaths::PAYSERA_PAYMENT_CSS);
-        wp_enqueue_script('paysera-payment-frontend-js', PayseraPaths::PAYSERA_PAYMENT_FRONTEND_JS, ['jquery']);
+        PayseraHTMLHelper::enqueueCSS('paysera-payment-css', PayseraPaths::PAYSERA_PAYMENT_CSS);
+        PayseraHTMLHelper::enqueueJS('paysera-payment-frontend-js', PayseraPaths::PAYSERA_PAYMENT_FRONTEND_JS, ['jquery']);
 
         print_r($this->payseraPaymentFieldGenerator->generatePaymentField());
     }
@@ -147,6 +160,14 @@ class Paysera_Payment_Gateway extends WC_Payment_Gateway
                         )
                     );
                     $this->updateOrderStatus($order, $this->payseraPaymentSettings->getPaidOrderStatus());
+
+                    $eventHandlingHelper = $this->container->get(EventHandlingHelper::class);
+                    $eventHandlingHelper->handle(
+                        PayseraDeliverySettings::WC_ORDER_EVENT_PAYMENT_COMPLETED,
+                        [
+                            'order' => $order,
+                        ]
+                    );
 
                     print_r('OK');
                 }

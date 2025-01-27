@@ -10,15 +10,18 @@ use Paysera\Entity\PayseraPaths;
 
 class PayseraAdmin
 {
-    private PayseraDeliveryAdmin $payseraDeliveryAdmin;
-    private PayseraPaymentAdmin $payseraPaymentAdmin;
-    private PayseraAdminHtml $payseraAdminHtml;
+    private PayseraDeliveryAdmin $deliveryAdmin;
+    private PayseraPaymentAdmin $paymentAdmin;
+    private PayseraAdminHtml $adminHtml;
 
-    public function __construct(PayseraDeliveryAdmin $payseraDeliveryAdmin)
-    {
-        $this->payseraDeliveryAdmin = $payseraDeliveryAdmin;
-        $this->payseraPaymentAdmin = new PayseraPaymentAdmin();
-        $this->payseraAdminHtml = new PayseraAdminHtml();
+    public function __construct(
+        PayseraDeliveryAdmin $deliveryAdmin,
+        PayseraPaymentAdmin $paymentAdmin,
+        PayseraAdminHtml $adminHtml
+    ) {
+        $this->deliveryAdmin = $deliveryAdmin;
+        $this->paymentAdmin = $paymentAdmin;
+        $this->adminHtml = $adminHtml;
     }
 
     public function build(): void
@@ -68,16 +71,16 @@ class PayseraAdmin
 
     public function payseraAboutSubMenu(): void
     {
-        printf($this->payseraAdminHtml->buildAboutPage());
+        printf($this->adminHtml->buildAboutPage());
     }
 
     public function payseraDeliverySubMenu(): void
     {
-        $this->payseraDeliveryAdmin->buildSettingsPage();
+        $this->deliveryAdmin->buildSettingsPage();
     }
 
     public function payseraPaymentSubMenu(): void
     {
-        $this->payseraPaymentAdmin->buildSettingsPage();
+        $this->paymentAdmin->buildSettingsPage();
     }
 }

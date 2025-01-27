@@ -7,6 +7,7 @@ namespace Paysera\Admin;
 defined('ABSPATH') || exit;
 
 use Paysera\Entity\PayseraPaths;
+use Paysera\Helper\PayseraHTMLHelper;
 use Paysera\Helper\PayseraPaymentHelper;
 use Paysera\Entity\PayseraPaymentSettings;
 
@@ -21,10 +22,10 @@ class PayseraPaymentAdminHtml
 
     public function buildCheckoutSettings(string $activeTab, ?int $projectId): void
     {
-        wp_enqueue_style('paysera-delivery-css', PayseraPaths::PAYSERA_DELIVERY_CSS);
-        wp_enqueue_style('paysera-select-2-css', PayseraPaths::PAYSERA_SELECT_2_CSS);
-        wp_enqueue_script('paysrea-select-2-js', PayseraPaths::PAYSERA_SELECT_2_JS, ['jquery']);
-        wp_enqueue_script('paysera-payment-backend-js', PayseraPaths::PAYSERA_PAYMENT_BACKEND_JS, ['jquery']);
+        PayseraHTMLHelper::enqueueCSS('paysera-delivery-css', PayseraPaths::PAYSERA_DELIVERY_CSS);
+        PayseraHTMLHelper::enqueueCSS('paysera-select-2-css', PayseraPaths::PAYSERA_SELECT_2_CSS);
+        PayseraHTMLHelper::enqueueJS('paysrea-select-2-js', PayseraPaths::PAYSERA_SELECT_2_JS, ['jquery']);
+        PayseraHTMLHelper::enqueueJS('paysera-payment-backend-js', PayseraPaths::PAYSERA_PAYMENT_BACKEND_JS, ['jquery']);
 
         printf('<form action="options.php" class="paysera-settings" method="post">');
         printf(
@@ -100,7 +101,7 @@ class PayseraPaymentAdminHtml
 
     public function enablePayseraPaymentHtml(): string
     {
-        wp_enqueue_style('paysera-payment-css', PayseraPaths::PAYSERA_PAYMENT_CSS);
+        PayseraHTMLHelper::enqueueCSS('paysera-payment-css', PayseraPaths::PAYSERA_PAYMENT_CSS);
 
         $html = '';
 

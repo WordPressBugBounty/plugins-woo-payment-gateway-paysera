@@ -4,18 +4,24 @@ declare(strict_types=1);
 
 defined('ABSPATH') || exit;
 
+use Paysera\Action\PayseraDeliveryActions;
 use Paysera\DataValidator\Validator\Exception\IncorrectValidationRuleStructure;
+use Paysera\Entity\PayseraDeliveryGatewaySettings;
 use Paysera\Entity\PayseraDeliverySettings;
 use Paysera\Entity\PayseraPaths;
 use Paysera\Exception\ValidationException;
-use Paysera\Factory\PayseraDeliveryActionsFactory;
-use Paysera\Helper\PayseraDeliveryHelper;
+use Paysera\Factory\DeliverySettingsValidatorFactory;
+use Paysera\Helper\PayseraHTMLHelper;
 use Paysera\Helper\PostDataHelper;
+use Paysera\Provider\ContainerProvider;
 use Paysera\Provider\PayseraDeliverySettingsProvider;
+use Paysera\Scoped\Paysera\DeliverySdk\Entity\PayseraDeliveryGatewayInterface;
+use Paysera\Scoped\Paysera\DeliverySdk\Entity\PayseraDeliveryGatewaySettingsInterface;
+use Paysera\Scoped\Psr\Container\ContainerInterface;
 use Paysera\Validation\PayseraDeliverySettingsClientValidator;
 use Paysera\Validation\PayseraDeliverySettingsValidator;
 
-abstract class Paysera_Delivery_Gateway extends WC_Shipping_Method
+abstract class Paysera_Delivery_Gateway extends WC_Shipping_Method implements PayseraDeliveryGatewayInterface
 {
     /**
      * @var string
@@ -37,7 +43,13 @@ abstract class Paysera_Delivery_Gateway extends WC_Shipping_Method
      */
     protected $defaultDescription;
 
+    /**
+     * @var PayseraDeliveryActions
+     */
     private $payseraDeliveryActions;
+    /**
+     * @var PayseraDeliverySettingsProvider
+     */
     private $payseraDeliverySettingsProvider;
 
     /**
@@ -54,13 +66,15 @@ abstract class Paysera_Delivery_Gateway extends WC_Shipping_Method
      * @var PayseraDeliverySettingsClientValidator
      */
     private $clientValidator;
+    private ContainerInterface $container;
 
     public function __construct($instance_id = 0)
     {
         parent::__construct();
 
-        $this->payseraDeliveryActions = (new PayseraDeliveryActionsFactory())->create();
-        $this->payseraDeliverySettingsProvider = new PayseraDeliverySettingsProvider();
+        $this->container = (new ContainerProvider())->getContainer();
+        $this->payseraDeliveryActions = $this->container->get(PayseraDeliveryActions::class);
+        $this->payseraDeliverySettingsProvider = $this->container->get(PayseraDeliverySettingsProvider::class);
 
         $this->id = $this->generateId();
         $this->instance_id = absint($instance_id);
@@ -90,6 +104,44 @@ abstract class Paysera_Delivery_Gateway extends WC_Shipping_Method
         add_filter('woocommerce_package_rates', [$this, 'hideShippingWeightBased'], 10, 2);
     }
 
+    public function getCode(): string
+    {
+        return $this->id;
+    }
+
+    public function getName(): string
+    {
+        return $this->get_instance_option('title');
+    }
+
+    public function getFee(): float
+    {
+        return (float)$this->get_instance_option(PayseraDeliverySettings::FEE, PayseraDeliverySettings::DEFAULT_FEE);
+    }
+
+    public function getSettings(): PayseraDeliveryGatewaySettingsInterface
+    {
+        $minimumWeight = $this->get_instance_option(
+            PayseraDeliverySettings::MINIMUM_WEIGHT,
+            PayseraDeliverySettings::DEFAULT_MINIMUM_WEIGHT
+        );
+        $maximumWeight = $this->get_instance_option(
+            PayseraDeliverySettings::MAXIMUM_WEIGHT,
+            PayseraDeliverySettings::DEFAULT_MAXIMUM_WEIGHT
+        );
+        $senderType = $this->get_instance_option(
+            PayseraDeliverySettings::SENDER_TYPE,
+            PayseraDeliverySettings::DEFAULT_TYPE
+        );
+
+        return (new PayseraDeliveryGatewaySettings())
+            ->setMinimumWeight((int)$minimumWeight)
+            ->setMaximumWeight((int)$maximumWeight)
+            ->setSenderType($senderType)
+            ->setReceiverType($this->receiverType)
+        ;
+    }
+
     public function calculate_shipping($package = [])
     {
         $rate = [
@@ -100,7 +152,7 @@ abstract class Paysera_Delivery_Gateway extends WC_Shipping_Method
 
         $freeDeliveryLimit = $this->instance_settings[PayseraDeliverySettings::FREE_DELIVERY_LIMIT];
 
-        if ($freeDeliveryLimit > 0 && WC()->cart->get_displayed_subtotal() > $freeDeliveryLimit) {
+        if ($freeDeliveryLimit > 0 && WC()->cart->get_displayed_subtotal() >= $freeDeliveryLimit) {
             $rate['cost'] = 0;
         }
 
@@ -216,19 +268,10 @@ abstract class Paysera_Delivery_Gateway extends WC_Shipping_Method
      */
     public function initValidators(): void
     {
-        $this->postDataHelper = new PostDataHelper();
-        $this->backendValidator = new PayseraDeliverySettingsValidator(
-            $this->getValidationFieldsTitles(),
-            $this->getValidationErrorsTemplates(),
-            $this->getValidationRules(),
-            $this->getValidationOptions(),
-        );
-        $this->clientValidator = new PayseraDeliverySettingsClientValidator(
-            $this->getValidationFieldsTitles(),
-            $this->getValidationErrorsTemplates(),
-            $this->getValidationRules(),
-            $this->getValidationOptions(),
-        );
+        $validatorFactory = $this->container->get(DeliverySettingsValidatorFactory::class);
+        $this->backendValidator = $validatorFactory->createBackendValidator($this);
+        $this->clientValidator = $validatorFactory->createClientValidator($this);
+        $this->postDataHelper = $this->container->get(PostDataHelper::class);
     }
 
     public function process_admin_options(): bool
@@ -342,10 +385,6 @@ abstract class Paysera_Delivery_Gateway extends WC_Shipping_Method
 
     private function buildMethodDescription(): string
     {
-        if (is_admin() || PayseraDeliveryHelper::isAvailableForDeliveryToEnqueueScripts()) {
-            wp_enqueue_style('paysera-delivery-css', PayseraPaths::PAYSERA_DELIVERY_CSS);
-        }
-
         $minimumWeight = PayseraDeliverySettings::DEFAULT_MINIMUM_WEIGHT;
         $maximumWeight = PayseraDeliverySettings::DEFAULT_MAXIMUM_WEIGHT;
         $fee = PayseraDeliverySettings::DEFAULT_FEE;

@@ -1,0 +1,67 @@
+services:
+  _defaults:
+    public: true
+    autowire: true
+    autoconfigure: true
+
+  Paysera\:
+    resource: '../../../src/*'
+    exclude:
+      - '../../../src/Blocks/*'
+      - '../../../src/Entity/*'
+      - '../../../src/Dto/*'
+      - '../../../src/Resources/*'
+      - '../../../src/Exception/*'
+      - '../../../src/Generator/*'
+      - '../../../src/Rest/*'
+      - '../../../src/Validation/*'
+      - '../../../src/Provider/ContainerProvider'
+
+  Paysera\Scoped\Paysera\DeliverySdk\:
+    resource: '../../../vendor-scoped/paysera/lib-delivery-sdk/src/*'
+    exclude:
+      - '../../../vendor-scoped/paysera/lib-delivery-sdk/src/Dto/*'
+      - '../../../vendor-scoped/paysera/lib-delivery-sdk/src/Entity/*'
+      - '../../../vendor-scoped/paysera/lib-delivery-sdk/src/Exception/*'
+      - '../../../vendor-scoped/paysera/lib-delivery-sdk/src/Util/Container.php'
+
+  Paysera\Helper\SessionHelperInterface:
+    alias: Paysera\Helper\WCSessionHelper
+
+  Paysera\Service\DeliveryLogger:
+    factory: [ '@Paysera\Factory\LoggerFactory', 'createDeliveryLogger' ]
+
+  Paysera\Service\PaymentLogger:
+    factory: [ '@Paysera\Factory\LoggerFactory', 'createPaymentLogger' ]
+
+  Paysera\Scoped\Paysera\DeliverySdk\Service\DeliveryLoggerInterface:
+    alias: Paysera\Service\DeliveryLogger
+
+  Paysera\Service\PaymentLoggerInterface:
+    alias: Paysera\Service\PaymentLogger
+
+  Paysera\Scoped\Paysera\DeliverySdk\Repository\MerchantOrderRepositoryInterface:
+    alias: Paysera\Repository\OrderRepository
+
+  Paysera\Builder\DatabaseBuilder:
+    arguments:
+      $tableBuilders:
+        - '@Paysera\Builder\ShipmentRequestTableBuilder'
+
+  Paysera\Builder\ShipmentRequestTableBuilder:
+    arguments:
+      $tableName: '%wpdb_prefix%paysera_delivery_shipping_request'
+
+  Paysera\Scoped\Paysera\DeliverySdk\Entity\DeliveryTerminalLocationFactoryInterface:
+    alias: Paysera\Factory\DeliveryTerminalLocationFactory
+
+  Paysera\Scoped\Paysera\DeliverySdk\DeliveryFacadeFactory:
+    arguments:
+      $container: Psr\Container\ContainerInterface
+
+  Paysera\Helper\EventHandlingHelper:
+    arguments:
+      $eventHandlers:
+        '%event.delivery_order.updated%': '@Paysera\EventHandler\DeliveryOrderUpdatedHandler'
+        '%event.wc_order.created%': '@Paysera\EventHandler\WCOrderCreatedHandler'
+        '%event.wc_order.paid%': '@Paysera\EventHandler\WCOrderPaymentCompletedHandler'

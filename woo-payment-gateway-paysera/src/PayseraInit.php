@@ -7,50 +7,60 @@ namespace Paysera;
 defined('ABSPATH') || exit;
 
 use Automattic\WooCommerce\Utilities\FeaturesUtil;
+use Evp\Component\Money\Money;
 use Paysera\Admin\PayseraDeliveryAdminHtml;
+use Paysera\Scoped\Paysera\DeliverySdk\Service\DeliveryLoggerInterface;
 use Paysera\Entity\PayseraDeliverySettings;
 use Paysera\Entity\PayseraPaths;
 use Paysera\Entity\PayseraPaymentSettings;
 use Paysera\Helper\EventHandlingHelper;
 use Paysera\Helper\PayseraDeliveryHelper;
-use Paysera\Helper\PayseraURLHelper;
+use Paysera\Helper\PayseraHTMLHelper;
 use Paysera\Helper\SessionHelperInterface;
 use Paysera\Provider\PayseraDeliverySettingsProvider;
 use Paysera\Provider\PayseraPaymentSettingsProvider;
 use Paysera\Rest\PayseraDeliveryController;
 use Paysera\Rest\PayseraPaymentController;
 use Paysera\Service\LoggerInterface;
+use Paysera\Service\PaymentLoggerInterface;
+use Throwable;
+use Paysera\Validation\PayseraDeliveryWeightValidator;
 use WC_Shipping_Rate;
 
 class PayseraInit
 {
+    public const DELIVERY_GATEWAY_WEIGHT_HINT_SESSION_KEY = 'paysera_cart_weight_restrictions_hints';
     private const DELIVERY_CLASS_FILE_TEMPLATE = '%s/Entity/class-paysera-%s-%s-delivery.php';
     private const DELIVERY_GATEWAY_KEY_TEMPLATE = 'paysera_delivery_%s_%s';
     private const DELIVERY_GATEWAY_CLASS_TEMPLATE = 'Paysera_%s_%s_Delivery';
+    private const SIGN_ASSETS_INIT_ACTION_KEY = 'paysera_enqueue_sign_assets';
+    private const DELIVERY_GATEWAY_WEIGHT_HINT_ACTION_KEY = 'paysera_cart_weight_restrictions_hints';
 
-    private PayseraPaymentSettings $payseraPaymentSettings;
-    private PayseraDeliveryHelper $payseraDeliveryHelper;
-    private PayseraDeliverySettingsProvider $payseraDeliverySettingsProvider;
-    private PayseraDeliveryAdminHtml $payseraDeliveryAdminHtml;
+    private PayseraPaymentSettings $paymentSettings;
+    private PayseraDeliveryHelper $deliveryHelper;
+    private PayseraDeliverySettingsProvider $deliverySettingsProvider;
+    private PayseraDeliveryAdminHtml $deliveryAdminHtml;
     private SessionHelperInterface $sessionHelper;
     private LoggerInterface $paymentLogger;
-    private LoggerInterface $deliveryLogger;
+    private DeliveryLoggerInterface $deliveryLogger;
     private EventHandlingHelper $eventHandlingHelper;
     private array $notices;
     private array $errors;
-    private static ?bool $isAvailableToEnqueueScripts = null;
 
     public function __construct(
-        PayseraDeliveryHelper $payseraDeliveryHelper,
+        PayseraPaymentSettingsProvider $paymentSettingsProvider,
+        PayseraDeliverySettingsProvider $deliverySettingsProvider,
+        PayseraDeliveryHelper $deliveryHelper,
         SessionHelperInterface $sessionHelper,
         EventHandlingHelper $eventHandlingHelper,
-        LoggerInterface $paymentLogger,
-        LoggerInterface $deliveryLogger
+        PayseraDeliveryAdminHtml $deliveryAdminHtml,
+        PaymentLoggerInterface $paymentLogger,
+        DeliveryLoggerInterface $deliveryLogger
     ) {
-        $this->payseraPaymentSettings = (new PayseraPaymentSettingsProvider())->getPayseraPaymentSettings();
-        $this->payseraDeliveryHelper = $payseraDeliveryHelper;
-        $this->payseraDeliverySettingsProvider = new PayseraDeliverySettingsProvider();
-        $this->payseraDeliveryAdminHtml = new PayseraDeliveryAdminHtml($payseraDeliveryHelper);
+        $this->paymentSettings = $paymentSettingsProvider->getPayseraPaymentSettings();
+        $this->deliveryHelper = $deliveryHelper;
+        $this->deliverySettingsProvider = $deliverySettingsProvider;
+        $this->deliveryAdminHtml = $deliveryAdminHtml;
         $this->sessionHelper = $sessionHelper;
         $this->paymentLogger = $paymentLogger;
         $this->deliveryLogger = $deliveryLogger;
@@ -68,16 +78,25 @@ class PayseraInit
         add_filter('woocommerce_payment_gateways', [$this, 'registerPaymentGateway']);
         add_filter('plugin_action_links_' . PayseraPluginPath . '/paysera.php', [$this, 'addPayseraPluginActionLinks']);
         add_action('wp_head', [$this, 'addMetaTags']);
-        add_action('wp_head', [$this, 'addQualitySign']);
+        add_action(self::SIGN_ASSETS_INIT_ACTION_KEY, [$this, 'qualitySignAssets']);
+        add_action('woocommerce_blocks_enqueue_cart_block_scripts_after', [$this, 'initQualitySign']);
+        add_action('woocommerce_blocks_enqueue_checkout_block_scripts_after', [$this, 'initQualitySign']);
+        add_action('woocommerce_after_cart', [$this, 'initQualitySign']);
+        add_action('woocommerce_after_checkout_form', [$this, 'initQualitySign']);
         add_filter('woocommerce_shipping_methods', [$this, 'registerDeliveryGateways']);
-        add_action('wp_enqueue_scripts', [$this, 'enqueueScripts']);
+        add_action(self::DELIVERY_GATEWAY_WEIGHT_HINT_ACTION_KEY, [$this, 'initDeliveryGatewayWeightRestrictionsHint']);
+        if (version_compare(get_bloginfo('version'), '6.5', '<')) {
+            add_filter('woocommerce_cart_shipping_packages', [$this, 'applyDeliveryGatewayWeightRestrictionsHint'], PHP_INT_MAX, 2);
+        } else {
+            add_filter('woocommerce_package_rates', [$this, 'applyDeliveryGatewayWeightRestrictionsHint'], PHP_INT_MAX, 2);
+        }
         add_filter('woocommerce_cart_shipping_method_full_label', [$this, 'deliveryGatewayLogos'], PHP_INT_MAX, 2);
         add_action('admin_notices', [$this, 'payseraDeliveryPluginNotice']);
         add_action('admin_init', [$this, 'payseraDeliveryPluginNoticeDismiss']);
         add_action('woocommerce_init', [$this, 'enableCartFrontendForRestApi']);
         add_action('before_woocommerce_init', [$this, 'declareWooCommerceHighPerformanceOrderStorageCompatibility']);
         add_action('rest_api_init', [$this, 'registerRestRoutes']);
-        add_action('woocommerce_blocks_enqueue_cart_block_scripts_after', [$this, 'cartScripts']);
+        add_filter('woocommerce_order_received_verify_known_shoppers', [$this, 'restrictOrderReceivedFromUnknownClient'] );
     }
 
     public function loadPayseraPlugin(): bool
@@ -97,7 +116,7 @@ class PayseraInit
 
     public function payseraDeliveryPluginNotice(): void
     {
-        wp_enqueue_style('paysera-payment-css', PayseraPaths::PAYSERA_PAYMENT_CSS);
+        PayseraHTMLHelper::enqueueCSS('paysera-payment-css', PayseraPaths::PAYSERA_PAYMENT_CSS);
 
         $notice = sprintf(
         // translators: 1 - plugin settings link
@@ -174,7 +193,11 @@ class PayseraInit
 
     public function addPayseraPluginActionLinks(array $links): array
     {
-        wp_enqueue_style('paysera-payment-css', PayseraPaths::PAYSERA_PAYMENT_CSS);
+        if (!$this->paymentSettings->isEnabled()) {
+            return [];
+        }
+
+        PayseraHTMLHelper::enqueueCSS('paysera-payment-css', PayseraPaths::PAYSERA_PAYMENT_CSS);
 
         $documentationLink = '<a href="' . PayseraPaths::PAYSERA_DOCUMENTATION_LINK . '" target="_blank">'
             . __('Documentation', PayseraPaths::PAYSERA_TRANSLATIONS) . '</a>';
@@ -190,28 +213,34 @@ class PayseraInit
     public function addMetaTags(): void
     {
         if (
-            $this->payseraPaymentSettings->isOwnershipCodeEnabled() === true
+            $this->paymentSettings->isOwnershipCodeEnabled() === true
             && (
-                $this->payseraPaymentSettings->getOwnershipCode() !== null
-                && $this->payseraPaymentSettings->getOwnershipCode() !== ''
+                $this->paymentSettings->getOwnershipCode() !== null
+                && $this->paymentSettings->getOwnershipCode() !== ''
             )
         ) {
             echo wp_kses(
-                '<meta name="verify-paysera" content="' . $this->payseraPaymentSettings->getOwnershipCode() . '">',
+                '<meta name="verify-paysera" content="' . $this->paymentSettings->getOwnershipCode() . '">',
                 ['meta' => ['name' => [], 'content' => []]]
             );
         }
     }
 
-    public function addQualitySign(): void
+    public function initQualitySign(): void
+    {
+        if (!did_action(self::SIGN_ASSETS_INIT_ACTION_KEY)) {
+            do_action(self::SIGN_ASSETS_INIT_ACTION_KEY);
+        }
+    }
+
+    public function qualitySignAssets(): void
     {
         if (
-            $this->payseraPaymentSettings->isQualitySignEnabled()
-            && $this->payseraPaymentSettings->getProjectId() !== null
-            && $this->payseraPaymentSettings->isEnabled()
-            && self::isAvailableToEnqueueScripts()
+            $this->paymentSettings->isQualitySignEnabled()
+            && $this->paymentSettings->getProjectId() !== null
+            && $this->paymentSettings->isEnabled()
         ) {
-            $this->addQualitySignScript($this->payseraPaymentSettings->getProjectId());
+            $this->addQualitySignScript($this->paymentSettings->getProjectId());
         }
     }
 
@@ -220,7 +249,7 @@ class PayseraInit
     {
         $gateways = [];
 
-        $payseraDeliverySettings = $this->payseraDeliverySettingsProvider->getPayseraDeliverySettings();
+        $payseraDeliverySettings = $this->deliverySettingsProvider->getPayseraDeliverySettings();
 
         foreach ($payseraDeliverySettings->getDeliveryGateways() as $deliveryGateway => $isEnabled) {
             if ($isEnabled === false) {
@@ -271,11 +300,11 @@ class PayseraInit
 
     private function requireDeliveryEntities()
     {
-        $payseraDeliverySettings = $this->payseraDeliverySettingsProvider->getPayseraDeliverySettings();
+        $payseraDeliverySettings = $this->deliverySettingsProvider->getPayseraDeliverySettings();
         foreach ($payseraDeliverySettings->getDeliveryGateways() as $deliveryGateway => $isEnabled) {
             foreach (PayseraDeliverySettings::DELIVERY_GATEWAY_TYPE_MAP as $deliveryGatewayType) {
 
-                if (!$this->payseraDeliveryHelper->deliveryGatewayClassExists($deliveryGateway, $deliveryGatewayType)) {
+                if (!$this->deliveryHelper->deliveryGatewayClassExists($deliveryGateway, $deliveryGatewayType)) {
                     $this->createDeliveryEntity($deliveryGateway, $deliveryGatewayType);
                 }
 
@@ -284,100 +313,97 @@ class PayseraInit
         }
     }
 
-    public function enqueueScripts(): void
-    {
-        if (PayseraDeliveryHelper::isAvailableForDeliveryToEnqueueScripts()) {
-            wp_enqueue_style('paysera-select-2-css', PayseraPaths::PAYSERA_SELECT_2_CSS);
-            wp_enqueue_script('paysera-select-2-js', PayseraPaths::PAYSERA_SELECT_2_JS, ['jquery']);
-            wp_enqueue_script('paysera-delivery-frontend-js', PayseraPaths::PAYSERA_DELIVERY_FRONTEND_JS, ['jquery']);
-            wp_register_script(
-                'paysera-delivery-frontend-ajax-js',
-                PayseraPaths::PAYSERA_DELIVERY_FRONTEND_AJAX_JS,
-                [],
-                false,
-                ['in_footer' => true]
-            );
-            wp_enqueue_script('paysera-delivery-frontend-ajax-js');
-            wp_localize_script(
-                'paysera-delivery-frontend-ajax-js',
-                'ajax_object',
-                ['ajaxurl' => admin_url('admin-ajax.php')]
-            );
-
-            wp_enqueue_style('paysera-shipping-block-frontend-css', PayseraPluginUrl . 'assets/build/style-paysera-shipping-block-frontend.css');
-
-            if ($this->payseraDeliverySettingsProvider->getPayseraDeliverySettings()->isGridViewEnabled() === true) {
-                wp_enqueue_style('paysera-delivery-grid-css', PayseraPaths::PAYSERA_DELIVERY_GRID_CSS);
-                wp_enqueue_script(
-                    'paysera-delivery-frontend-grid-js',
-                    PayseraPaths::PAYSERA_DELIVERY_FRONTEND_GRID_JS,
-                    ['jquery']
-                );
-            }
-        }
-    }
-
     public function deliveryGatewayLogos(string $label, WC_Shipping_Rate $shippingRate): string
     {
-        if (PayseraDeliveryHelper::isAvailableForDeliveryToEnqueueScripts()) {
-            wp_enqueue_style('paysera-delivery-css', PayseraPaths::PAYSERA_DELIVERY_CSS);
-        }
+        PayseraHTMLHelper::enqueueCSS('paysera-delivery-css', PayseraPaths::PAYSERA_DELIVERY_CSS);
 
         if (
-            empty($this->payseraDeliverySettingsProvider->getPayseraDeliverySettings()->getDeliveryGateways())
+            empty($this->deliverySettingsProvider->getPayseraDeliverySettings()->getDeliveryGateways())
             === true
-            || $this->payseraDeliveryHelper->isPayseraDeliveryGateway($shippingRate->get_method_id()) === false
+            || $this->deliveryHelper->isPayseraDeliveryGateway($shippingRate->get_method_id()) === false
         ) {
             return $label;
         }
 
-        $totalWeight = 0;
-
-        foreach (WC()->cart->cart_contents as $item) {
-            $product = wc_get_product($item['product_id']);
-
-            $totalWeight += (float)($product->get_weight() ?? 0) * (float)$item['quantity'];
+        if ($this->doesShippingRateOfferFreeDelivery($shippingRate)) {
+            $label .= sprintf(
+                ': <span class="woocommerce-Price-amount amount"><bdi>%s</bdi></span>',
+                __('Free', 'woocommerce')
+            );
         }
 
-        if (get_option('woocommerce_weight_unit') === 'g') {
-            $totalWeight /= 1000;
+        $error = false;
+
+        $hints = $this->sessionHelper->getData(self::DELIVERY_GATEWAY_WEIGHT_HINT_SESSION_KEY, []);
+
+        if (isset($hints[$shippingRate->get_id()])) {
+            $label .= '<p class="paysera-delivery-error">' . $hints[$shippingRate->get_id()] . '</p>';
+            $error = true;
         }
 
-        $payseraDeliveryGatewaySettings = $this->payseraDeliverySettingsProvider->getPayseraDeliveryGatewaySettings(
-            $shippingRate->get_method_id(),
-            $shippingRate->get_instance_id()
-        );
-
-        $maximumWeight = $payseraDeliveryGatewaySettings->getMaximumWeight();
-        $minimumWeight = $payseraDeliveryGatewaySettings->getMinimumWeight();
-        $error = null;
-
-        if ($totalWeight > $maximumWeight || $totalWeight < $minimumWeight) {
-            $error = __('Cart weight is not sufficient', PayseraPaths::PAYSERA_TRANSLATIONS);
-
-            if ($totalWeight > $maximumWeight) {
-                $error = __('Cart weight is exceeded', PayseraPaths::PAYSERA_TRANSLATIONS);
-            }
-
-            $label .= '<p class="paysera-delivery-error">' . $error . '</p>';
-        }
-
-        foreach ($this->payseraDeliveryHelper->getPayseraDeliveryGateways() as $deliveryGateway) {
+        foreach ($this->deliveryHelper->getPayseraDeliveryGateways() as $deliveryGateway) {
             if (
                 $shippingRate->get_method_id() === PayseraDeliverySettings::DELIVERY_GATEWAY_PREFIX
                 . $deliveryGateway->getCode() . '_courier'
                 || $shippingRate->get_method_id() === PayseraDeliverySettings::DELIVERY_GATEWAY_PREFIX
                 . $deliveryGateway->getCode() . '_terminals'
             ) {
-                if ($error === null) {
+                if ($error === false) {
                     $label .= '<br>';
                 }
 
-                $label .= $this->payseraDeliveryAdminHtml->generateDeliveryGatewayLogoHtml($deliveryGateway, true);
+                $label .= $this->deliveryAdminHtml->generateDeliveryGatewayLogoHtml($deliveryGateway, true);
             }
         }
 
         return $label;
+    }
+
+    public function initDeliveryGatewayWeightRestrictionsHint(array $rates)
+    {
+        if (empty($rates)) {
+            return;
+        }
+
+        if (!current($rates) instanceof WC_Shipping_Rate) {
+            $shippingForPackage = WC()->session->get("shipping_for_package_0");
+            $rates = $shippingForPackage !== NULL && isset($shippingForPackage['rates']) ? $shippingForPackage['rates'] : [];
+        }
+
+        $totalWeight = $this->deliveryHelper->getCartTotalDeliveryWeight();
+
+        $weightValidator = new PayseraDeliveryWeightValidator(
+            $this->sessionHelper,
+            $this->deliveryHelper,
+            $this->deliverySettingsProvider,
+        );
+
+        $hints = [];
+        foreach ($rates as $shippingRate) {
+            if (!$this->deliveryHelper->isPayseraDeliveryGateway($shippingRate->get_method_id())) {
+                continue;
+            }
+
+            $result = $weightValidator->validateShippingMethod(
+                $totalWeight,
+                $shippingRate->get_method_id() . ':' . $shippingRate->get_instance_id()
+            );
+
+            if ($result['validated'] === false) {
+                $hints[$shippingRate->get_id()] = current($result['messages']);
+            }
+        }
+
+        if (!empty($hints)) {
+            $this->sessionHelper->setData(self::DELIVERY_GATEWAY_WEIGHT_HINT_SESSION_KEY, $hints);
+        }
+    }
+
+    public function applyDeliveryGatewayWeightRestrictionsHint(array $rates): array
+    {
+        do_action(self::DELIVERY_GATEWAY_WEIGHT_HINT_ACTION_KEY, $rates);
+
+        return $rates;
     }
 
     public function declareWooCommerceHighPerformanceOrderStorageCompatibility(): void
@@ -412,7 +438,7 @@ class PayseraInit
 
     private function addQualitySignScript(int $projectId): void
     {
-        wp_enqueue_script(
+        PayseraHTMLHelper::enqueueJS(
             'paysera-payment-quality-sign-js',
             PayseraPaths::PAYSERA_PAYMENT_QUALITY_SIGN_JS,
             ['jquery']
@@ -474,7 +500,7 @@ class PayseraInit
         $receiverType = $deliveryGatewayType === PayseraDeliverySettings::TYPE_COURIER ?
             PayseraDeliverySettings::TYPE_COURIER : PayseraDeliverySettings::TYPE_PARCEL_MACHINE;
 
-        $deliveryGatewayTitles = $this->payseraDeliverySettingsProvider->getPayseraDeliverySettings()
+        $deliveryGatewayTitles = $this->deliverySettingsProvider->getPayseraDeliverySettings()
             ->getDeliveryGatewayTitles();
         $deliveryGatewayTitle = $deliveryGatewayTitles[$deliveryGateway] . ' '
             . __(ucfirst($deliveryGatewayType), PayseraPaths::PAYSERA_TRANSLATIONS);
@@ -509,7 +535,7 @@ class ' . $deliveryEntity . ' extends Paysera_Delivery_Gateway
     {
         $restApiRoutes = [
             new PayseraDeliveryController(
-                $this->payseraDeliveryHelper,
+                $this->deliveryHelper,
                 $this->sessionHelper,
                 $this->deliveryLogger,
                 $this->eventHandlingHelper
@@ -535,33 +561,27 @@ class ' . $deliveryEntity . ' extends Paysera_Delivery_Gateway
         }
     }
 
-    public function cartScripts()
+    public function restrictOrderReceivedFromUnknownClient(): bool
     {
-        if (PayseraDeliveryHelper::isAvailableForDeliveryToEnqueueScripts()) {
-            wp_enqueue_script('paysera-cart-logos-js', PayseraPaths::PAYSERA_DELIVERY_CART_LOGOS_JS);
-
-            wp_localize_script(
-                'paysera-cart-logos-js',
-                'data',
-                [
-                    'shippingLogos' => $this->payseraDeliveryHelper->getShippingOptionLogoUrls(),
-                ]
-            );
+        if (get_current_user_id() > 0) {
+            return false;
         }
+
+        $order = wc_get_order(absint(get_query_var( 'order-received')));
+        if ($order === false) {
+            return true;
+        }
+
+        if ($order->get_payment_method() !== WC()->payment_gateways->payment_gateways()['paysera']->id) {
+            return true;
+        }
+
+        return false;
     }
 
-    public static function isAvailableToEnqueueScripts(): bool
+    private function doesShippingRateOfferFreeDelivery(WC_Shipping_Rate $shippingRate): bool
     {
-        if (self::$isAvailableToEnqueueScripts === null) {
-            global $pagenow;
-            if (is_blog_admin() && ($pagenow === 'post.php' || $pagenow === 'post-new.php')) {
-                self::$isAvailableToEnqueueScripts = true;
-            } else {
-                $pageId = (new PayseraURLHelper())->urlToPageId(set_url_scheme('//' .$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']));
-                self::$isAvailableToEnqueueScripts = $pageId === wc_get_page_id( 'checkout' ) || $pageId === wc_get_page_id( 'cart' );
-            }
-        }
-
-        return self::$isAvailableToEnqueueScripts;
+        $shippingCost = new Money($shippingRate->get_cost());
+        return $shippingCost->isZero();
     }
 }
