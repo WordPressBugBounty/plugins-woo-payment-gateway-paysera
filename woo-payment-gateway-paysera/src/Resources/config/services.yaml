@@ -4,19 +4,6 @@ services:
     autowire: true
     autoconfigure: true
 
-  Paysera\:
-    resource: '../../../src/*'
-    exclude:
-      - '../../../src/Blocks/*'
-      - '../../../src/Entity/*'
-      - '../../../src/Dto/*'
-      - '../../../src/Resources/*'
-      - '../../../src/Exception/*'
-      - '../../../src/Generator/*'
-      - '../../../src/Rest/*'
-      - '../../../src/Validation/*'
-      - '../../../src/Provider/ContainerProvider'
-
   Paysera\Scoped\Paysera\DeliverySdk\:
     resource: '../../../vendor-scoped/paysera/lib-delivery-sdk/src/*'
     exclude:
@@ -24,6 +11,127 @@ services:
       - '../../../vendor-scoped/paysera/lib-delivery-sdk/src/Entity/*'
       - '../../../vendor-scoped/paysera/lib-delivery-sdk/src/Exception/*'
       - '../../../vendor-scoped/paysera/lib-delivery-sdk/src/Util/Container.php'
+
+  Paysera\Repository\OrderRepository:
+    class: Paysera\Repository\OrderRepository
+
+  Paysera\Factory\LoggerFactory:
+    class: Paysera\Factory\LoggerFactory
+
+  Paysera\Factory\DeliveryTerminalLocationFactory:
+    class: Paysera\Factory\DeliveryTerminalLocationFactory
+
+  Paysera\EventHandler\DeliveryOrderUpdatedHandler:
+    class: Paysera\EventHandler\DeliveryOrderUpdatedHandler
+
+  Paysera\EventHandler\WCOrderCreatedHandler:
+    class: Paysera\EventHandler\WCOrderCreatedHandler
+
+  Paysera\Helper\WCSessionHelper:
+    class: Paysera\Helper\WCSessionHelper
+
+  Paysera\EventHandler\WCOrderPaymentCompletedHandler:
+    class: Paysera\EventHandler\WCOrderPaymentCompletedHandler
+
+  Paysera\Helper\LogHelper:
+    class: Paysera\Helper\LogHelper
+
+  Paysera\Repository\MerchantOrderRepository:
+    class: Paysera\Repository\MerchantOrderRepository
+
+  Paysera\Provider\PayseraDeliverySettingsProvider:
+    class: Paysera\Provider\PayseraDeliverySettingsProvider
+
+  Paysera\Utils\OrderNotesFormatter:
+    class: Paysera\Utils\OrderNotesFormatter
+
+  Paysera\Service\PayseraDeliveryOrderService:
+    class: Paysera\Service\PayseraDeliveryOrderService
+
+  Paysera\Factory\OrderFactory:
+    class: Paysera\Factory\OrderFactory
+
+  Paysera\Utils\LogMessageFormatter:
+    class: Paysera\Utils\LogMessageFormatter
+
+  Paysera\Helper\TerminalsHelper:
+    class: Paysera\Helper\TerminalsHelper
+
+  Paysera\Service\MerchantOrderLogger:
+    class: Paysera\Service\MerchantOrderLogger
+
+  Paysera\Scoped\Paysera\DeliverySdk\Service\MerchantOrderLoggerInterface:
+    alias: Paysera\Service\MerchantOrderLogger
+
+  Paysera\Action\PayseraDeliveryActions:
+    class: Paysera\Action\PayseraDeliveryActions
+
+  Paysera\PayseraInit:
+    class: Paysera\PayseraInit
+
+  Paysera\Provider\PayseraPaymentSettingsProvider:
+    class: Paysera\Provider\PayseraPaymentSettingsProvider
+
+  Paysera\Helper\PayseraDeliveryHelper:
+    class: Paysera\Helper\PayseraDeliveryHelper
+
+  Paysera\Admin\PayseraDeliveryAdminHtml:
+    class: Paysera\Admin\PayseraDeliveryAdminHtml
+
+  Paysera\Helper\PayseraDeliveryLibraryHelper:
+    class: Paysera\Helper\PayseraDeliveryLibraryHelper
+
+  Paysera\Repository\PayseraDeliveryGatewayRepository:
+    class: Paysera\Repository\PayseraDeliveryGatewayRepository
+
+  Paysera\Scoped\Paysera\DeliverySdk\Repository\DeliveryGatewayRepositoryInterface:
+    alias: Paysera\Repository\PayseraDeliveryGatewayRepository
+
+  Paysera\Admin\PayseraAdmin:
+    class: Paysera\Admin\PayseraAdmin
+
+  Paysera\Admin\PayseraDeliveryAdmin:
+    class: Paysera\Admin\PayseraDeliveryAdmin
+
+  Paysera\Admin\PayseraPaymentAdmin:
+    class: Paysera\Admin\PayseraPaymentAdmin
+
+  Paysera\Admin\PayseraAdminHtml:
+    class: Paysera\Admin\PayseraAdminHtml
+
+  Paysera\Front\PayseraDeliveryFrontHtml:
+    class: Paysera\Front\PayseraDeliveryFrontHtml
+
+  Paysera\Action\PayseraPaymentActions:
+    class: Paysera\Action\PayseraPaymentActions
+
+  Paysera\Helper\DatabaseHelper:
+    class: Paysera\Helper\DatabaseHelper
+
+  Paysera\Helper\PayseraPaymentLibraryHelper:
+    class: Paysera\Helper\PayseraPaymentLibraryHelper
+
+  Paysera\Factory\DeliverySettingsValidatorFactory:
+    class: Paysera\Factory\DeliverySettingsValidatorFactory
+
+  Paysera\Helper\PostDataHelper:
+    class: Paysera\Helper\PostDataHelper
+
+  Paysera\Provider\PayseraRatesProvider:
+    class: Paysera\Provider\PayseraRatesProvider
+
+  Paysera\Factory\OrderItemsCollectionFactory:
+    class: Paysera\Factory\OrderItemsCollectionFactory
+
+  Paysera\Factory\PartyFactory:
+    class: Paysera\Factory\PartyFactory
+
+  Paysera\Front\PayseraPaymentFrontHtml:
+    class: Paysera\Front\PayseraPaymentFrontHtml
+
+  Paysera\Service\CompatibilityManager:
+    class: Paysera\Service\CompatibilityManager
+
 
   Paysera\Helper\SessionHelperInterface:
     alias: Paysera\Helper\WCSessionHelper

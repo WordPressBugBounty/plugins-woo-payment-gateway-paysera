@@ -1,9 +1,9 @@
 WooCommerce Payment Gateway - Paysera
 =======================
 
-Version: 3.6.0.3
+Version: 3.6.0.4
 
-Date: 2025-01-20
+Date: 2025-01-28
 
 Contributors: Paysera
 
@@ -13,7 +13,7 @@ Requires at least: 4.0
 
 Tested up to: 6.7
 
-Stable tag: 3.6.0.3
+Stable tag: 3.6.0.4
 
 Requires PHP: 7.4
 
@@ -166,6 +166,9 @@ Installation from admin panel (marketplace):
 
 Changelog
 ---------
+= 3.6.0.4 =
+* Fix updating plugin via FTP or file manager
+
 = 3.6.0 =
 * Fix - Show Free shipping for equal or more than subtotal
 * Fix - After disable Delivery shipping methods, they are still displayed
@@ -524,6 +527,9 @@ Changelog
 
 Upgrade Notice
 --------------
+= 3.6.0.4 =
+* Fix updating plugin via FTP or file manager
+
 = 3.6.0 =
 * Fix - Show Free shipping for equal or more than subtotal
 * Fix - After disable Delivery shipping methods, they are still displayed
