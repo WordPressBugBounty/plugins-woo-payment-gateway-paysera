@@ -1,0 +1,27 @@
+{
+    "translation-revision-date": "2025-02-05 14:32+0200",
+    "generator": "WP-CLI\/2.11.0",
+    "source": "assets\/build\/index.js",
+    "domain": "messages",
+    "locale_data": {
+        "messages": {
+            "": {
+                "domain": "messages",
+                "lang": "ka_GE",
+                "plural-forms": "nplurals=2; plural=(n != 1);"
+            },
+            "House Number": [
+                "\u10e1\u10d0\u10ee\u10da\u10d8\u10e1 \u10dc\u10dd\u10db\u10d4\u10e0\u10d8"
+            ],
+            "Please select the country": [
+                "\u10d2\u10d7\u10ee\u10dd\u10d5\u10d7, \u10d0\u10d8\u10e0\u10e9\u10d8\u10dd\u10d7 \u10e5\u10d5\u10d4\u10e7\u10d0\u10dc\u10d0"
+            ],
+            "All popular payment methods": [
+                "\u10d2\u10d0\u10d3\u10d0\u10ee\u10d3\u10d8\u10e1 \u10e7\u10d5\u10d4\u10da\u10d0 \u10ea\u10dc\u10dd\u10d1\u10d8\u10da\u10d8 \u10db\u10d4\u10d7\u10dd\u10d3\u10d8"
+            ],
+            "Cart weight is not sufficient": [
+                "\u10d9\u10d0\u10da\u10d0\u10d7\u10d8\u10e1 \u10ec\u10dd\u10dc\u10d0 \u10d0\u10e0\u10d0\u10e1\u10d0\u10d9\u10db\u10d0\u10e0\u10d8\u10e1\u10d8\u10d0 "
+            ]
+        }
+    }
+}

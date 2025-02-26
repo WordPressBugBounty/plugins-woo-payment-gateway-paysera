@@ -4,16 +4,14 @@ declare(strict_types=1);
 
 namespace Paysera\Entity\Delivery;
 
+use Paysera\Entity\PayseraDeliverySettings;
+use Paysera\Factory\PartyFactory;
 use Paysera\Scoped\Paysera\DeliverySdk\Collection\OrderItemsCollection;
-use Paysera\Scoped\Paysera\DeliverySdk\Entity\DeliveryTerminalLocationFactoryInterface;
 use Paysera\Scoped\Paysera\DeliverySdk\Entity\MerchantOrderInterface;
 use Paysera\Scoped\Paysera\DeliverySdk\Entity\MerchantOrderPartyInterface;
 use Paysera\Scoped\Paysera\DeliverySdk\Entity\NotificationCallbackInterface;
 use Paysera\Scoped\Paysera\DeliverySdk\Entity\PayseraDeliveryGatewayInterface;
 use Paysera\Scoped\Paysera\DeliverySdk\Entity\PayseraDeliverySettingsInterface;
-use Paysera\Entity\PayseraDeliverySettings;
-use Paysera\Factory\PartyFactory;
-use Paysera\Scoped\Psr\Container\ContainerInterface;
 use WC_Order;
 use WC_Order_Item_Shipping;
 
@@ -21,22 +19,22 @@ class Order extends AbstractEntity implements MerchantOrderInterface
 {
     private WC_Order $order;
     private int $id;
-    private ContainerInterface $container;
     private Party $shipping;
     private Party $billing;
     private OrderItemsCollection $orderItems;
     private Callback $callback;
     private ?WC_Order_Item_Shipping $actualShippingMethod = null;
+    private PartyFactory $partyFactory;
 
     public function __construct(
         WC_Order $order,
         OrderItemsCollection $orderItems,
-        ContainerInterface $container
+        PartyFactory $partyFactory
     ) {
         $this->order = $order;
-        $this->container = $container;
         $this->id = $order->get_id();
         $this->initActualShippingMethod();
+        $this->partyFactory = $partyFactory;
         $this->initParties();
         $this->orderItems = $orderItems;
         $this->callback = new Callback($this->id);
@@ -158,10 +156,7 @@ class Order extends AbstractEntity implements MerchantOrderInterface
 
     private function initParties(): void
     {
-        /** @var PartyFactory $factory */
-        $factory = $this->container->get(PartyFactory::class);
-
-        $this->shipping = $factory->createShipping($this);
-        $this->billing = $factory->createBilling($this);
+        $this->shipping = $this->partyFactory->createShipping($this);
+        $this->billing = $this->partyFactory->createBilling($this);
     }
 }

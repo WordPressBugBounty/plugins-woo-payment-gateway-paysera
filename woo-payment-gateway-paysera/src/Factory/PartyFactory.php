@@ -4,18 +4,26 @@ declare(strict_types=1);
 
 namespace Paysera\Factory;
 
-use Paysera\Scoped\Paysera\DeliverySdk\Util\DeliveryGatewayUtils;
 use Paysera\Entity\Delivery\Order;
 use Paysera\Entity\Delivery\Party;
-use Paysera\Scoped\Psr\Container\ContainerInterface;
+use Paysera\Scoped\Paysera\DeliverySdk\Entity\DeliveryTerminalLocationFactoryInterface;
+use Paysera\Scoped\Paysera\DeliverySdk\Util\DeliveryGatewayUtils;
+use Paysera\Service\CompatibilityManager;
 
 class PartyFactory
 {
-    private ContainerInterface $container;
+    private CompatibilityManager $compatibilityManager;
+    private DeliveryTerminalLocationFactoryInterface $deliveryTerminalLocationFactory;
+    private DeliveryGatewayUtils $deliveryGatewayUtils;
 
-    public function __construct(ContainerInterface $container)
-    {
-        $this->container = $container;
+    public function __construct(
+        CompatibilityManager $compatibilityManager,
+        DeliveryTerminalLocationFactoryInterface $deliveryTerminalLocationFactory,
+        DeliveryGatewayUtils $deliveryGatewayUtils
+    ) {
+        $this->compatibilityManager = $compatibilityManager;
+        $this->deliveryTerminalLocationFactory = $deliveryTerminalLocationFactory;
+        $this->deliveryGatewayUtils = $deliveryGatewayUtils;
     }
 
     public function createShipping(Order $order): Party
@@ -24,7 +32,8 @@ class PartyFactory
             $order->getWcOrder(),
             Party::TYPE_SHIPPING,
             $this->getGatewayCode($order),
-            $this->container
+            $this->deliveryTerminalLocationFactory,
+            $this->compatibilityManager,
         );
     }
 
@@ -34,14 +43,14 @@ class PartyFactory
             $order->getWcOrder(),
             Party::TYPE_BILLING,
             $this->getGatewayCode($order),
-            $this->container
+            $this->deliveryTerminalLocationFactory,
+            $this->compatibilityManager,
         );
     }
 
     private function getGatewayCode(Order $order)
     {
-        return $this->container
-            ->get(DeliveryGatewayUtils::class)
+        return $this->deliveryGatewayUtils
             ->resolveDeliveryGatewayCode(
                 $order->getActualShippingMethod()
                     ? $order->getActualShippingMethod()->get_method_id()

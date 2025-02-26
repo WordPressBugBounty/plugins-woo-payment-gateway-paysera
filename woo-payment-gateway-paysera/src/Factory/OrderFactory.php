@@ -7,17 +7,19 @@ namespace Paysera\Factory;
 use Paysera\Entity\Delivery\Order;
 use Paysera\Scoped\Paysera\DeliverySdk\Entity\MerchantOrderInterface;
 use Paysera\Scoped\Paysera\DeliverySdk\Exception\InvalidTypeException;
-use Paysera\Scoped\Psr\Container\ContainerInterface;
 use WC_Order;
 
 class OrderFactory
 {
-    private ContainerInterface $container;
+    private OrderItemsCollectionFactory $itemsCollectionFactory;
+    private PartyFactory $partyFactory;
 
     public function __construct(
-        ContainerInterface $container
+        OrderItemsCollectionFactory $itemsCollectionFactory,
+        PartyFactory $partyFactory
     ) {
-        $this->container = $container;
+        $this->itemsCollectionFactory = $itemsCollectionFactory;
+        $this->partyFactory = $partyFactory;
     }
 
     /**
@@ -27,15 +29,14 @@ class OrderFactory
      */
     public function createFromWcOrder(WC_Order $wcOrder): MerchantOrderInterface
     {
-        $items = $this->container
-            ->get(OrderItemsCollectionFactory::class)
+        $items = $this->itemsCollectionFactory
             ->createFormWcOrder($wcOrder)
         ;
 
         return new Order(
             $wcOrder,
             $items,
-            $this->container,
+            $this->partyFactory,
         );
     }
 }

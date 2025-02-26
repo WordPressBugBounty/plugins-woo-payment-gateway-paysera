@@ -1,0 +1,452 @@
+# Copyright (C) 2024 Paysera
+# This file is distributed under the GPL version 3 or later - http://www.gnu.org/licenses/gpl-3.0.html.
+msgid ""
+msgstr ""
+"Project-Id-Version: WooCommerce Payment Gateway - Paysera 3.5.8\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/plugins/woo-payment-gateway-paysera/\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2024-10-17T13:10:11+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.11.0\n"
+"X-Domain: paysera\n"
+
+msgid "Method title"
+msgstr "Titulli i metodГ«s"
+
+msgid "This controls the title which the user sees during shipping selection."
+msgstr "Kjo kontrollon titullin qГ« pГ«rdoruesi sheh gjatГ« zgjedhjes sГ« transportit."
+
+msgid "Delivery Fee"
+msgstr "Tarifa e dorГ«zimit"
+
+msgid "Minimum weight"
+msgstr "Pesha minimale"
+
+msgid "Maximum weight"
+msgstr "Pesha maksimale"
+
+msgid "Kilograms"
+msgstr "Kilogram"
+
+msgid "Preferred pickup type"
+msgstr "Lloji i preferuar i marrjes"
+
+
+msgid "Courier"
+msgstr "Kurier"
+
+msgid "Parcel locker"
+msgstr "Parcela"
+
+msgid "Minimum order amount for free shipping"
+msgstr "Shuma minimale e porosisГ« pГ«r dГ«rgesГ« falas"
+
+msgid "Users will need to spend this amount to get free shipping."
+msgstr "PГ«rdoruesit do tГ« duhet tГ« shpenzojnГ« kГ«tГ« shumГ« pГ«r tГ« marrГ« dГ«rgesГ« falas."
+
+msgid "%s courier will deliver the parcel right to the customer's hands."
+msgstr "Kurieri %s do tГ« dorГ«zojГ« pakon drejtpГ«rdrejt nГ« duar tГ« klientit."
+
+msgid "%s courier will deliver the parcel to the selected parcel terminal for customer to pickup any time."
+msgstr "Kurieri %s do tГ« dorГ«zojГ« pakon nГ« terminalin e zgjedhur pГ«r t'u marrГ« nГ« Г§do kohГ« nga klienti."
+
+msgid "Allowed weight:"
+msgstr "Pesha e lejuar:"
+
+msgid "Delivery Fee:"
+msgstr "Tarifa e dorГ«zimit:"
+
+msgid "Preferred pickup type:"
+msgstr "Lloji i preferuar i marrjes:"
+
+msgid "Documentation"
+msgstr "Dokumentacioni"
+
+msgid "Settings"
+msgstr "Parametrat"
+
+# src/Service/PayseraDeliveryOrderService.php:20
+msgid "Paysera: Delivery order created - %s"
+msgstr "Paysera: U krijua porosia e dorГ«zimit - %s"
+
+# src/Service/PayseraDeliveryOrderService.php:21
+msgid "Paysera: Delivery order updated - %s"
+msgstr "Paysera: U pГ«rditГ«sua porosia e dorГ«zimit - %s"
+
+msgid "About"
+msgstr "Rreth"
+
+msgid "Delivery"
+msgstr "DorГ«zim"
+
+msgid "Payments"
+msgstr "Pagesa"
+
+msgid "Project ID"
+msgstr "ID e projektit"
+
+msgid "Project password"
+msgstr "FjalГ«kalimi i projektit"
+
+msgid "Test mode"
+msgstr "MГ«nyra e testimit"
+
+msgid "House number field"
+msgstr "Fusha e numrit tГ« shtГ«pisГ«"
+
+msgid "Either project id or project password is incorrect"
+msgstr "Ose ID e projektit ose fjalГ«kalimi i projektit Г«shtГ« i pasaktГ«"
+
+msgid "Enabled"
+msgstr "E mundur"
+
+msgid "Disabled"
+msgstr "E deaktivizuar"
+
+msgid "Settings saved."
+msgstr "Parametrat janГ« ruajtur."
+
+
+msgid "Delivery Gateway List"
+msgstr "Lista e portave tГ« dorГ«zimit"
+
+msgid "Shipping zones"
+msgstr "Zona tГ« dГ«rgesГ«s"
+
+msgid "Enable"
+msgstr "Aktivizo"
+
+msgid "Disable"
+msgstr "Deaktivizo"
+
+#: assets/build/index.js:1
+msgid "House Number"
+msgstr "Numri i shtГ«pisГ«"
+
+msgid "Please select the terminal location"
+msgstr "Ju lutem zgjidhni vendndodhjen e terminalit"
+
+msgid "Please select the city/municipality"
+msgstr "Ju lutem zgjidhni qytetin/komunГ«n"
+
+msgid "Sorry, %d kg exceeds the maximum weight of %d kg for %s"
+msgstr "Na vjen keq, %d kg kalon peshГ«n maksimale prej %d kg pГ«r %s"
+
+msgid "Sorry, %d kg is not enough for the minimum weight of %d kg for %s"
+msgstr "Na vjen keq, %d kg nuk Г«shtГ« mjaftueshГ«m pГ«r peshГ«n minimale prej %d kg pГ«r %s"
+
+#: assets/build/paysera-shipping-block-frontend.js:1
+msgid "Terminal country"
+msgstr "Shteti i terminalit"
+
+#: assets/build/paysera-shipping-block-frontend.js:1
+msgid "Terminal city"
+msgstr "Qyteti i terminalit"
+
+#: assets/build/paysera-shipping-block-frontend.js:1
+msgid "Terminal location"
+msgstr "Vendndodhja e terminalit"
+
+#: assets/build/index.js:1
+msgid "Please select the country"
+msgstr "Ju lutem zgjidhni shtetin"
+
+msgid "About Paysera"
+msgstr "Rreth Paysera"
+
+msgid "%s is a global fintech company providing financial and related services to clients from all over the world since 2004."
+msgstr "%s Г«shtГ« njГ« kompani globale fintech qГ« ofron shГ«rbime financiare dhe shГ«rbime tГ« lidhura pГ«r klientГ«t nga e gjithГ« bota qГ« nga viti 2004."
+
+msgid "https://www.paysera.com/v2/en-GB/paysera-account"
+msgstr "https://www.paysera-ks.com/v2/xk-XK/paysera-llogaria"
+
+msgid "Getting started"
+msgstr "Fillo"
+
+msgid "In order to receive full benefits of both Paysera Payment and Delivery plugins, please use the outlined links to access our detailed how-to instructions."
+msgstr "PГ«r tГ« pГ«rfituar plotГ«sisht nga tГ« dyja shГ«rbimet Paysera Payment dhe Delivery, ju lutemi pГ«rdorni lidhjet e paraqitura pГ«r tГ« Г§asur udhГ«zimet tona tГ« hollГ«sishme."
+
+msgid "Paysera Payments"
+msgstr "Pagesat Paysera"
+
+msgid "Paysera Delivery"
+msgstr "DorГ«zimi Paysera"
+
+msgid "This plugin enables you to accept online payments via cards, SMS, or the most popular banks in your country. It is easy to install and is used by thousands of online merchants across Europe."
+msgstr "Kjo shtesГ« (plugin) ju mundГ«son tГ« pranoni pagesa online pГ«rmes kartelave, SMS, ose bankave mГ« tГ« njohura nГ« vendin tuaj. Г‹shtГ« e lehtГ« pГ«r t'u instaluar dhe pГ«rdoret nga mijГ«ra tregtarГ« online nГ«pГ«r EuropГ«."
+
+msgid "This plugin displays several different delivery companies that your buyers can choose from when ordering your products. No need to sign separate agreements with the courier companies вЂ“ we have done it for you. Enjoy low delivery prices and quick support when needed."
+msgstr "Kjo shtesГ« (plugin) shfaq disa kompani tГ« ndryshme tГ« dorГ«zimit qГ« blerГ«sit tuaj mund tГ« zgjedhin kur porosisin produktet tuaja. Nuk Г«shtГ« e nevojshme tГ« nГ«nshkruani marrГ«veshje tГ« veГ§anta me kompanitГ« e kurierГ«ve вЂ“ ne e kemi bГ«rГ« kГ«tГ« pГ«r ju. Shijoni Г§mimet e ulГ«ta tГ« dorГ«zimit dhe mbГ«shtetje tГ« shpejtГ« kur nevojitet."
+
+msgid "https://www.paysera.com/v2/en-GB/payment-gateway-checkout"
+msgstr "https://www.paysera-ks.com/v2/xk-XK/porta-e-pagesave-arka"
+
+msgid "Read more about it >"
+msgstr "Lexoni mГ« shumГ« rreth saj >"
+
+msgid "https://developers.paysera.com/en/checkout/basic"
+msgstr "https://developers.paysera.com/en/checkout/basic"
+
+msgid "Instructions >"
+msgstr "UdhГ«zimet >"
+
+msgid "https://www.paysera.com/v2/en-GB/checkout-delivery-service"
+msgstr "https://www.paysera.com/v2/en-GB/checkout-delivery-service"
+
+msgid "https://developers.paysera.com/en/delivery"
+msgstr "https://developers.paysera.com/en/delivery"
+
+msgid "Need assistance?"
+msgstr "Keni nevojГ« pГ«r ndihmГ«?"
+
+msgid "Paysera client support in English is available 24/7!"
+msgstr "MbГ«shtetja pГ«r klientГ«t e Paysera nГ« anglisht Г«shtГ« nГ« dispozicion 24/7!"
+
+msgid "During working hours the support is available in 12 languages."
+msgstr "GjatГ« orГ«ve tГ« punГ«s, mbГ«shtetja Г«shtГ« nГ« dispozicion nГ« 12 gjuhГ«."
+
+msgid "https://www.paysera.com/v2/en-GB/contacts"
+msgstr "https://www.paysera-ks.com/v2/xk-XK/kontaktet"
+
+
+msgid "Contact us >"
+msgstr "Na kontaktoni >"
+
+msgid "For the latest news about the Paysera services and status updates вЂ“ follow us on %s and %s."
+msgstr "PГ«r lajmet mГ« tГ« fundit rreth shГ«rbimeve tГ« Paysera dhe pГ«rditГ«simet e statusit вЂ“ na ndiqni nГ« %s dhe %s."
+
+msgid "Explore other services of Paysera"
+msgstr "Eksploroni shГ«rbime tГ« tjera tГ« Paysera"
+
+msgid "Alongside its' most popular services, Paysera also offers:"
+msgstr "PГ«rveГ§ shГ«rbimeve tГ« saj mГ« tГ« njohura, Paysera ofron gjithashtu:"
+
+msgid "Currency exchange at competitive rates"
+msgstr "KГ«mbim valutor me tarifa konkurruese"
+
+msgid "Enables instant Euro and cheap international transfers"
+msgstr "Lejon transfere tГ« menjГ«hershme Euro dhe transfere ndГ«rkombГ«tare tГ« lira"
+
+msgid "Provides LT, BGN, and RON %s for business and private clients"
+msgstr "Ofron LT, BGN, dhe RON %s pГ«r klientГ«t biznes dhe privatГ«"
+
+msgid "https://www.paysera.com/v2/en/blog/iban-account"
+msgstr "https://www.paysera-ks.com/v2/xk/blog/iban-llogari"
+
+msgid "Issues %s that are compatible with %s and %s, and so much more."
+msgstr "LГ«shon %s qГ« janГ« tГ« pГ«rshtatshme me %s dhe %s, dhe shumГ« mГ« tepГ«r."
+
+msgid "https://www.paysera.com/v2/en-GB/payment-card-visa"
+msgstr "https://www.paysera.com/v2/en-GB/payment-card-visa"
+
+msgid "Visa cards"
+msgstr "Kartelat Visa"
+
+msgid "https://www.paysera.com/v2/en-GB/blog/googlepay-samsungpay"
+msgstr "https://www.paysera.com/v2/en-GB/blog/googlepay-samsungpay"
+
+msgid "https://www.paysera.com/v2/en-GB/apple-pay"
+msgstr "https://www.paysera.com/v2/en-GB/apple-pay"
+
+msgid "All the main services can be easily managed via the %s which is available for download from the App Store, Google Play, and Huawei AppGallery."
+msgstr "TГ« gjitha shГ«rbimet kryesore mund tГ« menaxhohen lehtГ« pГ«rmes %s qГ« Г«shtГ« nГ« dispozicion pГ«r shkarkim nga App Store, Google Play dhe Huawei AppGallery."
+
+msgid "https://www.paysera.com/v2/en-GB/mobile-application"
+msgstr "https://www.paysera-ks.com/v2/xk-XK/aplikacioni-mobil"
+
+msgid "Paysera mobile app"
+msgstr "Aplikacioni mobil Paysera"
+
+msgid "Thank you for choosing our services!"
+msgstr "Faleminderit qГ« zgjodhГ«t shГ«rbimet tona!"
+
+msgid "Title"
+msgstr "Titulli"
+
+#: assets/build/index.js:1
+msgid "All popular payment methods"
+msgstr "TГ« gjitha metodat e njohura tГ« pagesГ«s"
+
+msgid "Choose a payment method on the Paysera page"
+msgstr "Zgjidhni njГ« metodГ« pagese nГ« faqen e Paysera"
+
+msgid "Description"
+msgstr "PГ«rshkrimi"
+
+msgid "List of payments"
+msgstr "Lista e pagesave"
+
+msgid "Specific countries"
+msgstr "Vende specifike"
+
+msgid "Grid view"
+msgstr "Pamja nГ« rrjet"
+
+msgid "New Order Status"
+msgstr "Statusi i ri i porosisГ«"
+
+msgid "Paid Order Status"
+msgstr "Statusi i pagesГ«s sГ« porosisГ«"
+
+msgid "Pending Checkout"
+msgstr "NГ« pritje tГ« pagesГ«s"
+
+msgid "Buyer consent"
+msgstr "Pajtimi i blerГ«sit"
+
+msgid "Please be informed that the account information and payment initiation services will be provided to you by Paysera in accordance with these %s. By proceeding with this payment, you agree to receive this service and the service terms and conditions."
+msgstr "Ju lutem jeni tГ« informuar qГ« informacioni i llogarisГ« dhe shГ«rbimet e iniciimit tГ« pagesave do t'ju ofrohen nga Paysera nГ« pГ«rputhje me kГ«to %s. Duke vazhduar me kГ«tГ« pagesГ«, ju pranoni tГ« merrni kГ«tГ« shГ«rbim dhe kushtet e shГ«rbimit."
+
+msgid "https://www.paysera.com/v2/en-GB/legal/pis-rules-2020"
+msgstr "https://www.paysera.com/v2/en-GB/legal/pis-rules-2020"
+
+msgid "rules"
+msgstr "rregullat"
+
+msgid "Ownership code"
+msgstr "Kodi i pronГ«sisГ«"
+
+msgid "Write your ownership code"
+msgstr "Shkruani kodin tuaj tГ« pronГ«sisГ«"
+
+msgid "Quality sign"
+msgstr "Shenja e cilГ«sisГ«"
+
+msgid "Main Settings"
+msgstr "Parametrat kryesor"
+
+msgid "Extra Settings"
+msgstr "Parametra shtesГ«"
+
+msgid "Order Status"
+msgstr "Statusi i PorosisГ«"
+
+msgid "Project Additions"
+msgstr "Shtesa tГ« projektit"
+
+msgid "Paysera: Order checkout process is started"
+msgstr "Paysera: Procesi i pГ«rfundimit tГ« porosisГ« ka nisur"
+
+msgid "Paysera: Customer came back to page"
+msgstr "Paysera: Klienti u kthye nГ« faqe"
+
+msgid "Paysera: Callback order payment completed"
+msgstr "Paysera: Pagesa e porosisГ« me kthim Г«shtГ« pГ«rfunduar"
+
+msgid "Paysera: Status changed to "
+msgstr "Paysera: Statusi Г«shtГ« ndryshuar nГ« "
+
+msgid "Paysera Payment And Delivery"
+msgstr "Pagesa dhe dorГ«zimi Paysera"
+
+msgid "Payment confirmed with a callback"
+msgstr "Pagesa e konfirmuar me kthim"
+
+msgid "Amounts do not match"
+msgstr "Shumat nuk pГ«rputhen"
+
+msgid "Currencies do not match"
+msgstr "Valutat nuk pГ«rputhen"
+
+msgid "Paysera plugin requires at least PHP "
+msgstr "Shtesat (plugin) Paysera kГ«rkon tГ« paktГ«n PHP "
+
+msgid "Terminals"
+msgstr "Terminale"
+
+msgid "Plugin & Services."
+msgstr "Shtesa dhe ShГ«rbime."
+
+msgid "NEW! With the latest version, you can integrate delivery options into your e-shop. More about the %s "
+msgstr "E RE! Me versionin mГ« tГ« ri, mund tГ« integroni opsionet e dorГ«zimit nГ« dyqanin tuaj online. MГ« shumГ« rreth %s "
+
+# src/Helper/PayseraDeliveryOrderRequestHelper.php:19
+msgid "Paysera: Delivery order creation failed, please create order manually in Paysera system"
+msgstr "Paysera: Krijimi i porosisГ« sГ« dorГ«zimit dГ«shtoi, ju lutem krijoni porosinГ« manualisht nГ« sistemin Paysera"
+
+# src/Helper/PayseraDeliveryOrderRequestHelper.php:20
+msgid "Paysera: Delivery order update failed, please update order manually in Paysera system"
+msgstr "Paysera: PГ«rditesimi i porosisГ« sГ« dorГ«zimit dГ«shtoi, ju lutem pГ«rditГ«soni porosinГ« manualisht nГ« sistemin Paysera"
+
+msgid "More than 1 Paysera plugin active"
+msgstr "MГ« shumГ« se 1 shtesГ« (plugin) Paysera aktive"
+
+msgid "Paysera: Chosen terminal location - %s, %s, %s"
+msgstr "Paysera: Vendndodhja e terminalit tГ« zgjedhur - %s, %s, %s"
+
+msgid "Error:"
+msgstr "Gabim:"
+
+msgid "Hide shipping methods"
+msgstr "Fshih metodat e dГ«rgesГ«s"
+
+msgid "Hide shipping methods that are above or under set weight limits"
+msgstr "Fshih metodat e dГ«rgesГ«s qГ« janГ« mbi ose nГ«n kufijtГ« e peshГ«s tГ« caktuar"
+
+msgid "Cart weight is exceeded"
+msgstr "Pesha e karrocГ«s Г«shtГ« tejkaluar"
+
+#: assets/build/index.js:1
+msgid "Cart weight is not sufficient"
+msgstr "Pesha e karrocГ«s nuk Г«shtГ« e mjaftueshme"
+
+msgid "The project ID and password fields must be filled with valid data"
+msgstr "ID e projektit dhe fjalГ«kalimit duhet tГ« mbushen me tГ« dhГ«na tГ« vlefshme"
+
+msgid "All countries that are entered here and are not part of the main Paysera countries list will be shown as 'Other countries' in Checkout"
+msgstr "TГ« gjitha vendet qГ« futen kГ«tu dhe nuk janГ« pjesГ« e listГ«s kryesore tГ« vendeve tГ« Paysera do tГ« shfaqen si 'Vende tГ« tjera' nГ« Paguaj"
+
+msgid "Incorrect project ID and password, please check your project credentials вЂ“ %s"
+msgstr "ID-ja e projektit dhe fjalГ«kalimi janГ« tГ« pasakta, ju lutem kontrolloni kredencialet e projektit tuaj вЂ“ %s"
+
+msgid "https://support.paysera.com/index.php?/payseraeng/Knowledgebase/Article/View/1815/135/1005-project-id-and-signature"
+msgstr "https://support.paysera.com/index.php?/payseraeng/Knowledgebase/Article/View/1815/135/1005-project-id-and-signature"
+
+msgid "more info"
+msgstr "mГ« shumГ« informacion"
+
+msgid "Please provide package dimensions if you would like to use the shipping methods provided by Paysera."
+msgstr "Ju lutem ofroni dimensionet e paketГ«s nГ«se dГ«shironi tГ« pГ«rdorni metodat e dГ«rgesГ«s tГ« ofruara nga Paysera."
+
+msgid "The Paysera plugin requires WooCommerce to be installed and activated."
+msgstr "Shtesa (plugin)Paysera kГ«rkon qГ« WooCommerce tГ« jetГ« instaluar dhe i aktivizuar."
+
+msgid "Go back"
+msgstr "Kthehu mbrapa"
+
+msgid "Order status"
+msgstr "Statusi i porosisГ«"
+
+msgid "Delivery orders will only be created for e-shop orders with this status"
+msgstr "PorositГ« e dorГ«zimit do tГ« krijohen vetГ«m pГ«r porositГ« e dyqanit online me kГ«tГ« status"
+
+msgid "Select the order status"
+msgstr "Zgjidhni statusin e porosisГ«"
+
+msgid "Log Level"
+msgstr "Niveli i Regjistrimit"
+
+msgid "View"
+msgstr "Shiko"
+
+msgid "Download"
+msgstr "Shkarko"
+
+msgid "This will save Paysera plugin logs in WooCommerce"
+msgstr "Kjo do tГ« ruajГ« regjistrimet e shtesГ«s Paysera nГ« WooCommerce"
+
+msgid ":attribute should be greater than or equal to :min."
+msgstr ":attribute duhet tГ« jetГ« mГ« i madh ose i barabartГ« me :min."
+
+msgid ":attribute cannot be less than :fieldToCompare."
+msgstr ":attribute nuk mund tГ« jetГ« mГ« i vogГ«l se :fieldToCompare."
+
+msgid ":attribute cannot be greater than :fieldToCompare."
+msgstr ":attribute nuk mund tГ« jetГ« mГ« i madh se :fieldToCompare."
+
+msgid ":attribute value should be a number."
+msgstr ":attribute vlera duhet tГ« jetГ« njГ« numГ«r."

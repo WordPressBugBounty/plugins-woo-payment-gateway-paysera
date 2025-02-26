@@ -20,16 +20,16 @@ class Contact extends AbstractEntity implements MerchantOrderContactInterface
 
     private WC_Order $order;
     private string $type;
-    private ContainerInterface $container;
+    private CompatibilityManager $compatibilityManager;
 
     public function __construct(
         WC_Order $wcOrder,
         string $type,
-        ContainerInterface $container
+        CompatibilityManager $compatibilityManager
     ) {
         $this->order = $wcOrder;
         $this->type = $type;
-        $this->container = $container;
+        $this->compatibilityManager = $compatibilityManager;
     }
 
     public function getFirstName(): string
@@ -56,8 +56,7 @@ class Contact extends AbstractEntity implements MerchantOrderContactInterface
 
     public function getPhone(): string
     {
-        return $this->container
-            ->get(CompatibilityManager::class)
+        return $this->compatibilityManager
             ->Order($this->order)
             ->getShippingPhone()
         ;

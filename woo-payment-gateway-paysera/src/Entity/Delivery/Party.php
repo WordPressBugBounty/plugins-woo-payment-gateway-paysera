@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Paysera\Entity\Delivery;
 
+use Paysera\Entity\PayseraDeliverySettings;
 use Paysera\Scoped\Paysera\DeliverySdk\Entity\DeliveryTerminalLocationFactoryInterface;
 use Paysera\Scoped\Paysera\DeliverySdk\Entity\DeliveryTerminalLocationInterface;
 use Paysera\Scoped\Paysera\DeliverySdk\Entity\MerchantOrderAddressInterface;
 use Paysera\Scoped\Paysera\DeliverySdk\Entity\MerchantOrderContactInterface;
 use Paysera\Scoped\Paysera\DeliverySdk\Entity\MerchantOrderPartyInterface;
-use Paysera\Entity\PayseraDeliverySettings;
-use Paysera\Scoped\Psr\Container\ContainerInterface;
+use Paysera\Service\CompatibilityManager;
 use WC_Order;
 use WC_Order_Item_Shipping;
 
@@ -29,19 +29,20 @@ class Party extends AbstractEntity implements MerchantOrderPartyInterface
     private Contact $contact;
     private Address $address;
     private string $deliveryGatewayCode;
-    private ContainerInterface $container;
+    private DeliveryTerminalLocationFactoryInterface $deliveryTerminalLocationFactory;
 
     public function __construct(
         WC_Order $wcOrder,
         string $type,
         string $deliveryGatewayCode,
-        ContainerInterface $container
+        DeliveryTerminalLocationFactoryInterface $deliveryTerminalLocationFactory,
+        CompatibilityManager $compatibilityManager
     ) {
-        $this->container = $container;
         $this->order = $wcOrder;
-        $this->contact = new Contact($this->order, $type, $this->container);
+        $this->contact = new Contact($this->order, $type, $compatibilityManager);
         $this->address = new Address($this->order, $type);
         $this->deliveryGatewayCode = $deliveryGatewayCode;
+        $this->deliveryTerminalLocationFactory = $deliveryTerminalLocationFactory;
     }
 
     public function getContact(): MerchantOrderContactInterface
@@ -83,8 +84,7 @@ class Party extends AbstractEntity implements MerchantOrderPartyInterface
             return null;
         }
 
-        return $this->container
-            ->get(DeliveryTerminalLocationFactoryInterface::class)
+        return $this->deliveryTerminalLocationFactory
             ->create()
             ->setCountry($countryCode)
             ->setCity($city)

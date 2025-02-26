@@ -1,0 +1,27 @@
+{
+    "translation-revision-date": "2025-02-05 13:31+0200",
+    "generator": "WP-CLI\/2.11.0",
+    "source": "assets\/build\/index.js",
+    "domain": "messages",
+    "locale_data": {
+        "messages": {
+            "": {
+                "domain": "messages",
+                "lang": "ro_RO",
+                "plural-forms": "nplurals=2; plural=(n != 1);"
+            },
+            "House Number": [
+                "Num\u0103r cas\u0103"
+            ],
+            "Please select the country": [
+                "V\u0103 rug\u0103m s\u0103 selecta\u021bi \u021bara."
+            ],
+            "All popular payment methods": [
+                "Cele mai populare metode de plat\u0103"
+            ],
+            "Cart weight is not sufficient": [
+                "Greutatea co\u0219ului este insuficient\u0103"
+            ]
+        }
+    }
+}

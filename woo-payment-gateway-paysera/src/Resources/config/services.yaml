@@ -48,9 +48,6 @@ services:
   Paysera\Service\PayseraDeliveryOrderService:
     class: Paysera\Service\PayseraDeliveryOrderService
 
-  Paysera\Factory\OrderFactory:
-    class: Paysera\Factory\OrderFactory
-
   Paysera\Utils\LogMessageFormatter:
     class: Paysera\Utils\LogMessageFormatter
 
@@ -132,9 +129,11 @@ services:
   Paysera\Service\CompatibilityManager:
     class: Paysera\Service\CompatibilityManager
 
-
   Paysera\Helper\SessionHelperInterface:
     alias: Paysera\Helper\WCSessionHelper
+
+  Paysera\Factory\OrderFactory:
+    class: Paysera\Factory\OrderFactory
 
   Paysera\Service\DeliveryLogger:
     factory: [ '@Paysera\Factory\LoggerFactory', 'createDeliveryLogger' ]

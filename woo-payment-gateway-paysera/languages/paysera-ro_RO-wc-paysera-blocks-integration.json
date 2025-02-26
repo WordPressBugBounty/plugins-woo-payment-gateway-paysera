@@ -1,0 +1,24 @@
+{
+    "translation-revision-date": "2025-02-05 13:31+0200",
+    "generator": "WP-CLI\/2.11.0",
+    "source": "assets\/build\/paysera-shipping-block-frontend.js",
+    "domain": "messages",
+    "locale_data": {
+        "messages": {
+            "": {
+                "domain": "messages",
+                "lang": "ro_RO",
+                "plural-forms": "nplurals=2; plural=(n != 1);"
+            },
+            "Terminal country": [
+                "\u021aara terminalului"
+            ],
+            "Terminal city": [
+                "Ora\u0219ul terminalului"
+            ],
+            "Terminal location": [
+                "Loca\u021bia terminalului"
+            ]
+        }
+    }
+}

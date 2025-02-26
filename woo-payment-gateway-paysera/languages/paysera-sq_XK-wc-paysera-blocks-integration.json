@@ -1,0 +1,24 @@
+{
+    "translation-revision-date": "YEAR-MO-DA HO:MI+ZONE",
+    "generator": "WP-CLI\/2.11.0",
+    "source": "assets\/build\/paysera-shipping-block-frontend.js",
+    "domain": "messages",
+    "locale_data": {
+        "messages": {
+            "": {
+                "domain": "messages",
+                "lang": "en",
+                "plural-forms": "nplurals=2; plural=(n != 1);"
+            },
+            "Terminal country": [
+                "Shteti i terminalit"
+            ],
+            "Terminal city": [
+                "Qyteti i terminalit"
+            ],
+            "Terminal location": [
+                "Vendndodhja e terminalit"
+            ]
+        }
+    }
+}
