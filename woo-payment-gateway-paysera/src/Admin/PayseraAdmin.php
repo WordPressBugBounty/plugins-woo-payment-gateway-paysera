@@ -12,15 +12,18 @@ class PayseraAdmin
 {
     private PayseraDeliveryAdmin $deliveryAdmin;
     private PayseraPaymentAdmin $paymentAdmin;
+    private PayseraSelfDiagnosticAdmin $selfDiagnosticAdmin;
     private PayseraAdminHtml $adminHtml;
 
     public function __construct(
         PayseraDeliveryAdmin $deliveryAdmin,
         PayseraPaymentAdmin $paymentAdmin,
+        PayseraSelfDiagnosticAdmin $selfDiagnosticAdmin,
         PayseraAdminHtml $adminHtml
     ) {
         $this->deliveryAdmin = $deliveryAdmin;
         $this->paymentAdmin = $paymentAdmin;
+        $this->selfDiagnosticAdmin = $selfDiagnosticAdmin;
         $this->adminHtml = $adminHtml;
     }
 
@@ -66,6 +69,14 @@ class PayseraAdmin
                 'paysera-payments',
                 [$this, 'payseraPaymentSubMenu']
             );
+            add_submenu_page(
+                'paysera',
+                __('Self-Diagnosis Tool', PayseraPaths::PAYSERA_TRANSLATIONS),
+                __('Diagnostic', PayseraPaths::PAYSERA_TRANSLATIONS),
+                'manage_options',
+                'paysera-self-diagnosis',
+                [$this, 'payseraSelfDiagnosisSubMenu']
+            );
         }
     }
 
@@ -82,5 +93,10 @@ class PayseraAdmin
     public function payseraPaymentSubMenu(): void
     {
         $this->paymentAdmin->buildSettingsPage();
+    }
+
+    public function payseraSelfDiagnosisSubMenu(): void
+    {
+        $this->selfDiagnosticAdmin->buildDiagnosticPage();
     }
 }

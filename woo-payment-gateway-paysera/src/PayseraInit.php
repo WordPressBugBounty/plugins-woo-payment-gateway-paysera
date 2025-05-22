@@ -502,8 +502,8 @@ class PayseraInit
 
         $deliveryGatewayTitles = $this->deliverySettingsProvider->getPayseraDeliverySettings()
             ->getDeliveryGatewayTitles();
-        $deliveryGatewayTitle = $deliveryGatewayTitles[$deliveryGateway] . ' '
-            . __(ucfirst($deliveryGatewayType), PayseraPaths::PAYSERA_TRANSLATIONS);
+        $defaultDeliveryGatewayName = $deliveryGatewayTitles[$deliveryGateway];
+        $defaultDeliveryGatewayType = ucfirst($deliveryGatewayType);
 
         $entityContent = '<?php
 
@@ -518,7 +518,8 @@ if (class_exists(\'Paysera_Delivery_Gateway\') === false) {
 class ' . $deliveryEntity . ' extends Paysera_Delivery_Gateway
 {
     public $deliveryGatewayCode = \'' . $deliveryGateway . '_' . $deliveryGatewayType . '\';
-    public $defaultTitle = \'' . $deliveryGatewayTitle . '\';
+    public $defaultGatewayName = \'' . $defaultDeliveryGatewayName . '\';
+    public $defaultGatewayType = \'' . $defaultDeliveryGatewayType . '\';
     public $receiverType = \'' . $receiverType . '\';
     public $defaultDescription = \'' . $description . '\';
 }

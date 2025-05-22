@@ -8,7 +8,6 @@ use Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry;
 use Exception;
 use Paysera\Blocks\PayseraBlock;
 use Paysera\Provider\PayseraPaymentSettingsProvider;
-use Paysera\Service\LoggerInterface;
 use Paysera\Service\PaymentLoggerInterface;
 
 defined('ABSPATH') || exit;

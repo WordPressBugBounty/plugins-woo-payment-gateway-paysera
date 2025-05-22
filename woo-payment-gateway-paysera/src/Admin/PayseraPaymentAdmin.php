@@ -19,6 +19,7 @@ class PayseraPaymentAdmin
     public const TAB_ORDER_STATUS = 'order_status';
     public const TAB_PROJECT_ADDITIONS = 'project_additions';
 
+    private PayseraAdminHtml $adminHtml;
     private PayseraPaymentSettings $payseraPaymentSettings;
     private PayseraAdminHtml $payseraAdminHtml;
     private PayseraPaymentAdminHtml $payseraPaymentAdminHtml;
@@ -27,8 +28,10 @@ class PayseraPaymentAdmin
     private string $tab;
     private array $tabs;
 
-    public function __construct()
-    {
+    public function __construct(
+        PayseraAdminHtml $adminHtml
+    ) {
+        $this->adminHtml = $adminHtml;
         $this->payseraPaymentSettings = (new PayseraPaymentSettingsProvider())->getPayseraPaymentSettings();
         $this->payseraAdminHtml = new PayseraAdminHtml();
         $this->payseraPaymentAdminHtml = new PayseraPaymentAdminHtml();
@@ -228,6 +231,14 @@ class PayseraPaymentAdmin
             && sanitize_text_field(wp_unslash($_REQUEST['enabled_massage'])) === 'yes'
         ) {
             printf($this->payseraAdminHtml->getSettingsWarningNotice());
+        }
+
+        if (
+            !isset($_REQUEST['settings-updated'])
+            && isset($_REQUEST['compatibility-check-failed'])
+            && sanitize_text_field(wp_unslash($_REQUEST['compatibility-check-failed'])) === 'yes'
+        ) {
+            printf($this->adminHtml->getSettingsCompatibilityValidationErrorNotice());
         }
 
         $this->payseraPaymentAdminHtml->buildCheckoutSettings(

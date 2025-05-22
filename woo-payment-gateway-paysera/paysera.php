@@ -5,7 +5,7 @@
   Text Domain: paysera
   Domain Path: /languages
   Description: Paysera offers payment and delivery gateway services for your e-shops
-  Version: 3.6.1
+  Version: 3.7.0
   Requires PHP: 7.4
   Author: Paysera
   Author URI: https://www.paysera.com
@@ -21,8 +21,10 @@
 
 defined('ABSPATH') || exit;
 
+use Automattic\WooCommerce\Utilities\FeaturesUtil;
 use Paysera\Action\PayseraDeliveryActions;
 use Paysera\Action\PayseraPaymentActions;
+use Paysera\Action\PayseraSelfDiagnosisActions;
 use Paysera\Admin\PayseraAdmin;
 use Paysera\Admin\PayseraDeliveryAdmin;
 use Paysera\Admin\PayseraPaymentAdmin;
@@ -44,7 +46,7 @@ use Paysera\Scoped\Symfony\Component\Dotenv\Dotenv;
 class PayseraWoocommerce
 {
     const PAYSERA_MIN_REQUIRED_PHP_VERSION = '7.4';
-    const PAYSERA_PLUGIN_VERSION = '3.6.1';
+    const PAYSERA_PLUGIN_VERSION = '3.7.0';
     public static bool $isInitialized = false;
     private PayseraDeliveryActions $payseraDeliveryActions;
     private ContainerInterface $container;
@@ -69,6 +71,7 @@ class PayseraWoocommerce
         add_action('admin_notices', [$this, 'maybeShowWoocommerceMissingNotice']);
         add_action('admin_notices', [$this, 'maybeShowPayseraMinPhpVersionNotice']);
         add_action('admin_post_paysera_log_archive_download', [$this, 'downloadLogArchive']);
+        add_action('before_woocommerce_init', [$this, 'declareHPOSCompatibility']);
     }
 
     public function activate(): void
@@ -144,6 +147,7 @@ class PayseraWoocommerce
         $this->container->get(PayseraDeliveryActions::class)->build();
         $this->container->get(PayseraDeliveryFrontHtml::class)->build();
         $this->container->get(PayseraPaymentActions::class)->build();
+        $this->container->get(PayseraSelfDiagnosisActions::class)->build();
     }
 
     public function initBlocks(): void
@@ -313,6 +317,16 @@ class PayseraWoocommerce
             $dotenv = new Dotenv();
             $dotenv->usePutenv();
             $dotenv->load($envFilePath);
+        }
+    }
+
+    public function declareHPOSCompatibility()
+    {
+        if (class_exists(FeaturesUtil::class)) {
+            FeaturesUtil::declare_compatibility(
+                'custom_order_tables',
+                __FILE__,
+            );
         }
     }
 }

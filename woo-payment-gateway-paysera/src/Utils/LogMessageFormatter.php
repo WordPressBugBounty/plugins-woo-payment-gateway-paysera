@@ -32,7 +32,7 @@ class LogMessageFormatter
     private const TERMINAL_LOCATION_CHANGED = 'Terminal location has been changed';
     private const PREVIOUS_TERMINAL = 'Previous: %s, %s, %s';
     private const CURRENT_TERMINAL = 'Current: %s, %s, %s';
-    private const DELIVERY_GATEWAY_CHANGED = 'Delivery gateway for order %d has been changed from %s to %s.';
+    private const DELIVERY_GATEWAY_CHANGED = 'Delivery gateway for order %d has been changed from %s(%s) to %s(%s).';
 
     private TerminalsHelper $terminalsHelper;
 
@@ -95,7 +95,9 @@ class LogMessageFormatter
         $msg = sprintf(
             self::DELIVERY_GATEWAY_CHANGED,
             $merchantOrder->getNumber(),
+            $oldGateway->getName(),
             $oldGateway->getCode(),
+            $newGateway->getName(),
             $newGateway->getCode(),
         );
 

@@ -1,0 +1,154 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: true
+
+  Paysera\Service\SelfDiagnosis\Library\Util\ResponseHeadersUtil:
+    lazy: true
+
+  Paysera\Admin\PayseraSelfDiagnosticAdmin:
+    lazy: true
+
+  Paysera\Admin\PayseraSelfDiagnosticAdminHtml:
+    lazy: true
+
+  Paysera\Action\PayseraSelfDiagnosisActions:
+    lazy: true
+
+  Paysera\Service\SelfDiagnosis\SelfDiagnosisYamlConfigLoader:
+    arguments:
+      - 'Resources/config/self_diagnosis.yaml'
+
+  Paysera\Service\SelfDiagnosis\WoocommerceCompatibilityCheckerRegistry:
+    lazy: true
+
+  Paysera\Service\SelfDiagnosis\Library\Util\SelfDiagnosisConfig:
+    lazy: true
+    arguments:
+      - '@Paysera\Service\SelfDiagnosis\SelfDiagnosisYamlConfigLoader'
+
+  Paysera\Service\SelfDiagnosis\Library\Service\CompatibilityCheckerManager:
+    lazy: true
+    arguments:
+      - '@service_container'
+      - '@Paysera\Service\SelfDiagnosis\WoocommerceCompatibilityCheckerRegistry'
+
+  Paysera\Service\SelfDiagnosis\Library\Util\DiagnosticReportGenerator:
+    lazy: true
+    arguments:
+      - '@Paysera\Service\SelfDiagnosis\Library\Formatter\TableFormatter'
+
+  'paysera.self_diagnosis.diagnostic_json_report_generator':
+    class: Paysera\Service\SelfDiagnosis\Library\Util\DiagnosticReportGenerator
+    lazy: true
+    arguments:
+      - '@Paysera\Service\SelfDiagnosis\Library\Formatter\JsonFormatter'
+
+  Paysera\Service\SelfDiagnosis\Library\Formatter\JsonFormatter:
+    lazy: true
+
+  Paysera\Service\SelfDiagnosis\Library\Formatter\TableFormatter:
+    lazy: true
+    arguments:
+      - '%self-diagnosis.result_logo%'
+
+  Paysera\Service\SelfDiagnosis\Checkers\AllowUrlFopenPHPIniVarChecker:
+    lazy: true
+
+  Paysera\Service\SelfDiagnosis\Checkers\BCMathExtensionChecker:
+    lazy: true
+
+  Paysera\Service\SelfDiagnosis\Checkers\DefaultCharsetPHPIniVarChecker:
+    lazy: true
+
+  Paysera\Service\SelfDiagnosis\Checkers\GetRequestLengthSupportChecker:
+    lazy: true
+
+  Paysera\Service\SelfDiagnosis\Checkers\InstalledPluginsChecker:
+    lazy: true
+
+  Paysera\Service\SelfDiagnosis\Checkers\MaxInputVarsPHPIniVarChecker:
+    lazy: true
+
+  Paysera\Service\SelfDiagnosis\Checkers\MemoryLimitPHPIniVarChecker:
+    lazy: true
+    arguments:
+      $config: '@Paysera\Service\SelfDiagnosis\Library\Util\SelfDiagnosisConfig'
+      $sizeUnits:
+        - '@Paysera\Service\SelfDiagnosis\Library\Util\Unit\KilobyteUnit'
+        - '@Paysera\Service\SelfDiagnosis\Library\Util\Unit\MegabyteUnit'
+        - '@Paysera\Service\SelfDiagnosis\Library\Util\Unit\GigabyteUnit'
+        - '@Paysera\Service\SelfDiagnosis\Library\Util\Unit\ByteUnit'
+
+  Paysera\Service\SelfDiagnosis\Checkers\OpenSSLExtensionChecker:
+    lazy: true
+
+  Paysera\Service\SelfDiagnosis\Checkers\PHPVersionChecker:
+    lazy: true
+
+  Paysera\Service\SelfDiagnosis\Checkers\PostMaxSizePHPIniVarChecker:
+    lazy: true
+    arguments:
+      $config: '@Paysera\Service\SelfDiagnosis\Library\Util\SelfDiagnosisConfig'
+      $sizeUnits:
+        - '@Paysera\Service\SelfDiagnosis\Library\Util\Unit\KilobyteUnit'
+        - '@Paysera\Service\SelfDiagnosis\Library\Util\Unit\MegabyteUnit'
+        - '@Paysera\Service\SelfDiagnosis\Library\Util\Unit\GigabyteUnit'
+        - '@Paysera\Service\SelfDiagnosis\Library\Util\Unit\ByteUnit'
+
+  Paysera\Service\SelfDiagnosis\Checkers\PublicKeySignatureChecker:
+    lazy: true
+
+  Paysera\Service\SelfDiagnosis\Checkers\SSLVersionChecker:
+    lazy: true
+
+  Paysera\Service\SelfDiagnosis\Checkers\TLSVersionsChecker:
+    lazy: true
+    arguments:
+      - '@Paysera\Service\SelfDiagnosis\Library\Util\SelfDiagnosisConfig'
+      - '%self-diagnosis.tls_versions%'
+
+  Paysera\Service\SelfDiagnosis\Checkers\WebServerNameChecker:
+    lazy: true
+
+  Paysera\Service\SelfDiagnosis\Checkers\WebServerOSChecker:
+    lazy: true
+
+  Paysera\Service\SelfDiagnosis\Checkers\WooCommerceVersionChecker:
+    lazy: true
+
+  Paysera\Service\SelfDiagnosis\Checkers\WordPressVersionChecker:
+    lazy: true
+
+  Paysera\Service\SelfDiagnosis\Checkers\ActivePluginsChecker:
+    lazy: true
+
+  Paysera\Service\SelfDiagnosis\Checkers\ActiveThemeChecker:
+    lazy: true
+
+  Paysera\Service\SelfDiagnosis\Library\Util\Unit\KilobyteUnit:
+    lazy: true
+
+  Paysera\Service\SelfDiagnosis\Library\Util\Unit\MegabyteUnit:
+    lazy: true
+
+  Paysera\Service\SelfDiagnosis\Library\Util\Unit\GigabyteUnit:
+    lazy: true
+
+  Paysera\Service\SelfDiagnosis\Library\Util\Unit\ByteUnit:
+    lazy: true
+
+  Paysera\Service\SelfDiagnosis\Library\Factory\VersionComparisonRulesFactory:
+    lazy: true
+    arguments:
+      - '%self-diagnosis.php_openssl_compatibility%'
+
+  Paysera\Service\SelfDiagnosis\Library\Validator\CompatibilityValidator:
+    lazy: true
+    arguments:
+      $checkers:
+        - '@Paysera\Service\SelfDiagnosis\Checkers\BCMathExtensionChecker'
+        - '@Paysera\Service\SelfDiagnosis\Checkers\PHPVersionChecker'
+        - '@Paysera\Service\SelfDiagnosis\Checkers\WooCommerceVersionChecker'
+        - '@Paysera\Service\SelfDiagnosis\Checkers\WordPressVersionChecker'

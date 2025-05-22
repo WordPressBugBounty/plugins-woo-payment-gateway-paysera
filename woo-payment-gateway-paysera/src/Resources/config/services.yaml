@@ -3,6 +3,8 @@ services:
     public: true
     autowire: true
     autoconfigure: true
+    bind:
+      $diagnosticJSONReportGenerator: '@paysera.self_diagnosis.diagnostic_json_report_generator'
 
   Paysera\Scoped\Paysera\DeliverySdk\:
     resource: '../../../vendor-scoped/paysera/lib-delivery-sdk/src/*'
@@ -14,6 +16,8 @@ services:
 
   Paysera\Repository\OrderRepository:
     class: Paysera\Repository\OrderRepository
+
+  Paysera\Service\AdminNotice: ~
 
   Paysera\Factory\LoggerFactory:
     class: Paysera\Factory\LoggerFactory
@@ -47,6 +51,9 @@ services:
 
   Paysera\Service\PayseraDeliveryOrderService:
     class: Paysera\Service\PayseraDeliveryOrderService
+
+  Paysera\Factory\OrderFactory:
+    class: Paysera\Factory\OrderFactory
 
   Paysera\Utils\LogMessageFormatter:
     class: Paysera\Utils\LogMessageFormatter
@@ -132,9 +139,6 @@ services:
   Paysera\Helper\SessionHelperInterface:
     alias: Paysera\Helper\WCSessionHelper
 
-  Paysera\Factory\OrderFactory:
-    class: Paysera\Factory\OrderFactory
-
   Paysera\Service\DeliveryLogger:
     factory: [ '@Paysera\Factory\LoggerFactory', 'createDeliveryLogger' ]
 
@@ -172,3 +176,6 @@ services:
         '%event.delivery_order.updated%': '@Paysera\EventHandler\DeliveryOrderUpdatedHandler'
         '%event.wc_order.created%': '@Paysera\EventHandler\WCOrderCreatedHandler'
         '%event.wc_order.paid%': '@Paysera\EventHandler\WCOrderPaymentCompletedHandler'
+
+imports:
+  - { resource: 'services/self_diagnosis.yaml'}

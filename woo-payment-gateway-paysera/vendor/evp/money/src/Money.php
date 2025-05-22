@@ -145,6 +145,7 @@ class Money implements MoneyInterface
         'SLL' => 0,
         'SOS' => 2,
         'SRD' => 2,
+        'SSP' => 2,
         'STD' => 0,
         'SYP' => 2,
         'SZL' => 2,

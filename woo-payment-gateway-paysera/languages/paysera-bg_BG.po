@@ -532,3 +532,39 @@ msgstr ":attribute не може да бъде по-малък от :fieldToComp
 
 msgid ":attribute value should be a number."
 msgstr "Стойността на :attribute трябва да бъде число."
+
+msgid "Diagnostic"
+msgstr "Диагностика"
+
+msgid "Self-Diagnosis Tool"
+msgstr "Инструмент за диагностика"
+
+msgid "Paysera Delivery: An error occurred. Please check the <a href=\"%s\">logs</a> for more details."
+msgstr "Paysera Доставка: Възникна грешка. Моля, проверете <a href=\"%s\">регистри</a> за повече подробности."
+
+msgid "Paysera Payments: An error occurred. Please check the <a href=\"%s\">logs</a> for more details."
+msgstr "Paysera Плащания: Възникна грешка. Моля, проверете <a href=\"%s\">регистри</a> за повече подробности."
+
+msgid "This setting cannot be enabled due to compatibility issues. Please visit the <a href=\"%s\" target=\"_blank\">diagnostic page</a> to review and resolve them."
+msgstr "Тази настройка не може да бъде активирана поради проблеми със съвместимостта. Моля, посетете <a href=\"%s\" target=\"_blank\">страницата за диагностика</a>, за да ги разрешите."
+
+msgid "Download the diagnostic report"
+msgstr "Изтегляне на доклад за диагностика"
+
+msgid "PHP Details"
+msgstr "Подробности за PHP"
+
+msgid "Security Details"
+msgstr "Подробности за сигурността"
+
+msgid "Platform Details"
+msgstr "Подробности за платформата"
+
+msgid "Test"
+msgstr "Тест"
+
+msgid "Status"
+msgstr "Статус"
+
+msgid "Details"
+msgstr "Подробности"

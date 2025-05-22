@@ -1,4 +1,7 @@
 jQuery(document).ready(function ($) {
+
+    const payseraShippingSelectedClass = 'paysera-shipping-terminal-selected';
+
     $('.paysera-delivery-terminal-city-selection').select2();
     $('.paysera-delivery-terminal-country-selection').select2();
     $('.paysera-delivery-terminal-location-selection').select2();
@@ -93,11 +96,8 @@ jQuery(document).ready(function ($) {
                 paysera_terminal_country_selection.trigger('change');
                 let paysera_delivery_terminal_method = 'terminal';
 
-                if (
-                    shipping_method.indexOf(
-                        paysera_delivery_terminal_method
-                    ) !== -1
-                ) {
+                if (shipping_method.indexOf(paysera_delivery_terminal_method) !== -1) {
+                    document.body.classList.add(payseraShippingSelectedClass);
                     paysera_terminal_country_selection.empty();
                     $.ajax({
                         type: 'POST',
@@ -243,11 +243,15 @@ jQuery(document).ready(function ($) {
                             );
                         },
                     });
+
+                    document.body.classList.add(payseraShippingSelectedClass);
                     paysera_terminal_country.show();
                 } else {
+                    document.body.classList.remove(payseraShippingSelectedClass);
                     paysera_terminal_country.hide();
                 }
             } else {
+                document.body.classList.remove(payseraShippingSelectedClass);
                 paysera_terminal_country.hide();
             }
             $('.paysera-delivery-terminal-city').hide();

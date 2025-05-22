@@ -250,4 +250,18 @@ class PayseraAdminHtml
 
         return $html;
     }
+
+    public function getSettingsCompatibilityValidationErrorNotice(): string
+    {
+        return '<div class="update-message notice inline notice-error notice-alt"><p>'
+            . sprintf(
+                __(
+                    'This setting cannot be enabled due to compatibility issues. Please visit the <a href="%s" target="_blank">diagnostic page</a> to review and resolve them.',
+                    PayseraPaths::PAYSERA_TRANSLATIONS
+                ),
+                admin_url('admin.php?page=paysera-self-diagnosis', admin_url())
+            )
+            . '</p></div>'
+            ;
+    }
 }

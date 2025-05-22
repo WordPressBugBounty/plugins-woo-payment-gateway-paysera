@@ -501,3 +501,39 @@ msgstr ":attribute nie może być większe niż :fieldToCompare."
 
 msgid ":attribute value should be a number."
 msgstr "Wartość :attribute powinna być liczbą."
+
+msgid "Diagnostic"
+msgstr "Diagnostyka"
+
+msgid "Self-Diagnosis Tool"
+msgstr "Narzędzie autodiagnozy"
+
+msgid "Paysera Delivery: An error occurred. Please check the <a href=\"%s\">logs</a> for more details."
+msgstr "Paysera Delivery: Wystąpił błąd. Sprawdź <a href=\"%s\">logi</a>, aby uzyskać więcej informacji."
+
+msgid "Paysera Payments: An error occurred. Please check the <a href=\"%s\">logs</a> for more details."
+msgstr "Płatności Paysera: Wystąpił błąd. Sprawdź <a href=\"%s\">logi</a>, aby uzyskać więcej informacji."
+
+msgid "This setting cannot be enabled due to compatibility issues. Please visit the <a href=\"%s\" target=\"_blank\">diagnostic page</a> to review and resolve them."
+msgstr "Nie można włączyć tego ustawienia z powodu problemów z kompatybilnością. Odwiedź <a href=\"%s\" target=\"_blank\">stronę diagnostyczną</a>, aby je rozwiązać."
+
+msgid "Download the diagnostic report"
+msgstr "Pobierz raport diagnostyczny"
+
+msgid "PHP Details"
+msgstr "Szczegóły PHP"
+
+msgid "Security Details"
+msgstr "Szczegóły zabezpieczeń"
+
+msgid "Platform Details"
+msgstr "Szczegóły platformy"
+
+msgid "Test"
+msgstr "Test"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Details"
+msgstr "Szczegóły"

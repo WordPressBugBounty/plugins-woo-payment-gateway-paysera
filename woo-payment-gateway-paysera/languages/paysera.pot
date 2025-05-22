@@ -447,3 +447,39 @@ msgstr ""
 
 msgid ":attribute value should be a number."
 msgstr ""
+
+msgid "Diagnostic"
+msgstr ""
+
+msgid "Self-Diagnosis Tool"
+msgstr ""
+
+msgid "Paysera Delivery: An error occurred. Please check the <a href=\"%s\">logs</a> for more details."
+msgstr ""
+
+msgid "Paysera Payments: An error occurred. Please check the <a href=\"%s\">logs</a> for more details."
+msgstr ""
+
+msgid "This setting cannot be enabled due to compatibility issues. Please visit the <a href=\"%s\" target=\"_blank\">diagnostic page</a> to review and resolve them."
+msgstr ""
+
+msgid "Download the diagnostic report"
+msgstr ""
+
+msgid "PHP Details"
+msgstr ""
+
+msgid "Security Details"
+msgstr ""
+
+msgid "Platform Details"
+msgstr ""
+
+msgid "Test"
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "Details"
+msgstr ""

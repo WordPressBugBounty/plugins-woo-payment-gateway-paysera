@@ -448,3 +448,39 @@ msgstr ":atributi nuk mund të jetë më i madh se :fieldToCompare."
 
 msgid ":attribute value should be a number."
 msgstr ":vlera e atributit duhet të jetë një numër."
+
+msgid "Diagnostic"
+msgstr "Analizë"
+
+msgid "Self-Diagnosis Tool"
+msgstr "Sistemi i Vetë-Diagnostikimit"
+
+msgid "Paysera Delivery: An error occurred. Please check the <a href=\"%s\">logs</a> for more details."
+msgstr "Shpërndarje Paysera: Ka ndodhur një gabim. Ju lutemi shqyrtoni <a href=\"%s\">regjistrat</a> për detaje shtesë."
+
+msgid "Paysera Payments: An error occurred. Please check the <a href=\"%s\">logs</a> for more details."
+msgstr "Pagesa Paysera: Ka ndodhur një gabim. Ju lutemi shqyrtoni <a href=\"%s\">regjistrat</a> për detaje shtesë."
+
+msgid "This setting cannot be enabled due to compatibility issues. Please visit the <a href=\"%s\" target=\"_blank\">diagnostic page</a> to review and resolve them."
+msgstr "Ky parametër nuk mund të aktivizohet për shkak të problemeve të përputhshmërisë. Ju lutemi vizitoni <a href=\"%s\" target=\"_blank\">faqen e analizës</a> për t'i shqyrtuar dhe zgjidhur ato."
+
+msgid "Download the diagnostic report"
+msgstr "Shkarko Raportin e Diagnostikimit"
+
+msgid "PHP Details"
+msgstr "Informacioni Php"
+
+msgid "Security Details"
+msgstr "Informacioni i Sigurisë"
+
+msgid "Platform Details"
+msgstr "Informacioni i Platformës"
+
+msgid "Test"
+msgstr "Testo"
+
+msgid "Status"
+msgstr "Statusi"
+
+msgid "Details"
+msgstr "Detaje"

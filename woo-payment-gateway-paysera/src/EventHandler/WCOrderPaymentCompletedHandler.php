@@ -68,8 +68,9 @@ class WCOrderPaymentCompletedHandler implements EventHandlerInterface
             $merchantOrder,
             $this->deliverySettingsProvider->getPayseraDeliverySettings()
         );
+
         try {
-            if ($merchantOrder->getDeliveryOrderId() !== null) {
+            if (empty($merchantOrder->getDeliveryOrderId()) === false) {
                 $this->deliveryOrderService->setDeliveryOrderStatusPrepaid($deliveryOrderRequest);
             }
         } catch (MerchantClientNotFoundException $e) {

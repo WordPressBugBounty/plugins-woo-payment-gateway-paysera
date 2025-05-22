@@ -7,6 +7,7 @@ namespace Paysera\Admin;
 defined('ABSPATH') || exit;
 
 use Paysera\Action\PayseraDeliveryActions;
+use Paysera\Action\PayseraSelfDiagnosisActions;
 use Paysera\Scoped\Paysera\DeliverySdk\Entity\PayseraDeliverySettingsInterface;
 use Paysera\Scoped\Paysera\DeliverySdk\Service\DeliveryLoggerInterface;
 use Paysera\Entity\PayseraDeliverySettings;
@@ -193,6 +194,14 @@ class PayseraDeliveryAdmin
             && sanitize_text_field(wp_unslash($_REQUEST['invalid-credentials'])) === 'yes'
         ) {
             printf($this->adminHtml->getSettingsInvalidCredentialsNotice());
+        }
+
+        if (
+            !isset($_REQUEST['settings-updated'])
+            && isset($_REQUEST[PayseraSelfDiagnosisActions::COMPATIBILITY_CHECK_FAILED_KEY])
+            && sanitize_text_field(wp_unslash($_REQUEST[PayseraSelfDiagnosisActions::COMPATIBILITY_CHECK_FAILED_KEY])) === PayseraSelfDiagnosisActions::VALUE_ENABLED
+        ) {
+            printf($this->adminHtml->getSettingsCompatibilityValidationErrorNotice());
         }
 
         $this->deliveryAdminHtml->buildDeliverySettings(

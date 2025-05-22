@@ -5,15 +5,27 @@ declare(strict_types=1);
 namespace Paysera\Service;
 
 use Paysera\Helper\LogHelper;
+use Paysera\Service\SelfDiagnosis\Library\Util\DiagnosticReportGenerator;
 
 class PaymentLogger implements PaymentLoggerInterface
 {
+    private const LOG_MESSAGE_TEMPLATE
+        = 'Paysera Payment: An error has occurred. Please review the <a href="%s">logs</a> for additional details.';
+
     private LogHelper $logHelper;
+    private DiagnosticReportGenerator $diagnosticReportGenerator;
+    private AdminNotice $adminNotice;
     private string $logLevel;
 
-    public function __construct(LogHelper $logHelper, string $logLevel = LogHelper::LOG_LEVEL_ERROR)
-    {
+    public function __construct(
+        LogHelper $logHelper,
+        DiagnosticReportGenerator $diagnosticReportGenerator,
+        AdminNotice $adminNotice,
+        string $logLevel = LogHelper::LOG_LEVEL_ERROR
+    ) {
         $this->logHelper = $logHelper;
+        $this->diagnosticReportGenerator = $diagnosticReportGenerator;
+        $this->adminNotice = $adminNotice;
         $this->logLevel = $logLevel;
     }
 
@@ -36,6 +48,13 @@ class PaymentLogger implements PaymentLoggerInterface
             return;
         }
 
+        $this->adminNotice->addErrorNotice(
+            sprintf(
+                __(self::LOG_MESSAGE_TEMPLATE, 'paysera'),
+                admin_url('admin.php?page=wc-status&tab=logs')
+            )
+        );
+
         if ($exception !== null) {
             $exceptionMessage = method_exists($exception, 'getResponse')
                 ? $exception->getResponse()->getBody()->getContents()
@@ -47,6 +66,8 @@ class PaymentLogger implements PaymentLoggerInterface
                 $message .= sprintf(' - %s:%s', plugin_basename($exception->getFile()), $exception->getLine());
             }
         }
+
+        $message .= ' CONTEXT: ' . htmlspecialchars(sprintf('{"self_diagnosis":%s}', $this->diagnosticReportGenerator->getReport()));
 
         file_put_contents(
             $this->logHelper->getDateWiseLogPath(LogHelper::LOGGER_TYPE_PAYMENT),

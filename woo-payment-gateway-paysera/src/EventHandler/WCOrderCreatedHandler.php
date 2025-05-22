@@ -103,8 +103,9 @@ class WCOrderCreatedHandler implements EventHandlerInterface
 
         $this->logger->info(
             sprintf(
-                'Delivery gateway code for order id %d: %s.',
+                'Delivery gateway for order id %d: %s (%s).',
                 $orderId,
+                $deliveryGateway->getName(),
                 $deliveryGateway->getCode()
             )
         );

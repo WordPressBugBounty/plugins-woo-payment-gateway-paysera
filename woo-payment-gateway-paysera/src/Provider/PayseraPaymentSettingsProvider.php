@@ -25,8 +25,6 @@ class PayseraPaymentSettingsProvider
         $payseraPaymentSettings = (new PayseraPaymentSettings())
             ->setEnabled(isset($oldOptions['enabled']) && $oldOptions['enabled'] === 'yes')
             ->setTestModeEnabled(false)
-            ->setTitle(__(PayseraPaymentSettings::DEFAULT_TITLE, PayseraPaths::PAYSERA_TRANSLATIONS))
-            ->setDescription(__(PayseraPaymentSettings::DEFAULT_DESCRIPTION, PayseraPaths::PAYSERA_TRANSLATIONS))
             ->setListOfPaymentsEnabled(true)
             ->setGridViewEnabled(false)
             ->setBuyerConsentEnabled(true)

@@ -144,7 +144,7 @@ class PayseraPaymentSettings
 
     public function getTitle(): ?string
     {
-        return $this->title;
+        return $this->title ?: __(self::DEFAULT_TITLE, 'paysera');
     }
 
     public function setTitle(string $title): self
@@ -156,7 +156,7 @@ class PayseraPaymentSettings
 
     public function getDescription(): ?string
     {
-        return $this->description;
+        return $this->description ?: __(self::DEFAULT_DESCRIPTION, 'paysera');
     }
 
     public function setDescription(string $description): self

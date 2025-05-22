@@ -31,7 +31,12 @@ abstract class Paysera_Delivery_Gateway extends WC_Shipping_Method implements Pa
     /**
      * @var string
      */
-    protected $defaultTitle;
+    protected $defaultGatewayName;
+
+    /**
+     * @var string
+     */
+    protected $defaultGatewayType;
 
     /**
      * @var string
@@ -78,8 +83,8 @@ abstract class Paysera_Delivery_Gateway extends WC_Shipping_Method implements Pa
 
         $this->id = $this->generateId();
         $this->instance_id = absint($instance_id);
-        $this->title = $this->defaultTitle;
-        $this->method_title = $this->defaultTitle;
+        $this->title = $this->getDefaultTitle();
+        $this->method_title = $this->getDefaultTitle();
         $this->method_description = $this->buildMethodDescription();
 
         $this->init_form_fields();
@@ -205,7 +210,7 @@ abstract class Paysera_Delivery_Gateway extends WC_Shipping_Method implements Pa
                     'This controls the title which the user sees during shipping selection.',
                     PayseraPaths::PAYSERA_TRANSLATIONS
                 ),
-                'default' => $this->defaultTitle,
+                'default' => $this->getDefaultTitle(),
                 'desc_tip' => true,
             ],
             PayseraDeliverySettings::FEE => [
@@ -478,7 +483,16 @@ abstract class Paysera_Delivery_Gateway extends WC_Shipping_Method implements Pa
 
     private function getDeliveryGatewayTitle(): string
     {
-        return str_replace(['Terminals', 'Courier'], '', $this->defaultTitle);
+        return trim(
+            str_replace(
+                [
+                    __('Terminals', PayseraPaths::PAYSERA_TRANSLATIONS),
+                    __('Courier', PayseraPaths::PAYSERA_TRANSLATIONS),
+                ],
+                '',
+                $this->getDefaultTitle()
+            )
+        );
     }
 
     private function getSenderTypeOptions(): array
@@ -520,5 +534,10 @@ abstract class Paysera_Delivery_Gateway extends WC_Shipping_Method implements Pa
     private function generateId(): string
     {
         return PayseraDeliverySettings::DELIVERY_GATEWAY_PREFIX . $this->deliveryGatewayCode;
+    }
+
+    private function getDefaultTitle(): string
+    {
+        return sprintf('%s %s', $this->defaultGatewayName, __($this->defaultGatewayType, 'paysera'));
     }
 }

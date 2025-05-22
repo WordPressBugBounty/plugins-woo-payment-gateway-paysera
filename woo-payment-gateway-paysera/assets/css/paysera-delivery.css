@@ -1,3 +1,7 @@
+.paysera-shipping-terminal-selected #mp-wc-pickup-point-shipping-block {
+    display: none !important;
+}
+
 .paysera-delivery-about-container {
     max-width: 800px;
     margin: auto;

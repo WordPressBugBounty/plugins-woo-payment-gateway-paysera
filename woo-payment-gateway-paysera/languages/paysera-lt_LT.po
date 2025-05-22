@@ -506,3 +506,39 @@ msgstr ":attribute negali būti didesnis nei :fieldToCompare."
 
 msgid ":attribute value should be a number."
 msgstr ":attribute reikšmė turi būti skaičius."
+
+msgid "Diagnostic"
+msgstr "Diagnostika"
+
+msgid "Self-Diagnosis Tool"
+msgstr "Savidiagnostikos įrankis"
+
+msgid "Paysera Delivery: An error occurred. Please check the <a href=\"%s\">logs</a> for more details."
+msgstr "Paysera Delivery. Įvyko klaida. Išsamesnės informacijos ieškokite <a href=\"%s\">žurnaluose</a>."
+
+msgid "Paysera Payments: An error occurred. Please check the <a href=\"%s\">logs</a> for more details."
+msgstr "Paysera mokėjimai. Įvyko klaida. Išsamesnės informacijos ieškokite <a href=\"%s\">žurnaluose</a>."
+
+msgid "This setting cannot be enabled due to compatibility issues. Please visit the <a href=\"%s\" target=\"_blank\">diagnostic page</a> to review and resolve them."
+msgstr "Dėl suderinamumo problemų šis nustatymas negali būti įjungtas. Norėdami jas išspręsti, apsilankykite <a href=\"%s\" target=\"_blank\">diagnostikos puslapyje</a>."
+
+msgid "Download the diagnostic report"
+msgstr "Atsisiųsti diagnostikos ataskaitą"
+
+msgid "PHP Details"
+msgstr "PHP informacija"
+
+msgid "Security Details"
+msgstr "Saugumo informacija"
+
+msgid "Platform Details"
+msgstr "Platformos informacija"
+
+msgid "Test"
+msgstr "Patikrinimas"
+
+msgid "Status"
+msgstr "Būsena"
+
+msgid "Details"
+msgstr "Išsami informacija"

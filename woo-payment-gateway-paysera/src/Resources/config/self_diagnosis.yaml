@@ -1,0 +1,9 @@
+settings:
+  php_version: '7.4'
+  wordpress_version: '4.0'
+  woocommerce_version: '5.0'
+  get_request_required_length: 4000
+  max_input_vars: 100
+  memory_limit: 128M
+  post_max_size: 20M
+  public_key_url: 'https://paysera.com/download/public.key'

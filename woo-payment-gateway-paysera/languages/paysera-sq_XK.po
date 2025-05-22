@@ -4,14 +4,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WooCommerce Payment Gateway - Paysera 3.5.8\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/plugins/woo-payment-gateway-paysera/\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2024-10-17T13:10:11+00:00\n"
+"PO-Revision-Date: 2025-02-27 15:29+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sq_XK\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-10-17T13:10:11+00:00\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.11.0\n"
+"X-Generator: Poedit 3.5\n"
 "X-Domain: paysera\n"
 
 msgid "Method title"
@@ -34,7 +35,6 @@ msgstr "Kilogram"
 
 msgid "Preferred pickup type"
 msgstr "Lloji i preferuar i marrjes"
-
 
 msgid "Courier"
 msgstr "Kurier"
@@ -109,7 +109,6 @@ msgstr "E deaktivizuar"
 
 msgid "Settings saved."
 msgstr "Parametrat janГ« ruajtur."
-
 
 msgid "Delivery Gateway List"
 msgstr "Lista e portave tГ« dorГ«zimit"
@@ -211,7 +210,6 @@ msgstr "GjatГ« orГ«ve tГ« punГ«s, mbГ«shtetja Г«shtГ« nГ« dispoz
 
 msgid "https://www.paysera.com/v2/en-GB/contacts"
 msgstr "https://www.paysera-ks.com/v2/xk-XK/kontaktet"
-
 
 msgid "Contact us >"
 msgstr "Na kontaktoni >"
@@ -450,3 +448,39 @@ msgstr ":attribute nuk mund tГ« jetГ« mГ« i madh se :fieldToCompare."
 
 msgid ":attribute value should be a number."
 msgstr ":attribute vlera duhet tГ« jetГ« njГ« numГ«r."
+
+msgid "Diagnostic"
+msgstr "Kontrolli"
+
+msgid "Self-Diagnosis Tool"
+msgstr "Sistemi i Vetë-Kontrollit"
+
+msgid "Paysera Delivery: An error occurred. Please check the <a href=\"%s\">logs</a> for more details."
+msgstr "Dorëzimi Paysera: Ka ndodhur një gabim. Ju lutemi shqyrtoni <a href=\"%s\">regjistrat</a> për detaje shtesë."
+
+msgid "Paysera Payments: An error occurred. Please check the <a href=\"%s\">logs</a> for more details."
+msgstr "Pagesat Paysera: Ka ndodhur një gabim. Ju lutemi shqyrtoni <a href=\"%s\">regjistrat</a> për detaje shtesë."
+
+msgid "This setting cannot be enabled due to compatibility issues. Please visit the <a href=\"%s\" target=\"_blank\">diagnostic page</a> to review and resolve them."
+msgstr "Ky parametër nuk mund të aktivizohet për shkak të problemeve të përputhshmërisë. Ju lutemi vizitoni <a href=\"%s\" target=\"_blank\">faqen e kontrlollit</a> për t'i shqyrtuar dhe zgjidhur ato."
+
+msgid "Download the diagnostic report"
+msgstr "Shkarko raportin e kontrollit"
+
+msgid "PHP Details"
+msgstr "Informacioni Php"
+
+msgid "Security Details"
+msgstr "Informacioni i sigurisë"
+
+msgid "Platform Details"
+msgstr "Informacioni i platformës"
+
+msgid "Test"
+msgstr "Kontrollo"
+
+msgid "Status"
+msgstr "Statusi"
+
+msgid "Details"
+msgstr "Detaje"

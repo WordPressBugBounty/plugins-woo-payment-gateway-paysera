@@ -25,7 +25,7 @@ class LogHelper
 
     public function getFormattedText(string $logLevel, string $message): string
     {
-        return sprintf('[%s] [%s] %s%s', date('Y-m-d\TH:i:sP'), $logLevel, $message, PHP_EOL);
+        return sprintf('%s %s %s%s', date('Y-m-d\TH:i:sP'), $logLevel, $message, PHP_EOL);
     }
 
     public function getLogLevelSelectOptions(): array

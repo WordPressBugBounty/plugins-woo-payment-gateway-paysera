@@ -448,3 +448,39 @@ msgstr "მახასიათებელი არ უნდა აღემ
 
 msgid ":attribute value should be a number."
 msgstr "მახასიათებლის მნიშვნელობა უნდა მიუთითოთ რიცხვის გამოყენებით."
+
+msgid "Diagnostic"
+msgstr "დიაგნოსტიკა"
+
+msgid "Self-Diagnosis Tool"
+msgstr "თვითდიაგნოსტიკის ინსტრუმენტი"
+
+msgid "Paysera Delivery: An error occurred. Please check the <a href=\"%s\">logs</a> for more details."
+msgstr "Paysera საკურიერო მომსახურება: დაფიქსირდა შეცდომა. გთხოვთ, გადაამოწმოთ <a href=\"%s\">ლოგები</a> დამატებითი ინფორმაციისთვის."
+
+msgid "Paysera Payments: An error occurred. Please check the <a href=\"%s\">logs</a> for more details."
+msgstr "Paysera გადარიცხვები: დაფიქსირდა შეცდომა. გთხოვთ, გადაამოწმოთ <a href=\"%s\">ლოგები</a> დამატებითი ინფორმაციისთვის."
+
+msgid "This setting cannot be enabled due to compatibility issues. Please visit the <a href=\"%s\" target=\"_blank\">diagnostic page</a> to review and resolve them."
+msgstr "აღნიშნული პარამეტრის გააქციურება თავსებადობის პრობლემების გამო ვერ ხერხდება. გთხოვთ, ეწვიოთ <a href=\"%s\" target=\"_blank\">დიაგნოსტიკის გვერდს</a> მათ მოსაგვარებლად."
+
+msgid "Download the diagnostic report"
+msgstr "დიაგნოსტიკის რეპორტის ჩამოტვირთვა"
+
+msgid "PHP Details"
+msgstr "PHP მონაცემები"
+
+msgid "Security Details"
+msgstr "უსაფრთხოების მონაცემები"
+
+msgid "Platform Details"
+msgstr "პლატფორმის მონაცებეი"
+
+msgid "Test"
+msgstr "ტესტი"
+
+msgid "Status"
+msgstr "სტატუსი"
+
+msgid "Details"
+msgstr "მონაცემები"

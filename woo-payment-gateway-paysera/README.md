@@ -1,9 +1,9 @@
 WooCommerce Payment Gateway - Paysera
 =======================
 
-Version: 3.6.1
+Version: 3.7.0
 
-Date: 2025-01-28
+Date: 2025-04-10
 
 Contributors: Paysera
 
@@ -11,9 +11,9 @@ Tags: online payment, payment, payment gateway, international payments, shipping
 
 Requires at least: 4.0
 
-Tested up to: 6.7
+Tested up to: 6.8
 
-Stable tag: 3.6.1
+Stable tag: 3.7.0
 
 Requires PHP: 7.4
 
@@ -166,6 +166,19 @@ Installation from admin panel (marketplace):
 
 Changelog
 ---------
+
+= 3.7.0 =
+* Improvement - Added Self-Diagnosis tool to help identify and resolve issues with the checkout and delivery services.
+* Fix - Corrected issue where the house number was not saved correctly when the "Same Billing Address" checkbox was selected during checkout.
+* Fix - Resolved issue where the payment method selection fields remained active even when payment options were disabled in the settings.
+* Fix - Added the name of the delivery gateway to the logs for easier tracking and debugging.
+* Fix - Fixed issue with Paysera text domain notice being triggered too early in debug mode.
+* Fix - Ensured compatibility with HPOS (High-Performance Order Storage).
+* Fix - Fixed compatibility issues with terminal inputs on some delivery gateway providers.
+* Fix - Prevented unnecessary delivery error logs if the merchant is using a non-Paysera delivery option.
+* Fix - Resolved Composer auto class loader conflict with some other plugins.
+* Fix - Resolved a critical validation error that occurred when no shipping methods were available.
+
 = 3.6.1 =
 * Improvement - Added languages packs of AL, XK, GE, RO, BG, and UA
 * Fix - Optimized queries, removed deprecation notice messages
@@ -531,6 +544,18 @@ Changelog
 
 Upgrade Notice
 --------------
+
+= 3.7.0 =
+* Improvement - Added Self-Diagnosis tool to help identify and resolve issues with the checkout and delivery services.
+* Fix - Corrected issue where the house number was not saved correctly when the "Same Billing Address" checkbox was selected during checkout.
+* Fix - Resolved issue where the payment method selection fields remained active even when payment options were disabled in the settings.
+* Fix - Added the name of the delivery gateway to the logs for easier tracking and debugging.
+* Fix - Fixed issue with Paysera text domain notice being triggered too early in debug mode.
+* Fix - Ensured compatibility with HPOS (High-Performance Order Storage).
+* Fix - Fixed compatibility issues with terminal inputs on some delivery gateway providers.
+* Fix - Prevented unnecessary delivery error logs if the merchant is using a non-Paysera delivery option.
+* Fix - Resolved Composer auto class loader conflict with some other plugins.
+* Fix - Resolved a critical validation error that occurred when no shipping methods were available.
 
 = 3.6.1 =
 * Improvement - Added languages packs of AL, XK, GE, RO, BG, and UA

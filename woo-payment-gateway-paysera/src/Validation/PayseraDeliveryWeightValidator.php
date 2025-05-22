@@ -100,7 +100,12 @@ class PayseraDeliveryWeightValidator extends AbstractValidator
     {
         $chosenMethods = $this->sessionHelper->getData('chosen_shipping_methods');
 
-        if (!is_array($chosenMethods) || count($chosenMethods) === 0 || !isset($chosenMethods[0])) {
+        if (
+            !is_array($chosenMethods)
+            || count($chosenMethods) === 0
+            || !isset($chosenMethods[0])
+            || !is_string($chosenMethods[0])
+        ) {
             return null;
         }
 
