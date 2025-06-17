@@ -28,9 +28,8 @@ class PayseraPaymentSettingsProvider
             ->setListOfPaymentsEnabled(true)
             ->setGridViewEnabled(false)
             ->setBuyerConsentEnabled(true)
-            ->setNewOrderStatus('wc-processing')
             ->setPaidOrderStatus('wc-completed')
-            ->setPendingCheckoutStatus('wc-pending')
+            ->setPendingPaymentStatus('wc-pending')
             ->setOwnershipCodeEnabled(false)
             ->setQualitySignEnabled(false)
             ->setLogLevel(LogHelper::LOG_LEVEL_ERROR)
@@ -104,24 +103,18 @@ class PayseraPaymentSettingsProvider
             $payseraPaymentSettings->setBuyerConsentEnabled($oldOptions['buyerConsent'] === 'yes');
         }
 
-        if (isset($statusOptions[PayseraPaymentSettings::NEW_ORDER_STATUS])) {
-            $payseraPaymentSettings->setNewOrderStatus($statusOptions[PayseraPaymentSettings::NEW_ORDER_STATUS][0]);
-        } elseif (isset($oldOptions['paymentNewOrderStatus'])) {
-            $payseraPaymentSettings->setNewOrderStatus($oldOptions['paymentNewOrderStatus']);
-        }
-
         if (isset($statusOptions[PayseraPaymentSettings::PAID_ORDER_STATUS])) {
             $payseraPaymentSettings->setPaidOrderStatus($statusOptions[PayseraPaymentSettings::PAID_ORDER_STATUS][0]);
         } elseif (isset($oldOptions['paymentCompletedStatus'])) {
             $payseraPaymentSettings->setPaidOrderStatus($oldOptions['paymentCompletedStatus']);
         }
 
-        if (isset($statusOptions[PayseraPaymentSettings::PENDING_CHECKOUT_STATUS])) {
-            $payseraPaymentSettings->setPendingCheckoutStatus(
-                $statusOptions[PayseraPaymentSettings::PENDING_CHECKOUT_STATUS][0]
+        if (isset($statusOptions[PayseraPaymentSettings::PENDING_PAYMENT_STATUS])) {
+            $payseraPaymentSettings->setPendingPaymentStatus(
+                $statusOptions[PayseraPaymentSettings::PENDING_PAYMENT_STATUS][0]
             );
         } elseif (isset($oldOptions['paymentPendingStatus'])) {
-            $payseraPaymentSettings->setPendingCheckoutStatus($oldOptions['paymentPendingStatus']);
+            $payseraPaymentSettings->setPendingPaymentStatus($oldOptions['paymentPendingStatus']);
         }
 
         if (isset($projectAdditionsOptions[PayseraPaymentSettings::OWNERSHIP_CODE_ENABLED])) {

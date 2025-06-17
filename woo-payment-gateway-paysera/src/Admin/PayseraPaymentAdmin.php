@@ -174,9 +174,9 @@ class PayseraPaymentAdmin
             );
         } elseif ($this->tab === self::TAB_ORDER_STATUS) {
             add_settings_field(
-                PayseraPaymentSettings::NEW_ORDER_STATUS,
-                __('New Order Status', PayseraPaths::PAYSERA_TRANSLATIONS),
-                [$this, 'newOrderStatusRender'],
+                PayseraPaymentSettings::PENDING_PAYMENT_STATUS,
+                __('Pending Checkout', PayseraPaths::PAYSERA_TRANSLATIONS),
+                [$this, 'pendingCheckoutRender'],
                 PayseraPaymentSettings::STATUS_SETTINGS_NAME,
                 self::TAB_ORDER_STATUS
             );
@@ -184,13 +184,6 @@ class PayseraPaymentAdmin
                 PayseraPaymentSettings::PAID_ORDER_STATUS,
                 __('Paid Order Status', PayseraPaths::PAYSERA_TRANSLATIONS),
                 [$this, 'paidOrderStatusRender'],
-                PayseraPaymentSettings::STATUS_SETTINGS_NAME,
-                self::TAB_ORDER_STATUS
-            );
-            add_settings_field(
-                PayseraPaymentSettings::PENDING_CHECKOUT_STATUS,
-                __('Pending Checkout', PayseraPaths::PAYSERA_TRANSLATIONS),
-                [$this, 'pendingCheckoutRender'],
                 PayseraPaymentSettings::STATUS_SETTINGS_NAME,
                 self::TAB_ORDER_STATUS
             );
@@ -368,19 +361,6 @@ class PayseraPaymentAdmin
         );
     }
 
-    public function newOrderStatusRender(): void
-    {
-        printf(
-            $this->payseraAdminHtml->getSelectInput(
-                $this->payseraPaymentHelper->getWooCommerceOrderStatuses(),
-                $this->payseraPaymentSettings->getNewOrderStatus()
-            ),
-            esc_attr(
-                PayseraPaymentSettings::STATUS_SETTINGS_NAME . '[' . PayseraPaymentSettings::NEW_ORDER_STATUS . ']'
-            )
-        );
-    }
-
     public function paidOrderStatusRender(): void
     {
         printf(
@@ -399,11 +379,11 @@ class PayseraPaymentAdmin
         printf(
             $this->payseraAdminHtml->getSelectInput(
                 $this->payseraPaymentHelper->getWooCommerceOrderStatuses(),
-                $this->payseraPaymentSettings->getPendingCheckoutStatus()
+                $this->payseraPaymentSettings->getPendingPaymentStatus()
             ),
             esc_attr(
                 PayseraPaymentSettings::STATUS_SETTINGS_NAME . '['
-                . PayseraPaymentSettings::PENDING_CHECKOUT_STATUS . ']'
+                . PayseraPaymentSettings::PENDING_PAYMENT_STATUS . ']'
             )
         );
     }

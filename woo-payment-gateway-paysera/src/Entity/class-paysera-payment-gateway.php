@@ -92,7 +92,7 @@ class Paysera_Payment_Gateway extends WC_Payment_Gateway
         $order->add_order_note(
             __(PayseraPaths::PAYSERA_MESSAGE . 'Order checkout process is started', PayseraPaths::PAYSERA_TRANSLATIONS)
         );
-        $this->updateOrderStatus($order, $this->payseraPaymentSettings->getPendingCheckoutStatus());
+        $this->updateOrderStatus($order, $this->payseraPaymentSettings->getPendingPaymentStatus());
 
         wc_maybe_reduce_stock_levels($order_id);
 
@@ -110,17 +110,10 @@ class Paysera_Payment_Gateway extends WC_Payment_Gateway
     public function processOrderAfterPayment($orderId): void
     {
         $order = wc_get_order($orderId);
-        $currentStatus = 'wc-' . $order->get_status();
 
-        if (
-            $currentStatus === $this->payseraPaymentSettings->getPendingCheckoutStatus()
-            && $currentStatus !== $this->payseraPaymentSettings->getNewOrderStatus()
-        ) {
-            $order->add_order_note(
-                __(PayseraPaths::PAYSERA_MESSAGE . 'Customer came back to page', PayseraPaths::PAYSERA_TRANSLATIONS)
-            );
-            $this->updateOrderStatus($order, $this->payseraPaymentSettings->getNewOrderStatus());
-        }
+        $order->add_order_note(
+            __(PayseraPaths::PAYSERA_MESSAGE . 'Customer came back to page', PayseraPaths::PAYSERA_TRANSLATIONS)
+        );
     }
 
     public function checkCallbackRequest(): void
@@ -142,40 +135,39 @@ class Paysera_Payment_Gateway extends WC_Payment_Gateway
 
         try {
             $response = $checkoutFacade->getPaymentCallbackValidatedData($paymentValidationRequest);
-            if ($response->getStatus() === self::RESPONSE_STATUS_CONFIRMED) {
-                $order = wc_get_order($response->getOrder()->getOrderId());
-
-                if ($this->isPaymentValid($order, $response) === true) {
-                    error_log(
-                        $this->formatLogMessage(
-                            $order,
-                            __('Payment confirmed with a callback', PayseraPaths::PAYSERA_TRANSLATIONS)
-                        )
-                    );
-
-                    $order->add_order_note(
-                        __(
-                            PayseraPaths::PAYSERA_MESSAGE . 'Callback order payment completed',
-                            PayseraPaths::PAYSERA_TRANSLATIONS
-                        )
-                    );
-                    $this->updateOrderStatus($order, $this->payseraPaymentSettings->getPaidOrderStatus());
-
-                    $eventHandlingHelper = $this->container->get(EventHandlingHelper::class);
-                    $eventHandlingHelper->handle(
-                        PayseraDeliverySettings::WC_ORDER_EVENT_PAYMENT_COMPLETED,
-                        [
-                            'order' => $order,
-                        ]
-                    );
-
-                    print_r('OK');
-                }
-            } elseif ($response->getStatus() === self::RESPONSE_STATUS_ADDITIONAL_INFO) {
-                $order = wc_get_order($response->getOrder()->getOrderId());
-                print_r('Expecting status 1 (Payment successful), status 3 (Additional payment information) received');
-                $this->logger->error($this->formatLogMessage($order, 'Expecting status 1 (Payment successful), status 3 (Additional payment information) received'));
+            if ($response->getStatus() !== self::RESPONSE_STATUS_CONFIRMED) {
+                return;
             }
+
+            $order = wc_get_order($response->getOrder()->getOrderId());
+
+            if (!$this->isPaymentValid($order, $response)) {
+                return;
+            }
+            error_log(
+                $this->formatLogMessage(
+                    $order,
+                    __('Payment confirmed with a callback', PayseraPaths::PAYSERA_TRANSLATIONS)
+                )
+            );
+
+            $order->add_order_note(
+                __(
+                    PayseraPaths::PAYSERA_MESSAGE . 'Callback order payment completed',
+                    PayseraPaths::PAYSERA_TRANSLATIONS
+                )
+            );
+            $this->updateOrderStatus($order, $this->payseraPaymentSettings->getPaidOrderStatus());
+
+            $eventHandlingHelper = $this->container->get(EventHandlingHelper::class);
+            $eventHandlingHelper->handle(
+                PayseraDeliverySettings::WC_ORDER_EVENT_PAYMENT_COMPLETED,
+                [
+                    'order' => $order,
+                ]
+            );
+
+            print_r('OK');
         } catch (Throwable $exception) {
             $this->logger->error('Error while processing callback request', $exception);
 

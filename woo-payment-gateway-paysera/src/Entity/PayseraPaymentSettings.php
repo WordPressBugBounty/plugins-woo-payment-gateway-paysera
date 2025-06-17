@@ -23,9 +23,9 @@ class PayseraPaymentSettings
     public const SPECIFIC_COUNTRIES = 'specific_countries';
     public const GRID_VIEW = 'grid_view';
     public const BUYER_CONSENT = 'buyer_consent';
-    public const NEW_ORDER_STATUS = 'new_order_status';
     public const PAID_ORDER_STATUS = 'paid_order_status';
-    public const PENDING_CHECKOUT_STATUS = 'pending_checkout_status';
+    // Old pending checkout status
+    public const PENDING_PAYMENT_STATUS = 'pending_checkout_status';
     public const OWNERSHIP_CODE_ENABLED = 'ownership_code_enabled';
     public const OWNERSHIP_CODE = 'ownership_code';
     public const QUALITY_SIGN_ENABLED = 'quality_sign_enabled';
@@ -66,9 +66,8 @@ class PayseraPaymentSettings
     private array $specificCountries;
     private ?bool $gridViewEnabled;
     private ?bool $buyerConsentEnabled;
-    private ?string $newOrderStatus;
     private ?string $paidOrderStatus;
-    private ?string $pendingCheckoutStatus;
+    private ?string $pendingPaymentStatus;
     private ?bool $ownershipCodeEnabled;
     private ?string $ownershipCode;
     private ?bool $qualitySignEnabled;
@@ -85,9 +84,8 @@ class PayseraPaymentSettings
         $this->specificCountries = [];
         $this->gridViewEnabled = null;
         $this->buyerConsentEnabled = null;
-        $this->newOrderStatus = null;
         $this->paidOrderStatus = null;
-        $this->pendingCheckoutStatus = null;
+        $this->pendingPaymentStatus = null;
         $this->ownershipCodeEnabled = null;
         $this->ownershipCode = null;
         $this->qualitySignEnabled = null;
@@ -214,18 +212,6 @@ class PayseraPaymentSettings
         return $this;
     }
 
-    public function getNewOrderStatus(): ?string
-    {
-        return $this->newOrderStatus;
-    }
-
-    public function setNewOrderStatus(string $newOrderStatus): self
-    {
-        $this->newOrderStatus = $newOrderStatus;
-
-        return $this;
-    }
-
     public function getPaidOrderStatus(): ?string
     {
         return $this->paidOrderStatus;
@@ -238,14 +224,14 @@ class PayseraPaymentSettings
         return $this;
     }
 
-    public function getPendingCheckoutStatus(): ?string
+    public function getPendingPaymentStatus(): ?string
     {
-        return $this->pendingCheckoutStatus;
+        return $this->pendingPaymentStatus;
     }
 
-    public function setPendingCheckoutStatus(string $pendingCheckoutStatus): self
+    public function setPendingPaymentStatus(string $pendingPaymentStatus): self
     {
-        $this->pendingCheckoutStatus = $pendingCheckoutStatus;
+        $this->pendingPaymentStatus = $pendingPaymentStatus;
 
         return $this;
     }

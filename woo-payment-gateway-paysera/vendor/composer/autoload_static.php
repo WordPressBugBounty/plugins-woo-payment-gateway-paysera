@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitd30b45088debd6642ad6b5441a0cf4fa
+class ComposerStaticInitf3bb7baf41ceed055b8b770ba00e9628
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -1459,6 +1459,62 @@ class ComposerStaticInitd30b45088debd6642ad6b5441a0cf4fa
         'Paysera\\Service\\SelfDiagnosis\\Library\\Validator\\CompatibilityValidator' => __DIR__ . '/../..' . '/src/Service/SelfDiagnosis/Library/Validator/CompatibilityValidator.php',
         'Paysera\\Service\\SelfDiagnosis\\SelfDiagnosisYamlConfigLoader' => __DIR__ . '/../..' . '/src/Service/SelfDiagnosis/SelfDiagnosisYamlConfigLoader.php',
         'Paysera\\Service\\SelfDiagnosis\\WoocommerceCompatibilityCheckerRegistry' => __DIR__ . '/../..' . '/src/Service/SelfDiagnosis/WoocommerceCompatibilityCheckerRegistry.php',
+        'Paysera\\Tests\\Action\\PayseraDeliveryActionsTest' => __DIR__ . '/../..' . '/tests/phpunit/Action/PayseraDeliveryActionsTest.php',
+        'Paysera\\Tests\\Action\\PayseraPaymentActionsTest' => __DIR__ . '/../..' . '/tests/phpunit/Action/PayseraPaymentActionsTest.php',
+        'Paysera\\Tests\\Action\\PayseraSelfDiagnosisActionsTest' => __DIR__ . '/../..' . '/tests/phpunit/Action/PayseraSelfDiagnosisActionsTest.php',
+        'Paysera\\Tests\\Admin\\PayseraAdminHtmlTest' => __DIR__ . '/../..' . '/tests/phpunit/Admin/PayseraAdminHtmlTest.php',
+        'Paysera\\Tests\\Admin\\PayseraAdminTest' => __DIR__ . '/../..' . '/tests/phpunit/Admin/PayseraAdminTest.php',
+        'Paysera\\Tests\\Admin\\PayseraDeliveryAdminHtmlTest' => __DIR__ . '/../..' . '/tests/phpunit/Admin/PayseraDeliveryAdminHtmlTest.php',
+        'Paysera\\Tests\\Admin\\PayseraDeliveryAdminTest' => __DIR__ . '/../..' . '/tests/phpunit/Admin/PayseraDeliveryAdminTest.php',
+        'Paysera\\Tests\\Admin\\PayseraPaymentAdminHtmlTest' => __DIR__ . '/../..' . '/tests/phpunit/Admin/PayseraPaymentAdminHtmlTest.php',
+        'Paysera\\Tests\\Admin\\PayseraPaymentAdminTest' => __DIR__ . '/../..' . '/tests/phpunit/Admin/PayseraPaymentAdminTest.php',
+        'Paysera\\Tests\\Admin\\PayseraSelfDiagnosticAdminHtmlTest' => __DIR__ . '/../..' . '/tests/phpunit/Admin/PayseraSelfDiagnosticAdminHtmlTest.php',
+        'Paysera\\Tests\\Admin\\PayseraSelfDiagnosticAdminTest' => __DIR__ . '/../..' . '/tests/phpunit/Admin/PayseraSelfDiagnosticAdminTest.php',
+        'Paysera\\Tests\\Blocks\\PayseraBlockTest' => __DIR__ . '/../..' . '/tests/phpunit/Blocks/PayseraBlockTest.php',
+        'Paysera\\Tests\\DeliveryGatewaySettingsMockingTrait' => __DIR__ . '/../..' . '/tests/phpunit/DeliveryGatewaySettingsMockingTrait.php',
+        'Paysera\\Tests\\EventHandlers\\DeliveryOrderUpdatedHandlerTest' => __DIR__ . '/../..' . '/tests/phpunit/EventHandlers/DeliveryOrderUpdatedHandlerTest.php',
+        'Paysera\\Tests\\EventHandlers\\WCOrderCreatedHandlerTest' => __DIR__ . '/../..' . '/tests/phpunit/EventHandlers/WCOrderCreatedHandlerTest.php',
+        'Paysera\\Tests\\EventHandlers\\WCOrderPaymentCompletedHandlerTest' => __DIR__ . '/../..' . '/tests/phpunit/EventHandlers/WCOrderPaymentCompletedHandlerTest.php',
+        'Paysera\\Tests\\Exception\\PayseraPaymentExceptionTest' => __DIR__ . '/../..' . '/tests/phpunit/Exception/PayseraPaymentExceptionTest.php',
+        'Paysera\\Tests\\Generator\\PayseraPaymentFieldGeneratorTest' => __DIR__ . '/../..' . '/tests/phpunit/Generator/PayseraPaymentFieldGeneratorTest.php',
+        'Paysera\\Tests\\Helper\\EventHandlingHelperTest' => __DIR__ . '/../..' . '/tests/phpunit/Helper/EventHandlingHelperTest.php',
+        'Paysera\\Tests\\Helper\\PayseraPaymentHelperTest' => __DIR__ . '/../..' . '/tests/phpunit/Helper/PayseraPaymentHelperTest.php',
+        'Paysera\\Tests\\Helper\\PayseraPaymentLibraryHelperTest' => __DIR__ . '/../..' . '/tests/phpunit/Helper/PayseraPaymentLibraryHelperTest.php',
+        'Paysera\\Tests\\Helper\\PostDataHelperTest' => __DIR__ . '/../..' . '/tests/phpunit/Helper/PostDataHelperTest.php',
+        'Paysera\\Tests\\Helper\\TerminalsHelperTest' => __DIR__ . '/../..' . '/tests/phpunit/Helper/TerminalsHelperTest.php',
+        'Paysera\\Tests\\Init\\PayseraInitTest' => __DIR__ . '/../..' . '/tests/phpunit/Init/PayseraInitTest.php',
+        'Paysera\\Tests\\Init\\PayseraWoocommerceTest' => __DIR__ . '/../..' . '/tests/phpunit/Init/PayseraWoocommerceTest.php',
+        'Paysera\\Tests\\Provider\\PayseraDeliverySettingsProviderTest' => __DIR__ . '/../..' . '/tests/phpunit/Provider/PayseraDeliverySettingsProviderTest.php',
+        'Paysera\\Tests\\Provider\\PayseraPaymentSettingsProviderTest' => __DIR__ . '/../..' . '/tests/phpunit/Provider/PayseraPaymentSettingsProviderTest.php',
+        'Paysera\\Tests\\Provider\\PayseraRatesProviderTest' => __DIR__ . '/../..' . '/tests/phpunit/Provider/PayseraRatesProviderTest.php',
+        'Paysera\\Tests\\Repository\\MerchantOrderRepositoryTest' => __DIR__ . '/../..' . '/tests/phpunit/Repository/MerchantOrderRepositoryTest.php',
+        'Paysera\\Tests\\Service\\AdminNoticeTest' => __DIR__ . '/../..' . '/tests/phpunit/Service/AdminNoticeTest.php',
+        'Paysera\\Tests\\Service\\PayseraDeliveryOrderServiceTest' => __DIR__ . '/../..' . '/tests/phpunit/Service/PayseraDeliveryOrderServiceTest.php',
+        'Paysera\\Tests\\Service\\SelfDiagnosis\\Library\\CompatibilityCheckerRegistryTest' => __DIR__ . '/../..' . '/tests/phpunit/Service/SelfDiagnosis/Library/CompatibilityCheckerRegistryTest.php',
+        'Paysera\\Tests\\Service\\SelfDiagnosis\\Library\\Factory\\VersionComparisonRulesFactoryTest' => __DIR__ . '/../..' . '/tests/phpunit/Service/SelfDiagnosis/Library/Factory/VersionComparisonRulesFactoryTest.php',
+        'Paysera\\Tests\\Service\\SelfDiagnosis\\Library\\Formatter\\JsonFormatterTest' => __DIR__ . '/../..' . '/tests/phpunit/Service/SelfDiagnosis/Library/Formatter/JsonFormatterTest.php',
+        'Paysera\\Tests\\Service\\SelfDiagnosis\\Library\\Formatter\\TableFormatterTest' => __DIR__ . '/../..' . '/tests/phpunit/Service/SelfDiagnosis/Library/Formatter/TableFormatterTest.php',
+        'Paysera\\Tests\\Service\\SelfDiagnosis\\Library\\Service\\CompatibilityCheckerManagerTest' => __DIR__ . '/../..' . '/tests/phpunit/Service/SelfDiagnosis/Library/Service/CompatibilityCheckerManagerTest.php',
+        'Paysera\\Tests\\Service\\SelfDiagnosis\\Library\\Util\\DiagnosticReportGeneratorTest' => __DIR__ . '/../..' . '/tests/phpunit/Service/SelfDiagnosis/Library/Util/DiagnosticReportGeneratorTest.php',
+        'Paysera\\Tests\\Service\\SelfDiagnosis\\Library\\Util\\SelfDiagnosisConfigTest' => __DIR__ . '/../..' . '/tests/phpunit/Service/SelfDiagnosis/Library/Util/SelfDiagnosisConfigTest.php',
+        'Paysera\\Tests\\Service\\SelfDiagnosis\\Library\\Util\\Unit\\ByteUnitTest' => __DIR__ . '/../..' . '/tests/phpunit/Service/SelfDiagnosis/Library/Util/Unit/ByteUnitTest.php',
+        'Paysera\\Tests\\Service\\SelfDiagnosis\\Library\\Util\\Unit\\GigabyteUnitTest' => __DIR__ . '/../..' . '/tests/phpunit/Service/SelfDiagnosis/Library/Util/Unit/GigabyteUnitTest.php',
+        'Paysera\\Tests\\Service\\SelfDiagnosis\\Library\\Util\\Unit\\KilobyteUnitTest' => __DIR__ . '/../..' . '/tests/phpunit/Service/SelfDiagnosis/Library/Util/Unit/KilobyteUnitTest.php',
+        'Paysera\\Tests\\Service\\SelfDiagnosis\\Library\\Util\\Unit\\MegabyteUnitTest' => __DIR__ . '/../..' . '/tests/phpunit/Service/SelfDiagnosis/Library/Util/Unit/MegabyteUnitTest.php',
+        'Paysera\\Tests\\Service\\SelfDiagnosis\\Library\\Util\\VersionComparisonRuleTest' => __DIR__ . '/../..' . '/tests/phpunit/Service/SelfDiagnosis/Library/Util/VersionComparisonRuleTest.php',
+        'Paysera\\Tests\\Service\\SelfDiagnosis\\Library\\Validator\\CompatibilityValidatorTest' => __DIR__ . '/../..' . '/tests/phpunit/Service/SelfDiagnosis/Library/Validator/CompatibilityValidatorTest.php',
+        'Paysera\\Tests\\Service\\SelfDiagnosis\\SelfDiagnosisYamlConfigLoaderTest' => __DIR__ . '/../..' . '/tests/phpunit/Service/SelfDiagnosis/SelfDiagnosisYamlConfigLoaderTest.php',
+        'Paysera\\Tests\\Utils\\LogMessageFormatterTest' => __DIR__ . '/../..' . '/tests/phpunit/Utils/LogMessageFormatterTest.php',
+        'Paysera\\Tests\\Utils\\OrderNotesFormatterTest' => __DIR__ . '/../..' . '/tests/phpunit/Utils/OrderNotesFormatterTest.php',
+        'Paysera\\Tests\\Validation\\DefaultValidationParamsTrait' => __DIR__ . '/../..' . '/tests/phpunit/Validation/DefaultValidationParamsTrait.php',
+        'Paysera\\Tests\\Validation\\PayseraDeliverySettingsClientValidatorTest' => __DIR__ . '/../..' . '/tests/phpunit/Validation/PayseraDeliverySettingsClientValidatorTest.php',
+        'Paysera\\Tests\\Validation\\PayseraDeliverySettingsValidatorTest' => __DIR__ . '/../..' . '/tests/phpunit/Validation/PayseraDeliverySettingsValidatorTest.php',
+        'Paysera\\Tests\\Validation\\Rules\\GreaterOrEqualsTest' => __DIR__ . '/../..' . '/tests/phpunit/Validation/Rules/GreaterOrEqualsTest.php',
+        'Paysera\\Tests\\Validation\\Rules\\IsNumberTest' => __DIR__ . '/../..' . '/tests/phpunit/Validation/Rules/IsNumberTest.php',
+        'Paysera\\Tests\\Validation\\Rules\\LessOrEqualsTest' => __DIR__ . '/../..' . '/tests/phpunit/Validation/Rules/LessOrEqualsTest.php',
+        'Paysera\\Tests\\WCHelperOrder' => __DIR__ . '/../..' . '/tests/phpunit/WCHelperOrder.php',
+        'Paysera\\Tests\\WCHelperProduct' => __DIR__ . '/../..' . '/tests/phpunit/WCHelperProduct.php',
+        'Paysera\\Tests\\WCHelperShipping' => __DIR__ . '/../..' . '/tests/phpunit/WCHelperShipping.php',
         'Paysera\\Utils\\LogMessageFormatter' => __DIR__ . '/../..' . '/src/Utils/LogMessageFormatter.php',
         'Paysera\\Utils\\OrderNotesFormatter' => __DIR__ . '/../..' . '/src/Utils/OrderNotesFormatter.php',
         'Paysera\\Validation\\PayseraDeliverySettingsClientValidator' => __DIR__ . '/../..' . '/src/Validation/PayseraDeliverySettingsClientValidator.php',
@@ -1568,10 +1624,10 @@ class ComposerStaticInitd30b45088debd6642ad6b5441a0cf4fa
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitd30b45088debd6642ad6b5441a0cf4fa::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitd30b45088debd6642ad6b5441a0cf4fa::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitd30b45088debd6642ad6b5441a0cf4fa::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitd30b45088debd6642ad6b5441a0cf4fa::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitf3bb7baf41ceed055b8b770ba00e9628::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitf3bb7baf41ceed055b8b770ba00e9628::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitf3bb7baf41ceed055b8b770ba00e9628::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitf3bb7baf41ceed055b8b770ba00e9628::$classMap;
 
         }, null, ClassLoader::class);
     }

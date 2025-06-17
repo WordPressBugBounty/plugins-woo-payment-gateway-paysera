@@ -1,9 +1,9 @@
 WooCommerce Payment Gateway - Paysera
 =======================
 
-Version: 3.7.0
+Version: 3.7.1
 
-Date: 2025-04-10
+Date: 2025-06-08
 
 Contributors: Paysera
 
@@ -13,7 +13,7 @@ Requires at least: 4.0
 
 Tested up to: 6.8
 
-Stable tag: 3.7.0
+Stable tag: 3.7.1
 
 Requires PHP: 7.4
 
@@ -166,6 +166,9 @@ Installation from admin panel (marketplace):
 
 Changelog
 ---------
+
+= 3.7.1 =
+* Fix - Corrected order status handling, removed unnecessary "pending checkout" state, and stopped treating additional payment info callbacks as errors.
 
 = 3.7.0 =
 * Improvement - Added Self-Diagnosis tool to help identify and resolve issues with the checkout and delivery services.
