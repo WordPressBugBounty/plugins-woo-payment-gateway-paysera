@@ -2,7 +2,7 @@
 # This file is distributed under the GPL version 3 or later - http://www.gnu.org/licenses/gpl-3.0.html.
 msgid ""
 msgstr ""
-"Project-Id-Version: WooCommerce Payment Gateway - Paysera 3.5.8\n"
+"Project-Id-Version: Paysera Payment Gateway for WooCommerce - Paysera 3.7.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/plugins/woo-payment-gateway-paysera/\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"

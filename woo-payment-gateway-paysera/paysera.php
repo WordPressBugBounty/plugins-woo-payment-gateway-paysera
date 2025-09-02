@@ -1,18 +1,18 @@
 <?php
 /*
-  Plugin Name: WooCommerce Payment Gateway - Paysera
+  Plugin Name: Paysera Payment Gateway for WooCommerce
   Plugin URI: https://www.paysera.com
   Text Domain: paysera
   Domain Path: /languages
   Description: Paysera offers payment and delivery gateway services for your e-shops
-  Version: 3.7.1
+  Version: 3.7.2
   Requires PHP: 7.4
   Author: Paysera
   Author URI: https://www.paysera.com
   License: GPL version 3 or later - http://www.gnu.org/licenses/gpl-3.0.html
 
   WC requires at least: 8.2
-  WC tested up to: 9.2
+  WC tested up to: 10.1
 
   @package WordPress
   @author Paysera (https://www.paysera.com)
@@ -46,7 +46,7 @@ use Paysera\Scoped\Symfony\Component\Dotenv\Dotenv;
 class PayseraWoocommerce
 {
     const PAYSERA_MIN_REQUIRED_PHP_VERSION = '7.4';
-    const PAYSERA_PLUGIN_VERSION = '3.7.1';
+    const PAYSERA_PLUGIN_VERSION = '3.7.2';
     public static bool $isInitialized = false;
     private PayseraDeliveryActions $payseraDeliveryActions;
     private ContainerInterface $container;

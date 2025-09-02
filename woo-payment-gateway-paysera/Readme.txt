@@ -1,11 +1,11 @@
-=== WooCommerce Payment Gateway - Paysera ===
-Version: 3.7.1
+=== Paysera Payment Gateway for WooCommerce ===
+Version: 3.7.2
 Date: 2025-04-10
 Contributors: Paysera
 Tags: online payment, payment, payment gateway, international payments, shipping
 Requires at least: 4.0
 Tested up to: 6.8
-Stable tag: 3.7.1
+Stable tag: 3.7.2
 Requires PHP: 7.4
 Requires PHP Extension: BCMath, Zip
 Minimum requirements: WooCommerce 5.0
@@ -130,6 +130,9 @@ Follow video tutorial or instructions below.
 9. Delivery Gateways Selection
 
 == Changelog ==
+
+= 3.7.2 =
+* Updated plugin name from "WooCommerce Payment Gateway – Paysera" to "Paysera Payment Gateway for WooCommerce" for better clarity and consistency.
 
 = 3.7.1 =
 * Fix - Corrected order status handling, removed unnecessary "pending checkout" state, and stopped treating additional payment info callbacks as errors.
