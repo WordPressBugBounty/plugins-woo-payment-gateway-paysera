@@ -1,11 +1,11 @@
 === WooCommerce Payment Gateway - Paysera ===
-Version: 3.8.0
+Version: 3.8.0.1
 Date: 2025-04-10
 Contributors: Paysera
 Tags: online payment, payment, payment gateway, international payments, shipping
 Requires at least: 4.0
 Tested up to: 6.8
-Stable tag: 3.8.0
+Stable tag: 3.8.0.1
 Requires PHP: 7.4
 Requires PHP Extension: BCMath, Zip
 Minimum requirements: WooCommerce 5.0
@@ -130,6 +130,9 @@ Follow video tutorial or instructions below.
 9. Delivery Gateways Selection
 
 == Changelog ==
+
+= 3.8.0.1 = 
+* Fix updating plugin
 
 = 3.8.0 =
 * Improvement - Displayed Parcel Locker Address in Admin Panel (Shipping Section)
@@ -521,6 +524,9 @@ Follow video tutorial or instructions below.
 * Fix - Admin textfield fix
 
 == Upgrade Notice ==
+
+= 3.8.0.1 = 
+* Fix updating plugin
 
 = 3.8.0 =
 * Improvement - Displayed Parcel Locker Address in Admin Panel (Shipping Section)
