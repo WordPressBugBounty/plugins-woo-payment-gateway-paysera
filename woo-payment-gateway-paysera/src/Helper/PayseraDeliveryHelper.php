@@ -8,14 +8,13 @@ defined('ABSPATH') || exit;
 
 use Paysera\DeliveryApi\MerchantClient\Entity\Address;
 use Paysera\Scoped\Paysera\DeliverySdk\Entity\DeliveryTerminalLocationFactoryInterface;
+use Paysera\Scoped\Paysera\DeliverySdk\Entity\DeliveryTerminalLocationInterface;
 use Paysera\Scoped\Paysera\DeliverySdk\Util\DeliveryGatewayUtils;
 use Paysera\Entity\PayseraDeliverySettings;
 use Paysera\Entity\PayseraPaths;
-use Paysera\PayseraInit;
-use Paysera\Provider\PayseraDeliverySettingsProvider;
+use RuntimeException;
 use WC;
 use WC_Order;
-use WC_Order_Item_Shipping;
 use WC_Shipping_Zone;
 use WC_Shipping_Zones;
 
@@ -240,5 +239,35 @@ class PayseraDeliveryHelper
         }
 
         return $this->cartTotalWeight;
+    }
+
+    public function getTerminalLocationName(DeliveryTerminalLocationInterface $deliveryTerminalLocation): string
+    {
+        $terminalsList = $this->payseraDeliveryLibraryHelper->getParcelMachinesLocations(
+            $deliveryTerminalLocation,
+        );
+        if (isset($terminalsList[$deliveryTerminalLocation->getTerminalId()])) {
+            return $terminalsList[$deliveryTerminalLocation->getTerminalId()];
+        }
+        throw new RuntimeException('Terminal ' . $deliveryTerminalLocation->getTerminalId() . ' does not exist.');
+    }
+
+    public function setTerminalAsShippingAddress(WC_Order $order, DeliveryTerminalLocationInterface $terminalLocation): void
+    {
+        $terminalName = $this->getTerminalLocationName($terminalLocation);
+
+        $order->set_shipping([
+            'first_name' => $order->get_billing_first_name(),
+            'last_name'  => $order->get_billing_last_name(),
+            'address_1'  => $terminalName,
+            'address_2'  => '',
+            'city'       => $terminalLocation->getCity(),
+            'state'      => $terminalLocation->getCountry(),
+            'postcode'   => '',
+            'country'    => $terminalLocation->getCountry(),
+        ]);
+
+        $order->update_meta_data(PayseraDeliverySettings::SELECTED_TERMINAL_NAME_KEY, $terminalName);
+        $order->save();
     }
 }

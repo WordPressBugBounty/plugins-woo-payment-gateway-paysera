@@ -36,6 +36,7 @@ class PayseraDeliverySettings implements PayseraDeliverySettingsInterface
     public const TERMINAL_COUNTRY = 'paysera_terminal_country';
     public const TERMINAL_CITY = 'paysera_terminal_city';
     public const TERMINAL = 'terminal';
+    public const SELECTED_TERMINAL_NAME = '_paysera_selected_terminal_name';
     public const TERMINAL_LOCATION = 'paysera_terminal_location';
     public const BILLING_HOUSE_NO = 'billing_house_no';
     public const SHIPPING_HOUSE_NO = 'shipping_house_no';
@@ -81,13 +82,15 @@ class PayseraDeliverySettings implements PayseraDeliverySettingsInterface
 
     public const WC_ORDER_EVENT_PAYMENT_COMPLETED = 'wc_order_payment_completed';
 
-    public const ORDER_META_KEY_HOUSE_NO = '_shipping_house_no';
+    public const ORDER_META_KEY_SHIPPING_HOUSE_NO = '_shipping_house_no';
+    public const ORDER_META_KEY_BILLING_HOUSE_NO = '_billing_house_no';
 
     public const DELIVERY_ORDER_ID_META_KEY = '_paysera_delivery_order_api_id';
     public const DELIVERY_ORDER_NUMBER_META_KEY = '_paysera_delivery_order_id';
     public const DELIVERY_ORDER_TERMINAL_COUNTRY_META_KEY = '_paysera_delivery_order_terminal_country';
     public const DELIVERY_ORDER_TERMINAL_CITY_META_KEY = '_paysera_delivery_order_terminal_city';
     public const DELIVERY_ORDER_TERMINAL_KEY = '_paysera_delivery_order_terminal_id';
+    public const SELECTED_TERMINAL_NAME_KEY = '_paysera_selected_terminal_name';
 
     private bool $enabled;
     private ?int $projectId;

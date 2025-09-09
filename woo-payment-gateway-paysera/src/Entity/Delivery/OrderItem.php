@@ -10,9 +10,6 @@ use WC_Product;
 
 class OrderItem implements MerchantOrderItemInterface
 {
-    private WC_Product $product;
-    private int $dimensionRate;
-    private int $weightRate;
     private int $weight;
     private int $length;
     private int $width;
@@ -20,14 +17,10 @@ class OrderItem implements MerchantOrderItemInterface
 
     public function __construct(WC_Product $product, int $weightRate, int $dimensionRate)
     {
-        $this->product = $product;
-        $this->weightRate = $weightRate;
-        $this->dimensionRate = $dimensionRate;
-
-        $this->setPropertyFromProduct('weight', $this->weightRate);
-        $this->setPropertyFromProduct('length', $this->dimensionRate);
-        $this->setPropertyFromProduct('width', $this->dimensionRate);
-        $this->setPropertyFromProduct('height', $this->dimensionRate);
+        $this->weight = $this->calculateProductDimension($product->get_weight(), $weightRate);
+        $this->length = $this->calculateProductDimension($product->get_length(), $dimensionRate);
+        $this->width = $this->calculateProductDimension($product->get_width(), $dimensionRate);
+        $this->height = $this->calculateProductDimension($product->get_height(), $dimensionRate);
     }
 
     public function getWeight(): int
@@ -50,11 +43,8 @@ class OrderItem implements MerchantOrderItemInterface
         return $this->height;
     }
 
-    private function setPropertyFromProduct(string $property, int $rate): void
+    private function calculateProductDimension(string $value, int $rate): int
     {
-        $getter = 'get_' . $property;
-        $value = !empty($this->product->$getter()) ? (int)$this->product->$getter() : 0;
-        $value *= $rate;
-        $this->{$property} = $value;
+        return (int) ( ((float) $value) * $rate );
     }
 }

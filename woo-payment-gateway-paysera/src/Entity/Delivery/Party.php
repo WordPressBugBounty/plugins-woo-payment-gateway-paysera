@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Paysera\Entity\Delivery;
 
 use Paysera\Entity\PayseraDeliverySettings;
+use Paysera\Helper\PayseraDeliveryHelper;
 use Paysera\Scoped\Paysera\DeliverySdk\Entity\DeliveryTerminalLocationFactoryInterface;
 use Paysera\Scoped\Paysera\DeliverySdk\Entity\DeliveryTerminalLocationInterface;
 use Paysera\Scoped\Paysera\DeliverySdk\Entity\MerchantOrderAddressInterface;
@@ -30,19 +31,22 @@ class Party extends AbstractEntity implements MerchantOrderPartyInterface
     private Address $address;
     private string $deliveryGatewayCode;
     private DeliveryTerminalLocationFactoryInterface $deliveryTerminalLocationFactory;
+    private PayseraDeliveryHelper $deliveryHelper;
 
     public function __construct(
         WC_Order $wcOrder,
         string $type,
         string $deliveryGatewayCode,
         DeliveryTerminalLocationFactoryInterface $deliveryTerminalLocationFactory,
-        CompatibilityManager $compatibilityManager
+        CompatibilityManager $compatibilityManager,
+        PayseraDeliveryHelper $deliveryHelper
     ) {
         $this->order = $wcOrder;
         $this->contact = new Contact($this->order, $type, $compatibilityManager);
         $this->address = new Address($this->order, $type);
         $this->deliveryGatewayCode = $deliveryGatewayCode;
         $this->deliveryTerminalLocationFactory = $deliveryTerminalLocationFactory;
+        $this->deliveryHelper = $deliveryHelper;
     }
 
     public function getContact(): MerchantOrderContactInterface
@@ -66,6 +70,8 @@ class Party extends AbstractEntity implements MerchantOrderPartyInterface
 
             return $this;
         }
+
+        $this->deliveryHelper->setTerminalAsShippingAddress($this->order, $terminalLocation);
 
         foreach (self::META_MAP as $metaKey => $getterMethod) {
             $this->order->update_meta_data($metaKey, $terminalLocation->{$getterMethod}());

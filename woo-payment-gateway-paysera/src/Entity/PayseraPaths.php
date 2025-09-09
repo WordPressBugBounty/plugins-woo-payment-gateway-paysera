@@ -39,4 +39,5 @@ class PayseraPaths
     public const PAYSERA_ADMIN_DELIVERY_SETTINGS_CSS = PayseraPluginUrl . 'assets/css/paysera-delivery-client-validation.css';
     public const PAYSERA_SHIPPING_BLOCK_JS = PayseraPluginUrl . 'assets/build/paysera-shipping-block.js';
     public const PAYSERA_SHIPPING_BLOCK_FRONTEND_JS = PayseraPluginUrl . 'assets/build/paysera-shipping-block-frontend.js';
+    public const PAYSERA_ADMIN_AJAX_PHP = 'admin-ajax.php';
 }

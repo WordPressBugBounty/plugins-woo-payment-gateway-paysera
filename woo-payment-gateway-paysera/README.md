@@ -1,7 +1,7 @@
 Paysera Payment Gateway for WooCommerce
 =======================
 
-Version: 3.7.2
+Version: 3.8.0
 
 Date: 2025-06-08
 
@@ -13,7 +13,7 @@ Requires at least: 4.0
 
 Tested up to: 6.8
 
-Stable tag: 3.7.2
+Stable tag: 3.8.0
 
 Requires PHP: 7.4
 
@@ -166,6 +166,13 @@ Installation from admin panel (marketplace):
 
 Changelog
 ---------
+
+= 3.8.0 =
+* Improvement - Displayed Parcel Locker Address in Admin Panel (Shipping Section)
+* Improvement - Displayed Parcel Locker Address in Order Confirmation Email
+* Fix - House number info is displayed on the order confirmation page
+* Fix - Delivery order is now created with correct weight when using decimal values
+* Fix - Кedirection to Paysera about page after clicking dismiss tab 
 
 = 3.7.2 =
 * Updated plugin name from "WooCommerce Payment Gateway – Paysera" to "Paysera Payment Gateway for WooCommerce" for better clarity and consistency.
@@ -550,6 +557,19 @@ Changelog
 
 Upgrade Notice
 --------------
+
+= 3.8.0 =
+* Improvement - Displayed Parcel Locker Address in Admin Panel (Shipping Section)
+* Improvement - Displayed Parcel Locker Address in Order Confirmation Email
+* Fix - House number info is displayed on the order confirmation page
+* Fix - Delivery order is now created with correct weight when using decimal values
+* Fix - Кedirection to Paysera about page after clicking dismiss tab 
+
+= 3.7.2 =
+* Updated plugin name from "WooCommerce Payment Gateway – Paysera" to "Paysera Payment Gateway for WooCommerce" for better clarity and consistency.
+
+= 3.7.1 =
+* Fix - Corrected order status handling, removed unnecessary "pending checkout" state, and stopped treating additional payment info callbacks as errors.
 
 = 3.7.0 =
 * Improvement - Added Self-Diagnosis tool to help identify and resolve issues with the checkout and delivery services.

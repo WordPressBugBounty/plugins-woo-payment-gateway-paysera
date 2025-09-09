@@ -8,6 +8,7 @@ defined('ABSPATH') || exit;
 
 use Paysera\Action\PayseraDeliveryActions;
 use Paysera\Action\PayseraSelfDiagnosisActions;
+use Paysera\Blocks\PayseraBlock;
 use Paysera\Scoped\Paysera\DeliverySdk\Entity\PayseraDeliverySettingsInterface;
 use Paysera\Scoped\Paysera\DeliverySdk\Service\DeliveryLoggerInterface;
 use Paysera\Entity\PayseraDeliverySettings;
@@ -64,12 +65,34 @@ class PayseraDeliveryAdmin
 
     public function build(): void
     {
-        add_action('admin_init', [$this, 'settingsInit']);
-        add_action('woocommerce_checkout_order_processed', [$this, 'wcCheckoutOrderProcessed'], 1, 3);
-        add_action('woocommerce_store_api_checkout_order_processed', [$this, 'wcStoreApiCheckoutOrderProcessed'], 100, 1);
-        add_action('woocommerce_admin_order_data_after_shipping_address', [$this, 'setShippingHouseField'], 10, 1);
-        add_action('woocommerce_admin_order_data_after_billing_address', [$this, 'setBillingHouseField'], 10, 1);
-        add_action('woocommerce_product_options_dimensions', [$this, 'appendDimensionsHint']);
+        add_action(
+            'admin_init',
+            [$this, 'settingsInit']
+        );
+        add_action(
+            'woocommerce_checkout_order_processed',
+            [$this, 'wcCheckoutOrderProcessed'],
+            1,
+            3
+        );
+        add_action(
+            'woocommerce_store_api_checkout_order_processed',
+            [$this, 'wcStoreApiCheckoutOrderProcessed'],
+            100,
+            1
+        );
+        add_action(
+            'woocommerce_admin_order_data_after_shipping_address',
+            [$this, 'displayShippingHouseField']
+        );
+        add_action(
+            'woocommerce_admin_order_data_after_billing_address',
+            [$this, 'displayBillingHouseField']
+        );
+        add_action(
+            'woocommerce_product_options_dimensions',
+            [$this, 'appendDimensionsHint']
+        );
     }
 
     public function settingsInit(): void
@@ -284,7 +307,10 @@ class PayseraDeliveryAdmin
                     ? 'yes' : 'no'
             ) .
             $this->adminHtml->buildLabel(
-                __('Hide shipping methods that are above or under set weight limits', PayseraPaths::PAYSERA_TRANSLATIONS)
+                __(
+                    'Hide shipping methods that are above or under set weight limits',
+                    PayseraPaths::PAYSERA_TRANSLATIONS
+                )
             )
         );
     }
@@ -330,24 +356,28 @@ class PayseraDeliveryAdmin
         }
     }
 
-    public function setShippingHouseField(WC_Order $order): void
+    public function displayShippingHouseField(WC_Order $order): void
     {
         foreach ($order->get_meta_data() as $metaData) {
-            if ($metaData->get_data()['key'] === '_shipping_house_no') {
-                echo '<div class="address"><p><strong>' . __('House Number', PayseraPaths::PAYSERA_TRANSLATIONS) . ':</strong> '
-                    . $metaData->get_data()['value'] . '</p></div>'
-                ;
+            if ($metaData->get_data()['key'] === PayseraDeliverySettings::ORDER_META_KEY_SHIPPING_HOUSE_NO) {
+                echo '<div class="address"><p><strong>' . __(
+                        'House Number',
+                        PayseraPaths::PAYSERA_TRANSLATIONS
+                    ) . ':</strong> '
+                    . $metaData->get_data()['value'] . '</p></div>';
             }
         }
     }
 
-    public function setBillingHouseField(WC_Order $order): void
+    public function displayBillingHouseField(WC_Order $order): void
     {
         foreach ($order->get_meta_data() as $metaData) {
-            if ($metaData->get_data()['key'] === '_billing_house_no') {
-                echo '<div class="address"><p><strong>' . __('House Number', PayseraPaths::PAYSERA_TRANSLATIONS) . ':</strong> '
-                    . $metaData->get_data()['value'] . '</p></div>'
-                ;
+            if ($metaData->get_data()['key'] === PayseraDeliverySettings::ORDER_META_KEY_BILLING_HOUSE_NO) {
+                echo '<div class="address"><p><strong>' . __(
+                        'House Number',
+                        PayseraPaths::PAYSERA_TRANSLATIONS
+                    ) . ':</strong> '
+                    . $metaData->get_data()['value'] . '</p></div>';
             }
         }
     }
@@ -361,17 +391,17 @@ class PayseraDeliveryAdmin
         if (count($this->deliverySettingsProvider->getActivePayseraDeliveryGateways()) <= 0) {
             return;
         } ?>
-            <p class="form-field _weight_field" style="margin-left: -12px; color: gray;">
-                <label style="margin-left: 0;"></label>
-                <span class="woocommerce-help-tip"></span>
-                <span>
+        <p class="form-field _weight_field" style="margin-left: -12px; color: gray;">
+            <label style="margin-left: 0;"></label>
+            <span class="woocommerce-help-tip"></span>
+            <span>
                     <?php
-                        esc_html_e(
-                            'Please provide package dimensions if you would like to use the shipping methods provided by Paysera.',
-                            PayseraPaths::PAYSERA_TRANSLATIONS
-                        ); ?>
+                    esc_html_e(
+                        'Please provide package dimensions if you would like to use the shipping methods provided by Paysera.',
+                        PayseraPaths::PAYSERA_TRANSLATIONS
+                    ); ?>
                 </span>
-            </p>
+        </p>
         <?php
     }
 

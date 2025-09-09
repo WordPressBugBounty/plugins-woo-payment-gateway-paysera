@@ -425,11 +425,11 @@ class PayseraDeliveryFrontHtml
         $shippingHouseNo = $this->sessionHelper->getData(PayseraDeliverySettings::SHIPPING_HOUSE_NO);
 
         if (!empty($billingHouseNo)) {
-            $order->update_meta_data('_billing_house_no', $billingHouseNo);
+            $order->update_meta_data(PayseraDeliverySettings::ORDER_META_KEY_BILLING_HOUSE_NO, $billingHouseNo);
         }
 
         if (!empty($shippingHouseNo)) {
-            $order->update_meta_data('_shipping_house_no', $shippingHouseNo);
+            $order->update_meta_data(PayseraDeliverySettings::ORDER_META_KEY_SHIPPING_HOUSE_NO, $shippingHouseNo);
         }
     }
 

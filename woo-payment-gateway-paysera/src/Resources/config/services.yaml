@@ -139,6 +139,9 @@ services:
   Paysera\Helper\SessionHelperInterface:
     alias: Paysera\Helper\WCSessionHelper
 
+  Paysera\Format\PayseraCustomAddressFormat:
+    class: Paysera\Format\PayseraCustomAddressFormat
+
   Paysera\Service\DeliveryLogger:
     factory: [ '@Paysera\Factory\LoggerFactory', 'createDeliveryLogger' ]
 

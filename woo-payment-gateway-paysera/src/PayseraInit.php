@@ -92,11 +92,12 @@ class PayseraInit
         }
         add_filter('woocommerce_cart_shipping_method_full_label', [$this, 'deliveryGatewayLogos'], PHP_INT_MAX, 2);
         add_action('admin_notices', [$this, 'payseraDeliveryPluginNotice']);
-        add_action('admin_init', [$this, 'payseraDeliveryPluginNoticeDismiss']);
+        add_action('admin_enqueue_scripts', [$this, 'enqueueNoticeScripts']);
         add_action('woocommerce_init', [$this, 'enableCartFrontendForRestApi']);
         add_action('before_woocommerce_init', [$this, 'declareWooCommerceHighPerformanceOrderStorageCompatibility']);
         add_action('rest_api_init', [$this, 'registerRestRoutes']);
         add_filter('woocommerce_order_received_verify_known_shoppers', [$this, 'restrictOrderReceivedFromUnknownClient'] );
+	    add_action('wp_ajax_dismiss_paysera_plugin_notice', [$this, 'payseraDeliveryPluginNoticeDismiss'] );
     }
 
     public function loadPayseraPlugin(): bool
@@ -114,6 +115,32 @@ class PayseraInit
         return true;
     }
 
+    public function enqueueNoticeScripts(): void
+    {
+        if (get_user_meta(wp_get_current_user()->ID, 'paysera_new_delivery_notice', true) !== 'true') {
+            wp_enqueue_script('jquery');
+            
+            wp_add_inline_script('jquery', '
+                jQuery(document).ready(function($) {
+                    $(document).on("click", "#paysera-new-delivery-notice .notice-dismiss", function(e) {
+                        e.preventDefault();
+                        $.ajax({
+                            url: "' . admin_url(PayseraPaths::PAYSERA_ADMIN_AJAX_PHP) . '",
+                            type: "POST",
+                            data: {
+                                action: "dismiss_paysera_plugin_notice",
+                                security: "' . wp_create_nonce('paysera_admin_nonce') . '"
+                            },
+                            error: function(xhr) {
+                                console.error("AJAX error:", xhr.responseText);
+                            }
+                        });
+                    });
+                });
+            ');
+        }
+    }
+
     public function payseraDeliveryPluginNotice(): void
     {
         PayseraHTMLHelper::enqueueCSS('paysera-payment-css', PayseraPaths::PAYSERA_PAYMENT_CSS);
@@ -128,30 +155,30 @@ class PayseraInit
             . __('Plugin & Services.', PayseraPaths::PAYSERA_TRANSLATIONS) . '</a>'
         );
 
-        if (!get_user_meta(wp_get_current_user()->ID, 'paysera_new_delivery_notice')) {
-            echo wp_kses(
-                '<div class="notice notice-info"><p><b>'
-                . __('Paysera Payment And Delivery', PayseraPaths::PAYSERA_TRANSLATIONS) . ': </b>' . $notice
-                . '<a href="?paysera-new-delivery-notice-dismiss" class="notice-dismiss paysera-notice-dismiss"></a></p></div>',
-                [
-                    'div' => ['class' => []],
-                    'p' => [],
-                    'b' => [],
-                    'br' => [],
-                    'a' => ['href' => [], 'class' => []],
-                ]
-            );
-        }
+        if (get_user_meta(wp_get_current_user()->ID, 'paysera_new_delivery_notice', true) !== 'true') {
+		    echo wp_kses(
+		        '<div id="paysera-new-delivery-notice" class="notice notice-info is-dismissible"><p><b>'
+			    . __( 'Paysera Payment And Delivery', PayseraPaths::PAYSERA_TRANSLATIONS ) . ': </b>' . $notice
+    		    .'</p></div>',
+			    [
+				    'div' => [ 'class' => [], 'id' => [] ],
+				    'p'   => [],
+				    'b'   => [],
+				    'br'  => [],
+				    'button' => [ 'id' => [], 'type' => [], 'class' => [] ],
+				    'span' => [ 'class' => [] ],
+			    ],
+			    ['http', 'https']
+		    );
+	    }
     }
 
     public function payseraDeliveryPluginNoticeDismiss(): void
     {
-        if (isset($_GET['paysera-new-delivery-notice-dismiss'])) {
-            add_user_meta(wp_get_current_user()->ID, 'paysera_new_delivery_notice', 'true', true);
+        check_ajax_referer('paysera_admin_nonce', 'security');
 
-            wp_safe_redirect('admin.php?page=paysera');
-            exit();
-        }
+        update_user_meta(get_current_user_id(), 'paysera_new_delivery_notice', 'true');
+		wp_send_json_success('Notice dismissed');
     }
 
     public function displayAdminErrors(): void

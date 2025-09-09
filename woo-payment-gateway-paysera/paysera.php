@@ -5,7 +5,7 @@
   Text Domain: paysera
   Domain Path: /languages
   Description: Paysera offers payment and delivery gateway services for your e-shops
-  Version: 3.7.2
+  Version: 3.8.0
   Requires PHP: 7.4
   Author: Paysera
   Author URI: https://www.paysera.com
@@ -33,6 +33,7 @@ use Paysera\Entity\PayseraDeliverySettings;
 use Paysera\Entity\PayseraPaths;
 use Paysera\Entity\PayseraPaymentSettings;
 use Paysera\Front\PayseraDeliveryFrontHtml;
+use Paysera\Front\PayseraEmailFrontHtml;
 use Paysera\Helper\DatabaseHelper;
 use Paysera\Helper\LogHelper;
 use Paysera\Helper\PayseraDeliveryHelper;
@@ -42,11 +43,12 @@ use Paysera\Provider\ContainerProvider;
 use Paysera\Provider\PayseraDeliverySettingsProvider;
 use Paysera\Scoped\Psr\Container\ContainerInterface;
 use Paysera\Scoped\Symfony\Component\Dotenv\Dotenv;
+use Paysera\Format\PayseraCustomAddressFormat;
 
 class PayseraWoocommerce
 {
     const PAYSERA_MIN_REQUIRED_PHP_VERSION = '7.4';
-    const PAYSERA_PLUGIN_VERSION = '3.7.2';
+    const PAYSERA_PLUGIN_VERSION = '3.8.0';
     public static bool $isInitialized = false;
     private PayseraDeliveryActions $payseraDeliveryActions;
     private ContainerInterface $container;
@@ -133,7 +135,9 @@ class PayseraWoocommerce
             ;
             $this->payseraDeliveryActions->updateSettingsOption(
                 PayseraDeliverySettings::ENABLED,
-                !empty($deliverySettings->getProjectId()) && !empty($deliverySettings->getProjectPassword()) ? 'yes' : 'no'
+                !empty($deliverySettings->getProjectId()) && !empty(
+                $deliverySettings->getProjectPassword()
+                ) ? 'yes' : 'no'
             );
         }
     }
@@ -148,6 +152,7 @@ class PayseraWoocommerce
         $this->container->get(PayseraDeliveryFrontHtml::class)->build();
         $this->container->get(PayseraPaymentActions::class)->build();
         $this->container->get(PayseraSelfDiagnosisActions::class)->build();
+        $this->container->get(PayseraCustomAddressFormat::class)->register();
     }
 
     public function initBlocks(): void
@@ -247,11 +252,9 @@ class PayseraWoocommerce
         <div class="error">
             <p><b><?php esc_html_e('Paysera Payment And Delivery', PayseraPaths::PAYSERA_TRANSLATIONS); ?></b></p>
             <p><?php esc_html_e($this->getDepencyErrorMessages()['woocommerce_missing']); ?></p>
-            <p>
-                <a href="<?php echo esc_url(admin_url('plugins.php')); ?>" class="button button-primary">
-                    « <?php esc_html_e('Go back', PayseraPaths::PAYSERA_TRANSLATIONS); ?>
-                </a>
-            </p>
+            <a href="<?php echo esc_url(admin_url('plugins.php')); ?>" class="button button-primary">
+                « <?php esc_html_e('Go back', PayseraPaths::PAYSERA_TRANSLATIONS); ?>
+            </a>
         </div>
         <?php
     }

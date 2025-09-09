@@ -131,7 +131,8 @@ class Paysera_Payment_Gateway extends WC_Payment_Gateway
             (string) $_REQUEST['data']
         );
         $paymentValidationRequest->setSs1($_REQUEST['ss1'] ?? null)
-            ->setSs2($_REQUEST['ss2'] ?? null);
+            ->setSs2($_REQUEST['ss2'] ?? null)
+            ->setSs3($_REQUEST['ss3'] ?? null);
 
         try {
             $response = $checkoutFacade->getPaymentCallbackValidatedData($paymentValidationRequest);

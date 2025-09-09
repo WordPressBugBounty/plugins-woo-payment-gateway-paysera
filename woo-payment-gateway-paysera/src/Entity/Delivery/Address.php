@@ -90,13 +90,13 @@ class Address extends AbstractEntity implements MerchantOrderAddressInterface
 
     public function setHouseNumber(?string $houseNumber): MerchantOrderAddressInterface
     {
-        $this->order->update_meta_data(PayseraDeliverySettings::ORDER_META_KEY_HOUSE_NO, $houseNumber ?? '');
+        $this->order->update_meta_data(PayseraDeliverySettings::ORDER_META_KEY_SHIPPING_HOUSE_NO, $houseNumber ?? '');
 
         return $this;
     }
 
     public function getHouseNumber(): ?string
     {
-        return $this->order->get_meta(PayseraDeliverySettings::ORDER_META_KEY_HOUSE_NO);
+        return $this->order->get_meta(PayseraDeliverySettings::ORDER_META_KEY_SHIPPING_HOUSE_NO);
     }
 }

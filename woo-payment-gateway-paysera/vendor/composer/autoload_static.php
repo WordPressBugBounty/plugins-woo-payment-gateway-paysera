@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInite05605030b99989783ab59f635d97f2d
+class ComposerStaticInit2d932b8a5ec0741c98ebc764e83483a2
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -356,6 +356,7 @@ class ComposerStaticInite05605030b99989783ab59f635d97f2d
         'Paysera\\CheckoutSdk\\Entity\\PaymentMethodCountry' => __DIR__ . '/..' . '/paysera/lib-checkout-sdk-facade/src/Entity/PaymentMethodCountry.php',
         'Paysera\\CheckoutSdk\\Entity\\PaymentMethodGroup' => __DIR__ . '/..' . '/paysera/lib-checkout-sdk-facade/src/Entity/PaymentMethodGroup.php',
         'Paysera\\CheckoutSdk\\Entity\\PaymentRedirectResponse' => __DIR__ . '/..' . '/paysera/lib-checkout-sdk-facade/src/Entity/PaymentRedirectResponse.php',
+        'Paysera\\CheckoutSdk\\Entity\\Refund' => __DIR__ . '/..' . '/paysera/lib-checkout-sdk-facade/src/Entity/Refund.php',
         'Paysera\\CheckoutSdk\\Entity\\RequestInterface' => __DIR__ . '/..' . '/paysera/lib-checkout-sdk-facade/src/Entity/RequestInterface.php',
         'Paysera\\CheckoutSdk\\Entity\\Request\\PaymentCallbackValidationRequest' => __DIR__ . '/..' . '/paysera/lib-checkout-sdk-facade/src/Entity/Request/PaymentCallbackValidationRequest.php',
         'Paysera\\CheckoutSdk\\Entity\\Request\\PaymentMethodsRequest' => __DIR__ . '/..' . '/paysera/lib-checkout-sdk-facade/src/Entity/Request/PaymentMethodsRequest.php',
@@ -598,6 +599,7 @@ class ComposerStaticInite05605030b99989783ab59f635d97f2d
         'Paysera\\Factory\\OrderFactory' => __DIR__ . '/../..' . '/src/Factory/OrderFactory.php',
         'Paysera\\Factory\\OrderItemsCollectionFactory' => __DIR__ . '/../..' . '/src/Factory/OrderItemsCollectionFactory.php',
         'Paysera\\Factory\\PartyFactory' => __DIR__ . '/../..' . '/src/Factory/PartyFactory.php',
+        'Paysera\\Format\\PayseraCustomAddressFormat' => __DIR__ . '/../..' . '/src/Format/PayseraCustomAddressFormat.php',
         'Paysera\\Front\\PayseraDeliveryFrontHtml' => __DIR__ . '/../..' . '/src/Front/PayseraDeliveryFrontHtml.php',
         'Paysera\\Front\\PayseraPaymentFrontHtml' => __DIR__ . '/../..' . '/src/Front/PayseraPaymentFrontHtml.php',
         'Paysera\\Generator\\PayseraPaymentFieldGenerator' => __DIR__ . '/../..' . '/src/Generator/PayseraPaymentFieldGenerator.php',
@@ -727,6 +729,7 @@ class ComposerStaticInite05605030b99989783ab59f635d97f2d
         'Paysera\\Scoped\\Paysera\\CheckoutSdk\\Entity\\PaymentMethodCountry' => __DIR__ . '/../..' . '/vendor-scoped/paysera/lib-checkout-sdk-facade/src/Entity/PaymentMethodCountry.php',
         'Paysera\\Scoped\\Paysera\\CheckoutSdk\\Entity\\PaymentMethodGroup' => __DIR__ . '/../..' . '/vendor-scoped/paysera/lib-checkout-sdk-facade/src/Entity/PaymentMethodGroup.php',
         'Paysera\\Scoped\\Paysera\\CheckoutSdk\\Entity\\PaymentRedirectResponse' => __DIR__ . '/../..' . '/vendor-scoped/paysera/lib-checkout-sdk-facade/src/Entity/PaymentRedirectResponse.php',
+        'Paysera\\Scoped\\Paysera\\CheckoutSdk\\Entity\\Refund' => __DIR__ . '/../..' . '/vendor-scoped/paysera/lib-checkout-sdk-facade/src/Entity/Refund.php',
         'Paysera\\Scoped\\Paysera\\CheckoutSdk\\Entity\\RequestInterface' => __DIR__ . '/../..' . '/vendor-scoped/paysera/lib-checkout-sdk-facade/src/Entity/RequestInterface.php',
         'Paysera\\Scoped\\Paysera\\CheckoutSdk\\Entity\\Request\\PaymentCallbackValidationRequest' => __DIR__ . '/../..' . '/vendor-scoped/paysera/lib-checkout-sdk-facade/src/Entity/Request/PaymentCallbackValidationRequest.php',
         'Paysera\\Scoped\\Paysera\\CheckoutSdk\\Entity\\Request\\PaymentMethodsRequest' => __DIR__ . '/../..' . '/vendor-scoped/paysera/lib-checkout-sdk-facade/src/Entity/Request/PaymentMethodsRequest.php',
@@ -1400,7 +1403,7 @@ class ComposerStaticInite05605030b99989783ab59f635d97f2d
         'Paysera\\Scoped\\WebToPay_RequestBuilder' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/src/WebToPay/RequestBuilder.php',
         'Paysera\\Scoped\\WebToPay_Routes' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/src/WebToPay/Config/Routes.php',
         'Paysera\\Scoped\\WebToPay_Sign_SS1SignChecker' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/src/WebToPay/Sign/SS1SignChecker.php',
-        'Paysera\\Scoped\\WebToPay_Sign_SS2SignChecker' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/src/WebToPay/Sign/SS2SignChecker.php',
+        'Paysera\\Scoped\\WebToPay_Sign_SSOpenSslSignChecker' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/src/WebToPay/Sign/SSOpenSslSignChecker.php',
         'Paysera\\Scoped\\WebToPay_Sign_SignCheckerInterface' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/src/WebToPay/Sign/SignCheckerInterface.php',
         'Paysera\\Scoped\\WebToPay_SmsAnswerSender' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/src/WebToPay/SmsAnswerSender.php',
         'Paysera\\Scoped\\WebToPay_UrlBuilder' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/src/WebToPay/UrlBuilder.php',
@@ -1472,12 +1475,14 @@ class ComposerStaticInite05605030b99989783ab59f635d97f2d
         'Paysera\\Tests\\Admin\\PayseraSelfDiagnosticAdminTest' => __DIR__ . '/../..' . '/tests/phpunit/Admin/PayseraSelfDiagnosticAdminTest.php',
         'Paysera\\Tests\\Blocks\\PayseraBlockTest' => __DIR__ . '/../..' . '/tests/phpunit/Blocks/PayseraBlockTest.php',
         'Paysera\\Tests\\DeliveryGatewaySettingsMockingTrait' => __DIR__ . '/../..' . '/tests/phpunit/DeliveryGatewaySettingsMockingTrait.php',
+        'Paysera\\Tests\\Entity\\OrderItemTest' => __DIR__ . '/../..' . '/tests/phpunit/Entity/OrderItemTest.php',
         'Paysera\\Tests\\EventHandlers\\DeliveryOrderUpdatedHandlerTest' => __DIR__ . '/../..' . '/tests/phpunit/EventHandlers/DeliveryOrderUpdatedHandlerTest.php',
         'Paysera\\Tests\\EventHandlers\\WCOrderCreatedHandlerTest' => __DIR__ . '/../..' . '/tests/phpunit/EventHandlers/WCOrderCreatedHandlerTest.php',
         'Paysera\\Tests\\EventHandlers\\WCOrderPaymentCompletedHandlerTest' => __DIR__ . '/../..' . '/tests/phpunit/EventHandlers/WCOrderPaymentCompletedHandlerTest.php',
         'Paysera\\Tests\\Exception\\PayseraPaymentExceptionTest' => __DIR__ . '/../..' . '/tests/phpunit/Exception/PayseraPaymentExceptionTest.php',
         'Paysera\\Tests\\Generator\\PayseraPaymentFieldGeneratorTest' => __DIR__ . '/../..' . '/tests/phpunit/Generator/PayseraPaymentFieldGeneratorTest.php',
         'Paysera\\Tests\\Helper\\EventHandlingHelperTest' => __DIR__ . '/../..' . '/tests/phpunit/Helper/EventHandlingHelperTest.php',
+        'Paysera\\Tests\\Helper\\PayseraDeliveryHelperTest' => __DIR__ . '/../..' . '/tests/phpunit/Helper/PayseraDeliveryHelperTest.php',
         'Paysera\\Tests\\Helper\\PayseraPaymentHelperTest' => __DIR__ . '/../..' . '/tests/phpunit/Helper/PayseraPaymentHelperTest.php',
         'Paysera\\Tests\\Helper\\PayseraPaymentLibraryHelperTest' => __DIR__ . '/../..' . '/tests/phpunit/Helper/PayseraPaymentLibraryHelperTest.php',
         'Paysera\\Tests\\Helper\\PostDataHelperTest' => __DIR__ . '/../..' . '/tests/phpunit/Helper/PostDataHelperTest.php',
@@ -1609,8 +1614,8 @@ class ComposerStaticInite05605030b99989783ab59f635d97f2d
         'WebToPay_RoutesTest' => __DIR__ . '/..' . '/webtopay/libwebtopay/tests/WebToPay/Config/RoutesTest.php',
         'WebToPay_Sign_SS1SignChecker' => __DIR__ . '/..' . '/webtopay/libwebtopay/src/WebToPay/Sign/SS1SignChecker.php',
         'WebToPay_Sign_SS1SignCheckerTest' => __DIR__ . '/..' . '/webtopay/libwebtopay/tests/WebToPay/Sign/SS1SignCheckerTest.php',
-        'WebToPay_Sign_SS2SignChecker' => __DIR__ . '/..' . '/webtopay/libwebtopay/src/WebToPay/Sign/SS2SignChecker.php',
-        'WebToPay_Sign_SS2SignCheckerTest' => __DIR__ . '/..' . '/webtopay/libwebtopay/tests/WebToPay/Sign/SS2SignCheckerTest.php',
+        'WebToPay_Sign_SSOpenSslSignChecker' => __DIR__ . '/..' . '/webtopay/libwebtopay/src/WebToPay/Sign/SSOpenSslSignChecker.php',
+        'WebToPay_Sign_SSOpenSslSignCheckerTest' => __DIR__ . '/..' . '/webtopay/libwebtopay/tests/WebToPay/Sign/SSOpenSslSignCheckerTest.php',
         'WebToPay_Sign_SignCheckerInterface' => __DIR__ . '/..' . '/webtopay/libwebtopay/src/WebToPay/Sign/SignCheckerInterface.php',
         'WebToPay_SmsAnswerSender' => __DIR__ . '/..' . '/webtopay/libwebtopay/src/WebToPay/SmsAnswerSender.php',
         'WebToPay_UrlBuilder' => __DIR__ . '/..' . '/webtopay/libwebtopay/src/WebToPay/UrlBuilder.php',
@@ -1624,10 +1629,10 @@ class ComposerStaticInite05605030b99989783ab59f635d97f2d
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInite05605030b99989783ab59f635d97f2d::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInite05605030b99989783ab59f635d97f2d::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInite05605030b99989783ab59f635d97f2d::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInite05605030b99989783ab59f635d97f2d::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit2d932b8a5ec0741c98ebc764e83483a2::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit2d932b8a5ec0741c98ebc764e83483a2::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit2d932b8a5ec0741c98ebc764e83483a2::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit2d932b8a5ec0741c98ebc764e83483a2::$classMap;
 
         }, null, ClassLoader::class);
     }

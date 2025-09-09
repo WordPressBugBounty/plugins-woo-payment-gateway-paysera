@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Paysera\EventHandler;
 
+use Paysera\Helper\PayseraDeliveryHelper;
 use Paysera\Scoped\Paysera\DeliverySdk\Entity\DeliveryTerminalLocationFactoryInterface;
 use Paysera\Scoped\Paysera\DeliverySdk\Entity\PayseraDeliveryOrderRequest;
 use Paysera\Scoped\Paysera\DeliverySdk\Entity\PayseraDeliverySettingsInterface;
@@ -34,9 +35,7 @@ class WCOrderCreatedHandler implements EventHandlerInterface
     private DeliveryGatewayUtils $deliveryGatewayUtils;
     private DeliveryTerminalLocationFactoryInterface $terminalLocationFactory;
     private DeliveryLoggerInterface $logger;
-
-    private ?string $deliveryGatewayCode;
-    private ?int $deliveryGatewayInstanceId;
+    private PayseraDeliveryHelper $payseraDeliveryHelper;
 
     public function __construct(
         PayseraDeliveryOrderService $deliveryOrderService,
@@ -47,7 +46,8 @@ class WCOrderCreatedHandler implements EventHandlerInterface
         LogMessageFormatter $logMessageFormatter,
         DeliveryGatewayUtils $deliveryGatewayUtils,
         DeliveryTerminalLocationFactoryInterface $terminalLocationFactory,
-        DeliveryLoggerInterface $logger
+        DeliveryLoggerInterface $logger,
+        PayseraDeliveryHelper $payseraDeliveryHelper
     ) {
         $this->deliveryOrderService = $deliveryOrderService;
         $this->deliverySettingsProvider = $deliverySettingsProvider;
@@ -58,6 +58,7 @@ class WCOrderCreatedHandler implements EventHandlerInterface
         $this->deliveryGatewayUtils = $deliveryGatewayUtils;
         $this->terminalLocationFactory = $terminalLocationFactory;
         $this->logger = $logger;
+        $this->payseraDeliveryHelper = $payseraDeliveryHelper;
     }
 
     /**
@@ -67,6 +68,12 @@ class WCOrderCreatedHandler implements EventHandlerInterface
      */
     public function handle(array $payload): void
     {
+        $deliverySettings = $this->deliverySettingsProvider->getPayseraDeliverySettings();
+
+        if ($deliverySettings->isEnabled() === false) {
+            return;
+        }
+
         /** @var WC_Order|null $order */
         $order = $payload['order'] ?? null;
 
@@ -84,19 +91,17 @@ class WCOrderCreatedHandler implements EventHandlerInterface
             return;
         }
 
-        $deliverySettings = $this->deliverySettingsProvider->getPayseraDeliverySettings();
-
-        if ($deliverySettings->isTestModeEnabled() === true) {
-            $this->logger->info(sprintf('Test mode is enabled for order id %d.', $orderId));
-
-            return;
-        }
-
         $merchantOrder = $this->orderFactory->createFromWcOrder($order);
         $deliveryGateway = $merchantOrder->getDeliveryGateway();
 
         if ($deliveryGateway === null) {
             $this->logger->info(sprintf('Paysera delivery gateway code not found for order id %d.', $orderId));
+
+            return;
+        }
+
+        if ($deliverySettings->isTestModeEnabled() === true) {
+            $this->logger->info(sprintf('Test mode is enabled for order id %d.', $orderId));
 
             return;
         }
@@ -175,10 +180,13 @@ class WCOrderCreatedHandler implements EventHandlerInterface
                 )
             );
 
-            $deliveryOrderRequest
+            $wcOrder = $deliveryOrderRequest
                 ->getOrder()
-                ->getWcOrder()
-                ->add_order_note(
+                ->getWcOrder();
+
+            $this->payseraDeliveryHelper->setTerminalAsShippingAddress($wcOrder, $selectedTerminal);
+
+            $wcOrder->add_order_note(
                     $this->orderNotesFormatter->formatSelectedTerminalNote(
                         $selectedTerminal,
                         $deliveryOrderRequest->getDeliverySettings(),

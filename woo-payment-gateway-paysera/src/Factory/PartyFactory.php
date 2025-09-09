@@ -6,6 +6,7 @@ namespace Paysera\Factory;
 
 use Paysera\Entity\Delivery\Order;
 use Paysera\Entity\Delivery\Party;
+use Paysera\Helper\PayseraDeliveryHelper;
 use Paysera\Scoped\Paysera\DeliverySdk\Entity\DeliveryTerminalLocationFactoryInterface;
 use Paysera\Scoped\Paysera\DeliverySdk\Util\DeliveryGatewayUtils;
 use Paysera\Service\CompatibilityManager;
@@ -15,15 +16,18 @@ class PartyFactory
     private CompatibilityManager $compatibilityManager;
     private DeliveryTerminalLocationFactoryInterface $deliveryTerminalLocationFactory;
     private DeliveryGatewayUtils $deliveryGatewayUtils;
+    private PayseraDeliveryHelper $deliveryHelper;
 
     public function __construct(
         CompatibilityManager $compatibilityManager,
         DeliveryTerminalLocationFactoryInterface $deliveryTerminalLocationFactory,
-        DeliveryGatewayUtils $deliveryGatewayUtils
+        DeliveryGatewayUtils $deliveryGatewayUtils,
+        PayseraDeliveryHelper $deliveryHelper
     ) {
         $this->compatibilityManager = $compatibilityManager;
         $this->deliveryTerminalLocationFactory = $deliveryTerminalLocationFactory;
         $this->deliveryGatewayUtils = $deliveryGatewayUtils;
+        $this->deliveryHelper = $deliveryHelper;
     }
 
     public function createShipping(Order $order): Party
@@ -34,6 +38,7 @@ class PartyFactory
             $this->getGatewayCode($order),
             $this->deliveryTerminalLocationFactory,
             $this->compatibilityManager,
+            $this->deliveryHelper
         );
     }
 
@@ -45,6 +50,7 @@ class PartyFactory
             $this->getGatewayCode($order),
             $this->deliveryTerminalLocationFactory,
             $this->compatibilityManager,
+            $this->deliveryHelper
         );
     }
 

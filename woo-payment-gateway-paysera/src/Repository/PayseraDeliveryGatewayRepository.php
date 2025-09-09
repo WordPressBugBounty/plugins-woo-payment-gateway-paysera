@@ -29,9 +29,9 @@ class PayseraDeliveryGatewayRepository implements DeliveryGatewayRepositoryInter
     public function findPayseraGatewayForDeliveryOrder(DeliveryOrder $deliveryOrder): ?PayseraDeliveryGatewayInterface
     {
         $deliveryGatewayCode = $this->deliveryGatewayUtils->getGatewayCodeFromDeliveryOrder($deliveryOrder);
-
         $data_store = WC_Data_Store::load('shipping-zone');
         $raw_zones = $data_store->get_zones();
+        $raw_zones = array_merge($raw_zones, [0]); // add fallback zone
 
         $shippingAddress = $deliveryOrder->getReceiver()->getContact()->getAddress();
 
