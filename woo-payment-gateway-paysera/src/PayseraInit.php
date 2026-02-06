@@ -72,7 +72,7 @@ class PayseraInit
     public function build()
     {
         $this->requireDeliveryEntities();
-        add_action('plugins_loaded', [$this, 'loadPayseraPlugin']);
+        add_action('init', [$this, 'loadPayseraPlugin']);
         add_action('admin_notices', [$this, 'displayAdminErrors']);
         add_action('admin_notices', [$this, 'displayAdminNotices']);
         add_filter('woocommerce_payment_gateways', [$this, 'registerPaymentGateway']);
@@ -119,7 +119,7 @@ class PayseraInit
     {
         if (get_user_meta(wp_get_current_user()->ID, 'paysera_new_delivery_notice', true) !== 'true') {
             wp_enqueue_script('jquery');
-            
+
             wp_add_inline_script('jquery', '
                 jQuery(document).ready(function($) {
                     $(document).on("click", "#paysera-new-delivery-notice .notice-dismiss", function(e) {
@@ -342,15 +342,15 @@ class PayseraInit
 
     public function deliveryGatewayLogos(string $label, WC_Shipping_Rate $shippingRate): string
     {
-        PayseraHTMLHelper::enqueueCSS('paysera-delivery-css', PayseraPaths::PAYSERA_DELIVERY_CSS);
+        $isDeliveryDisabled = $this->deliverySettingsProvider->getPayseraDeliverySettings()->isEnabled() === false;
+        $noDeliveryGateways = empty($this->deliverySettingsProvider->getPayseraDeliverySettings()->getDeliveryGateways()) === true;
+        $isNotPayseraGateway = $this->deliveryHelper->isPayseraDeliveryGateway($shippingRate->get_method_id()) === false;
 
-        if (
-            empty($this->deliverySettingsProvider->getPayseraDeliverySettings()->getDeliveryGateways())
-            === true
-            || $this->deliveryHelper->isPayseraDeliveryGateway($shippingRate->get_method_id()) === false
-        ) {
+        if ($isDeliveryDisabled || $noDeliveryGateways || $isNotPayseraGateway) {
             return $label;
         }
+
+        PayseraHTMLHelper::enqueueCSS('paysera-delivery-css', PayseraPaths::PAYSERA_DELIVERY_CSS);
 
         if ($this->doesShippingRateOfferFreeDelivery($shippingRate)) {
             $label .= sprintf(
@@ -426,8 +426,19 @@ class PayseraInit
         }
     }
 
-    public function applyDeliveryGatewayWeightRestrictionsHint(array $rates): array
+    /**
+     * @param array<WC_Shipping_Rate>|mixed $rates Shipping rates array or any value from third-party filters
+     * @param array<string, mixed> $package Package data from WooCommerce
+     *
+     * @return array<string, WC_Shipping_Rate>|mixed Returns filtered rates array when input is array,
+     *                                                otherwise returns input unchanged for compatibility
+     */
+    public function applyDeliveryGatewayWeightRestrictionsHint($rates, $package = [])
     {
+        if (!is_array($rates)) {
+            return $rates;
+        }
+
         do_action(self::DELIVERY_GATEWAY_WEIGHT_HINT_ACTION_KEY, $rates);
 
         return $rates;
@@ -466,14 +477,14 @@ class PayseraInit
     private function addQualitySignScript(int $projectId): void
     {
         PayseraHTMLHelper::enqueueJS(
-            'paysera-payment-quality-sign-js',
-            PayseraPaths::PAYSERA_PAYMENT_QUALITY_SIGN_JS,
-            ['jquery']
+            'paysera-payment-quality-sign',
+            PayseraPaths::PAYSERA_PAYMENT_QUALITY_SIGN_JS
         );
         wp_localize_script(
-            'paysera-payment-quality-sign-js',
-            'data',
+            'paysera-payment-quality-sign',
+            'payseraQualitySign',
             [
+                'script_url' => 'https://bank.paysera.com/js/compiled/quality-sign.js',
                 'project_id' => $projectId,
                 'language' => explode('_', get_locale())[0],
             ]

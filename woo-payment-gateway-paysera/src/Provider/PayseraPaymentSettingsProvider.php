@@ -30,6 +30,7 @@ class PayseraPaymentSettingsProvider
             ->setBuyerConsentEnabled(true)
             ->setPaidOrderStatus('wc-completed')
             ->setPendingPaymentStatus('wc-pending')
+            ->setRefundPaymentStatus('wc-refunded')
             ->setOwnershipCodeEnabled(false)
             ->setQualitySignEnabled(false)
             ->setLogLevel(LogHelper::LOG_LEVEL_ERROR)
@@ -107,6 +108,12 @@ class PayseraPaymentSettingsProvider
             $payseraPaymentSettings->setPaidOrderStatus($statusOptions[PayseraPaymentSettings::PAID_ORDER_STATUS][0]);
         } elseif (isset($oldOptions['paymentCompletedStatus'])) {
             $payseraPaymentSettings->setPaidOrderStatus($oldOptions['paymentCompletedStatus']);
+        }
+
+        if (isset($statusOptions[PayseraPaymentSettings::REFUND_PAYMENT_STATUS])) {
+            $payseraPaymentSettings->setRefundPaymentStatus(
+                $statusOptions[PayseraPaymentSettings::REFUND_PAYMENT_STATUS][0]
+            );
         }
 
         if (isset($statusOptions[PayseraPaymentSettings::PENDING_PAYMENT_STATUS])) {

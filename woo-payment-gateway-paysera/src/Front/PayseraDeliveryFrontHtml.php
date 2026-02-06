@@ -16,6 +16,7 @@ use Paysera\Provider\PayseraDeliverySettingsProvider;
 use Paysera\Entity\PayseraPaths;
 use Paysera\Entity\PayseraDeliverySettings;
 use WC_Shipping_Rate;
+use WC_Order;
 
 class PayseraDeliveryFrontHtml
 {
@@ -44,6 +45,7 @@ class PayseraDeliveryFrontHtml
 
     public function build(): void
     {
+        add_action('woocommerce_review_order_before_payment', [$this, 'showTestModeNotice']);
         add_action('woocommerce_review_order_before_payment', [$this, 'terminalLocationSelection']);
         add_action('woocommerce_checkout_process', [$this, 'checkoutFieldProcess']);
         add_action('woocommerce_after_checkout_validation', [$this, 'validateWeight'], 9999, 2);
@@ -59,6 +61,7 @@ class PayseraDeliveryFrontHtml
         add_filter('woocommerce_checkout_fields', [$this, 'addRequiredHouseField']);
         add_filter('woocommerce_shipping_packages', [$this, 'setActivePayseraShippingPackageRates']);
         add_action('woocommerce_store_api_checkout_update_order_from_request', [$this, 'storeHouseNoInOrderMeta'], 9999, 2);
+        add_action('woocommerce_checkout_update_order_meta', [$this, 'removeHouseNumberFromOrderMeta'], 10, 1);
         add_filter('woocommerce_package_rates', [$this, 'filterShippingRatesByCartWeightSuitability'], 9999, 1);
         add_action(self::DELIVERY_ASSETS_INIT_ACTION_KEY, [$this, 'deliveryAssets']);
         add_action('woocommerce_blocks_enqueue_cart_block_scripts_after', [$this, 'initDeliveryAssets']);
@@ -68,7 +71,7 @@ class PayseraDeliveryFrontHtml
     }
 
 
-    public function addRequiredHouseField(array $fields): array
+    public function addRequiredHouseField($fields)
     {
         if (
             $this->payseraDeliverySettingsProvider
@@ -226,18 +229,23 @@ class PayseraDeliveryFrontHtml
             );
         }
 
-        if (isset($_POST[PayseraDeliverySettings::BILLING_HOUSE_NO])) {
-            $this->sessionHelper->setData(
-                PayseraDeliverySettings::BILLING_HOUSE_NO,
-                sanitize_text_field(wp_unslash($_POST[PayseraDeliverySettings::BILLING_HOUSE_NO]))
-            );
-        }
+        if ($this->payseraDeliverySettingsProvider->getPayseraDeliverySettings()->isHouseNumberFieldEnabled()) {
+            if (isset($_POST[PayseraDeliverySettings::BILLING_HOUSE_NO])) {
+                $this->sessionHelper->setData(
+                    PayseraDeliverySettings::BILLING_HOUSE_NO,
+                    sanitize_text_field(wp_unslash($_POST[PayseraDeliverySettings::BILLING_HOUSE_NO]))
+                );
+            }
 
-        if (isset($_POST[PayseraDeliverySettings::SHIPPING_HOUSE_NO])) {
-            $this->sessionHelper->setData(
-                PayseraDeliverySettings::SHIPPING_HOUSE_NO,
-                sanitize_text_field(wp_unslash($_POST[PayseraDeliverySettings::SHIPPING_HOUSE_NO]))
-            );
+            if (isset($_POST[PayseraDeliverySettings::SHIPPING_HOUSE_NO])) {
+                $this->sessionHelper->setData(
+                    PayseraDeliverySettings::SHIPPING_HOUSE_NO,
+                    sanitize_text_field(wp_unslash($_POST[PayseraDeliverySettings::SHIPPING_HOUSE_NO]))
+                );
+            }
+        } else {
+            $this->sessionHelper->setData(PayseraDeliverySettings::BILLING_HOUSE_NO, null);
+            $this->sessionHelper->setData(PayseraDeliverySettings::SHIPPING_HOUSE_NO, null);
         }
     }
 
@@ -265,6 +273,15 @@ class PayseraDeliveryFrontHtml
             );
 
             PayseraHTMLHelper::enqueueJS('paysera-delivery-frontend-js', PayseraPaths::PAYSERA_DELIVERY_FRONTEND_JS, ['jquery']);
+
+            wp_localize_script(
+                'paysera-delivery-frontend-js',
+                'payseraDeliveryFrontEndData',
+                [
+                    'isTestModeEnabled' => $this->payseraDeliverySettingsProvider->getPayseraDeliverySettings()->isTestModeEnabled()
+                ]
+            );
+
             PayseraHTMLHelper::registerJS(
                 'paysera-delivery-frontend-ajax-js',
                 PayseraPaths::PAYSERA_DELIVERY_FRONTEND_AJAX_JS,
@@ -374,7 +391,7 @@ class PayseraDeliveryFrontHtml
             . __($defaultOption, PayseraPaths::PAYSERA_TRANSLATIONS) . '</option>' . '</select></div>';
     }
 
-    public function setActivePayseraShippingPackageRates(array $packages): array
+    public function setActivePayseraShippingPackageRates($packages)
     {
         $options = get_option(PayseraDeliverySettings::DELIVERY_GATEWAYS_SETTINGS_NAME);
 
@@ -415,31 +432,83 @@ class PayseraDeliveryFrontHtml
         return $activePackageRates;
     }
 
-    public function storeHouseNoInOrderMeta(\WC_Order $order): void
+    public function storeHouseNoInOrderMeta($order): void
     {
-        if ($this->payseraDeliverySettingsProvider->getPayseraDeliverySettings()->isHouseNumberFieldEnabled() === false) {
+        if (!$this->payseraDeliverySettingsProvider->getPayseraDeliverySettings()->isHouseNumberFieldEnabled()) {
+            $this->sessionHelper->setData(PayseraDeliverySettings::BILLING_HOUSE_NO, null);
+            $this->sessionHelper->setData(PayseraDeliverySettings::SHIPPING_HOUSE_NO, null);
             return;
         }
 
-        $billingHouseNo = $this->sessionHelper->getData(PayseraDeliverySettings::BILLING_HOUSE_NO);
-        $shippingHouseNo = $this->sessionHelper->getData(PayseraDeliverySettings::SHIPPING_HOUSE_NO);
+        $billingHouseNo = sanitize_text_field(
+            (string) $this->sessionHelper->getData(PayseraDeliverySettings::BILLING_HOUSE_NO)
+        );
+        $shippingHouseNo = sanitize_text_field(
+            (string) $this->sessionHelper->getData(PayseraDeliverySettings::SHIPPING_HOUSE_NO)
+        );
 
-        if (!empty($billingHouseNo)) {
-            $order->update_meta_data(PayseraDeliverySettings::ORDER_META_KEY_BILLING_HOUSE_NO, $billingHouseNo);
+        if ($billingHouseNo !== '') {
+            $order->update_meta_data(
+                PayseraDeliverySettings::ORDER_META_KEY_BILLING_HOUSE_NO,
+                $billingHouseNo
+            );
         }
 
-        if (!empty($shippingHouseNo)) {
-            $order->update_meta_data(PayseraDeliverySettings::ORDER_META_KEY_SHIPPING_HOUSE_NO, $shippingHouseNo);
+        if ($shippingHouseNo !== '') {
+            $order->update_meta_data(
+                PayseraDeliverySettings::ORDER_META_KEY_SHIPPING_HOUSE_NO,
+                $shippingHouseNo
+            );
         }
     }
 
     /**
-     * @param array<WC_Shipping_Rate> $rates
+     * Remove house number from order meta when field is disabled
+     * This prevents WooCommerce from automatically saving cached values
      *
-     * @return array
+     * @param int $order_id
      */
-    public function filterShippingRatesByCartWeightSuitability(array $rates): array
+    public function removeHouseNumberFromOrderMeta($order_id)
     {
+        if ($this->payseraDeliverySettingsProvider->getPayseraDeliverySettings()->isHouseNumberFieldEnabled() === true) {
+            return;
+        }
+
+        $order = wc_get_order($order_id);
+        if (!$order instanceof WC_Order) {
+            return;
+        }
+
+        $is_checkout = defined('WOOCOMMERCE_CHECKOUT') && WOOCOMMERCE_CHECKOUT;
+        $can_edit = current_user_can('edit_shop_order', $order_id);
+
+        if (!$is_checkout && !$can_edit) {
+            error_log(sprintf(
+                'Security: Unauthorized attempt to modify order meta. User ID: %d, Order ID: %d',
+                get_current_user_id(),
+                $order_id
+            ));
+            return;
+        }
+
+        $order->delete_meta_data(PayseraDeliverySettings::ORDER_META_KEY_BILLING_HOUSE_NO);
+        $order->delete_meta_data(PayseraDeliverySettings::ORDER_META_KEY_SHIPPING_HOUSE_NO);
+        $order->save();
+    }
+
+    /**
+     * @param array<WC_Shipping_Rate>|mixed $rates Shipping rates array or any value from third-party filters
+     * @param array<string, mixed> $package Package data from WooCommerce
+     *
+     * @return array<string, WC_Shipping_Rate>|mixed Returns filtered rates array when input is array,
+     *                                                otherwise returns input unchanged for compatibility
+     */
+    public function filterShippingRatesByCartWeightSuitability($rates, $package = [])
+    {
+        if (!is_array($rates)) {
+            return $rates;
+        }
+
         $hideUnsuitableShippingMethods = $this->payseraDeliverySettingsProvider
             ->getPayseraDeliverySettings()
             ->isHideShippingMethodsEnabled()
@@ -471,6 +540,26 @@ class PayseraDeliveryFrontHtml
         }
 
         return $validationResult['validated'];
+    }
+
+    public function showTestModeNotice(): void
+    {
+        if (wp_doing_ajax()) {
+            return;
+        }
+
+        $payseraDeliverySettings = $this->payseraDeliverySettingsProvider->getPayseraDeliverySettings();
+        if (!$payseraDeliverySettings->isEnabled() || !$payseraDeliverySettings->isTestModeEnabled()) {
+            return;
+        }
+
+        printf(
+            '<div style="color: red; display: none" class="paysera-delivery-testmode-notice">%s</div>',
+            __(
+                "Paysera delivery plugin is in test mode — delivery orders are simulated, but payments will be charged as you're using an external (non-Paysera) payment gateway.",
+                PayseraPaths::PAYSERA_TRANSLATIONS
+            )
+        );
     }
 
     private function isThirdPartyShippingRate(WC_Shipping_Rate $shippingRate): bool

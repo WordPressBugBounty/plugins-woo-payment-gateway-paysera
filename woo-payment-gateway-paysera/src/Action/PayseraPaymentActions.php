@@ -7,6 +7,8 @@ namespace Paysera\Action;
 use Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry;
 use Exception;
 use Paysera\Blocks\PayseraBlock;
+use Paysera\Entity\PayseraPaths;
+use Paysera\Helper\SecurityHelper;
 use Paysera\Provider\PayseraPaymentSettingsProvider;
 use Paysera\Service\PaymentLoggerInterface;
 
@@ -15,10 +17,12 @@ defined('ABSPATH') || exit;
 class PayseraPaymentActions
 {
     private PaymentLoggerInterface $logger;
+    private SecurityHelper $securityHelper;
 
-    public function __construct(PaymentLoggerInterface $logger)
+    public function __construct(PaymentLoggerInterface $logger, SecurityHelper $securityHelper = null)
     {
         $this->logger = $logger;
+        $this->securityHelper = $securityHelper ?? new SecurityHelper();
     }
 
     public function build(): void
@@ -64,35 +68,51 @@ class PayseraPaymentActions
 
     public function changePaymentGatewayStatus(): void
     {
-        if ($this->isReadyForEnabling()) {
+        $this->securityHelper->validateAdminRequest('paysera_payment_gateway_change');
+
+        $action = $this->securityHelper->getValidatedActionParameter('change');
+
+        if ($this->isReadyForEnabling($action)) {
             wp_redirect('admin.php?page=paysera-payments&enabled_massage=yes');
             exit();
         }
 
-        WC()->payment_gateways->payment_gateways()['paysera']->update_option(
-            'enabled',
-            sanitize_text_field(wp_unslash($_GET['change'])) === 'enable' ? 'yes' : 'no'
-        );
+        WC()
+            ->payment_gateways
+            ->payment_gateways()['paysera']
+            ->update_option(
+                'enabled',
+                $action === 'enable' ? 'yes' : 'no'
+            )
+        ;
 
         wp_redirect('admin.php?page=paysera-payments');
     }
 
     public function updatePaymentStatus(string $value): bool
     {
-        return WC()->payment_gateways->payment_gateways()['paysera']->update_option(
-            'enabled',
-            $value
-        );
+        return WC()
+            ->payment_gateways
+            ->payment_gateways()['paysera']
+            ->update_option(
+                'enabled',
+                $value
+            )
+        ;
     }
 
-    private function isReadyForEnabling(): bool
+    private function isReadyForEnabling(string $action): bool
     {
+        if ($action !== 'enable') {
+            return false;
+        }
+
         $payseraPaymentSettings = (new PayseraPaymentSettingsProvider())->getPayseraPaymentSettings();
 
-        return (
-            (empty($payseraPaymentSettings->getProjectId()) || empty($payseraPaymentSettings->getProjectPassword()))
-            && isset($_GET['change'])
-            && sanitize_text_field(wp_unslash($_GET['change'])) === 'enable'
-        );
+        return $payseraPaymentSettings->getProjectId() === ''
+            || $payseraPaymentSettings->getProjectId() === null
+            || $payseraPaymentSettings->getProjectPassword() === ''
+            || $payseraPaymentSettings->getProjectPassword() === null
+        ;
     }
 }

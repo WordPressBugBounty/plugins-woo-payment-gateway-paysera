@@ -5,14 +5,14 @@
   Text Domain: paysera
   Domain Path: /languages
   Description: Paysera offers payment and delivery gateway services for your e-shops
-  Version: 3.8.0.1
+  Version: 3.11.0
   Requires PHP: 7.4
   Author: Paysera
   Author URI: https://www.paysera.com
   License: GPL version 3 or later - http://www.gnu.org/licenses/gpl-3.0.html
 
   WC requires at least: 8.2
-  WC tested up to: 10.1
+  WC tested up to: 10.3.5
 
   @package WordPress
   @author Paysera (https://www.paysera.com)
@@ -33,7 +33,6 @@ use Paysera\Entity\PayseraDeliverySettings;
 use Paysera\Entity\PayseraPaths;
 use Paysera\Entity\PayseraPaymentSettings;
 use Paysera\Front\PayseraDeliveryFrontHtml;
-use Paysera\Front\PayseraEmailFrontHtml;
 use Paysera\Helper\DatabaseHelper;
 use Paysera\Helper\LogHelper;
 use Paysera\Helper\PayseraDeliveryHelper;
@@ -48,7 +47,7 @@ use Paysera\Format\PayseraCustomAddressFormat;
 class PayseraWoocommerce
 {
     const PAYSERA_MIN_REQUIRED_PHP_VERSION = '7.4';
-    const PAYSERA_PLUGIN_VERSION = '3.8.0.1';
+    const PAYSERA_PLUGIN_VERSION = '3.11.0';
     public static bool $isInitialized = false;
     private PayseraDeliveryActions $payseraDeliveryActions;
     private ContainerInterface $container;
@@ -66,6 +65,7 @@ class PayseraWoocommerce
         $this->container = (new ContainerProvider())->getContainer();
         $this->payseraDeliveryActions = $this->container->get(PayseraDeliveryActions::class);
 
+        add_action('init', [$this, 'loadTextDomain'], 1);
         add_action('plugins_loaded', [$this, 'loadPluginInternalDependencies']);
         add_action('woocommerce_loaded', [$this, 'initPlugin']);
         add_action('woocommerce_blocks_loaded', [$this, 'initBlocks']);
@@ -74,6 +74,7 @@ class PayseraWoocommerce
         add_action('admin_notices', [$this, 'maybeShowPayseraMinPhpVersionNotice']);
         add_action('admin_post_paysera_log_archive_download', [$this, 'downloadLogArchive']);
         add_action('before_woocommerce_init', [$this, 'declareHPOSCompatibility']);
+        add_action('send_headers', [$this, 'setSecurityHeaders']);
     }
 
     public function activate(): void
@@ -111,7 +112,6 @@ class PayseraWoocommerce
 
     public function loadPluginInternalDependencies(): void
     {
-        $this->loadTextDomain();
         $this->loadDeliverySettings();
         $this->container->get(DatabaseHelper::class)->applySchemaChanges();
     }
@@ -296,16 +296,84 @@ class PayseraWoocommerce
 
     public function downloadLogArchive(): void
     {
+        $this->validateDownloadRequest();
+        $loggerType = $this->getValidatedLoggerType();
+        $zipFileName = $this->generateLogArchive($loggerType);
+        $this->streamLogArchive($zipFileName);
+    }
+
+    private function validateDownloadRequest(): void
+    {
+        if (!isset($_GET['_wpnonce']) || !wp_verify_nonce($_GET['_wpnonce'], 'paysera_download_logs')) {
+            wp_die(
+                __('Security check failed. Invalid nonce.', PayseraPaths::PAYSERA_TRANSLATIONS),
+                __('Security Error', PayseraPaths::PAYSERA_TRANSLATIONS),
+                ['response' => 403]
+            );
+        }
+
+        if (!current_user_can('manage_options')) {
+            wp_die(
+                __('You do not have permission to download logs.', PayseraPaths::PAYSERA_TRANSLATIONS),
+                __('Permission Denied', PayseraPaths::PAYSERA_TRANSLATIONS),
+                ['response' => 403]
+            );
+        }
+    }
+
+    private function getValidatedLoggerType(): string
+    {
+        $loggerType = isset($_GET['logger_type']) ? sanitize_text_field($_GET['logger_type']) : '';
+
         $logHelper = new LogHelper();
-        $zipFileName = $logHelper->generateZipArchive($_GET['logger_type']);
+        if (!$logHelper->isValidLoggerType($loggerType)) {
+            wp_die(
+                __('Invalid logger type specified.', PayseraPaths::PAYSERA_TRANSLATIONS),
+                __('Invalid Parameter', PayseraPaths::PAYSERA_TRANSLATIONS),
+                ['response' => 400]
+            );
+        }
+
+        return $loggerType;
+    }
+
+    private function generateLogArchive(string $loggerType): string
+    {
+        $logHelper = new LogHelper();
+        $zipFileName = $logHelper->generateZipArchive($loggerType);
 
         if ($zipFileName === null) {
             wp_die(__('Failed to create a log archive', PayseraPaths::PAYSERA_TRANSLATIONS));
         }
 
+        $this->validateArchivePath($zipFileName);
+
+        return $zipFileName;
+    }
+
+    private function validateArchivePath(string $zipFileName): void
+    {
+        $realPath = realpath($zipFileName);
+        $allowedDir = realpath(WC_LOG_DIR);
+
+        if ($realPath === false || $allowedDir === false || strpos($realPath, $allowedDir) !== 0) {
+            if (file_exists($zipFileName)) {
+                unlink($zipFileName);
+            }
+            wp_die(
+                __('Security error: Invalid file path detected.', PayseraPaths::PAYSERA_TRANSLATIONS),
+                __('Security Error', PayseraPaths::PAYSERA_TRANSLATIONS),
+                ['response' => 403]
+            );
+        }
+    }
+
+    private function streamLogArchive(string $zipFileName): void
+    {
         header('Content-Type: application/zip');
-        header('Content-Disposition: attachment; filename="' . basename($zipFileName) . '"');
+        header('Content-Disposition: attachment; filename="' . sanitize_file_name(basename($zipFileName)) . '"');
         header('Content-Length: ' . filesize($zipFileName));
+        header('X-Robots-Tag: noindex, nofollow', true);
         readfile($zipFileName);
         unlink($zipFileName);
 
@@ -320,6 +388,16 @@ class PayseraWoocommerce
             $dotenv = new Dotenv();
             $dotenv->usePutenv();
             $dotenv->load($envFilePath);
+        }
+    }
+
+    public function setSecurityHeaders(): void
+    {
+        if (is_admin()) {
+            header('X-Content-Type-Options: nosniff');
+            header('X-Frame-Options: SAMEORIGIN');
+            header('X-XSS-Protection: 1; mode=block');
+            header('Referrer-Policy: strict-origin-when-cross-origin');
         }
     }
 

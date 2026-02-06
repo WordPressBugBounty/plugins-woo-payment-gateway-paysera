@@ -26,6 +26,7 @@ class PayseraPaymentSettings
     public const PAID_ORDER_STATUS = 'paid_order_status';
     // Old pending checkout status
     public const PENDING_PAYMENT_STATUS = 'pending_checkout_status';
+    public const REFUND_PAYMENT_STATUS = 'refund_payment_status';
     public const OWNERSHIP_CODE_ENABLED = 'ownership_code_enabled';
     public const OWNERSHIP_CODE = 'ownership_code';
     public const QUALITY_SIGN_ENABLED = 'quality_sign_enabled';
@@ -56,7 +57,11 @@ class PayseraPaymentSettings
         'en' => 'ENG',
     ];
 
-    private bool $enabled = false;
+    public const ORDER_PAYMENT_CONFIRMED_META_KEY = '_paysera_payment_confirmed';
+    public const ORDER_PAYMENT_AMOUNT = '_paysera_payment_paid_amount';
+    public const ORDER_PAYMENT_CURRENCY = '_paysera_payment_paid_currency';
+
+    private bool $enabled;
     private ?int $projectId;
     private ?string $projectPassword;
     private ?bool $testModeEnabled;
@@ -68,6 +73,7 @@ class PayseraPaymentSettings
     private ?bool $buyerConsentEnabled;
     private ?string $paidOrderStatus;
     private ?string $pendingPaymentStatus;
+    private ?string $refundPaymentStatus;
     private ?bool $ownershipCodeEnabled;
     private ?string $ownershipCode;
     private ?bool $qualitySignEnabled;
@@ -75,6 +81,7 @@ class PayseraPaymentSettings
 
     public function __construct()
     {
+        $this->enabled = false;
         $this->projectId = null;
         $this->projectPassword = null;
         $this->testModeEnabled = null;
@@ -86,6 +93,7 @@ class PayseraPaymentSettings
         $this->buyerConsentEnabled = null;
         $this->paidOrderStatus = null;
         $this->pendingPaymentStatus = null;
+        $this->refundPaymentStatus = null;
         $this->ownershipCodeEnabled = null;
         $this->ownershipCode = null;
         $this->qualitySignEnabled = null;
@@ -232,6 +240,18 @@ class PayseraPaymentSettings
     public function setPendingPaymentStatus(string $pendingPaymentStatus): self
     {
         $this->pendingPaymentStatus = $pendingPaymentStatus;
+
+        return $this;
+    }
+
+    public function getRefundPaymentStatus(): ?string
+    {
+        return $this->refundPaymentStatus;
+    }
+
+    public function setRefundPaymentStatus(string $refundPaymentStatus): self
+    {
+        $this->refundPaymentStatus = $refundPaymentStatus;
 
         return $this;
     }

@@ -1,9 +1,9 @@
 Paysera Payment Gateway for WooCommerce
 =======================
 
-Version: 3.8.0.1
+Version: 3.11.0
 
-Date: 2025-06-08
+Date: 2025-01-12
 
 Contributors: Paysera
 
@@ -11,9 +11,9 @@ Tags: online payment, payment, payment gateway, international payments, shipping
 
 Requires at least: 4.0
 
-Tested up to: 6.8
+Tested up to: 6.9
 
-Stable tag: 3.8.0.1
+Stable tag: 3.11.0
 
 Requires PHP: 7.4
 
@@ -167,15 +167,33 @@ Installation from admin panel (marketplace):
 Changelog
 ---------
 
-= 3.8.0.1 = 
-* Fix updating plugin
+= 3.11.0 =
+* Update — Updated the link to Service Rules to reflect the most recent documentation.
+* Update — Added the ability to edit the house number in WooCommerce order notes.
+* Fix — Resolved a Fatal Error in Paysera delivery that occurred when shipping rates were passed as NULL.
+* 
+= 3.10.0 =
+* Improvement - New test mode for delivery orders
+* Fix - Refunded order status set only when order is fully refunded
+
+= 3.9.1 =
+* Fix - Issues with verifying payment callback sign 
+
+
+= 3.9.0 =
+* Improvement - Added support for "Refunded" order status with automatic callback handling
+* Improvement - Product dimensions and weight are now displayed in admin order item details when Paysera delivery is enabled
+* Fix - Delivery weight calculation now correctly uses product variant weight instead of parent product weight
+* Fix - Paysera delivery CSS no longer loads on checkout page when delivery is disabled
+= 3.8.1 =
+* Updated script for quality sign display
 
 = 3.8.0 =
 * Improvement - Displayed Parcel Locker Address in Admin Panel (Shipping Section)
 * Improvement - Displayed Parcel Locker Address in Order Confirmation Email
 * Fix - House number info is displayed on the order confirmation page
 * Fix - Delivery order is now created with correct weight when using decimal values
-* Fix - Кedirection to Paysera about page after clicking dismiss tab 
+* Fix - Redirection to Paysera about page after clicking dismiss tab 
 
 = 3.7.2 =
 * Updated plugin name from "WooCommerce Payment Gateway – Paysera" to "Paysera Payment Gateway for WooCommerce" for better clarity and consistency.
@@ -561,15 +579,30 @@ Changelog
 Upgrade Notice
 --------------
 
-= 3.8.0.1 = 
-* Fix updating plugin
+= 3.11.0 =
+* Update — Updated the link to Service Rules to reflect the most recent documentation.
+* Update — Added the ability to edit the house number in WooCommerce order notes.
+* Fix — Resolved a Fatal Error in Paysera delivery that occurred when shipping rates were passed as NULL.
+
+= 3.10.0 =
+* Improvement - New test mode for delivery orders
+* Fix - Refunded order status set only when order is fully refunded
+
+= 3.9.0 =
+* Improvement - Added support for "Refunded" order status with automatic callback handling
+* Improvement - Product dimensions and weight are now displayed in admin order item details when Paysera delivery is enabled
+* Fix - Delivery weight calculation now correctly uses product variant weight instead of parent product weight
+* Fix - Paysera delivery CSS no longer loads on checkout page when delivery is disabled
+
+= 3.8.1 =
+* Updated script for quality sign display
 
 = 3.8.0 =
 * Improvement - Displayed Parcel Locker Address in Admin Panel (Shipping Section)
 * Improvement - Displayed Parcel Locker Address in Order Confirmation Email
 * Fix - House number info is displayed on the order confirmation page
 * Fix - Delivery order is now created with correct weight when using decimal values
-* Fix - Кedirection to Paysera about page after clicking dismiss tab 
+* Fix - Redirection to Paysera about page after clicking dismiss tab 
 
 = 3.7.2 =
 * Updated plugin name from "WooCommerce Payment Gateway – Paysera" to "Paysera Payment Gateway for WooCommerce" for better clarity and consistency.

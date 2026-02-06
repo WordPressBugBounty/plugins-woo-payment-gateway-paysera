@@ -9,6 +9,7 @@ defined('ABSPATH') || exit;
 use Paysera\Entity\PayseraDeliveryGatewaySettings;
 use Paysera\Entity\PayseraDeliverySettings;
 use Paysera\Helper\LogHelper;
+use PayseraWoocommerce;
 
 class PayseraDeliverySettingsProvider
 {
@@ -35,11 +36,13 @@ class PayseraDeliverySettingsProvider
         $extraSettings = get_option(PayseraDeliverySettings::EXTRA_SETTINGS_NAME);
         $deliveryGatewaysSettings = get_option(PayseraDeliverySettings::DELIVERY_GATEWAYS_SETTINGS_NAME);
         $deliveryGatewaysTitles = get_option(PayseraDeliverySettings::DELIVERY_GATEWAYS_TITLES);
+        $userAgent = $this->getDeliveryUserAgent();
 
         $payseraDeliverySettings = (new PayseraDeliverySettings())
             ->setGridViewEnabled(false)
             ->setHideShippingMethodsEnabled(true)
             ->setLogLevel(LogHelper::LOG_LEVEL_ERROR)
+            ->setUserAgent($userAgent)
         ;
 
         if (isset($settings[PayseraDeliverySettings::ENABLED])) {
@@ -127,5 +130,15 @@ class PayseraDeliverySettingsProvider
         });
 
         return array_keys($activeDeliveryGateways);
+    }
+
+    public function getDeliveryUserAgent(): string
+    {
+        return sprintf(
+            'WordPress %s / WooCommerce %s / Paysera Plugin %s',
+            get_bloginfo('version'),
+            defined('WC_VERSION') ? WC_VERSION : 'unknown',
+            PayseraWoocommerce::PAYSERA_PLUGIN_VERSION
+        );
     }
 }

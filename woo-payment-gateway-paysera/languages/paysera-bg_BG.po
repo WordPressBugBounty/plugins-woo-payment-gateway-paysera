@@ -6,52 +6,17 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://wordpress.org/plugins/woo-payment-gateway-"
 "paysera/\n"
 "POT-Creation-Date: 2024-10-17T13:10:11+00:00\n"
-"PO-Revision-Date: 2025-02-05 12:25+0200\n"
+"PO-Revision-Date: 2025-08-20 17:31+0000\n"
 "Last-Translator: \n"
-"Language-Team: \n"
+"Language-Team: Bulgarian\n"
 "Language: bg_BG\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: Loco https://localise.biz/\n"
 "X-Domain: paysera\n"
-
-msgid "Method title"
-msgstr "Метод"
-
-msgid "This controls the title which the user sees during shipping selection."
-msgstr ""
-"Това контролира заглавието, което потребителят вижда при избора на метод за "
-"доставка."
-
-msgid "Delivery Fee"
-msgstr "Такса за доставка"
-
-msgid "Minimum weight"
-msgstr "Минимално тегло"
-
-msgid "Maximum weight"
-msgstr "Максимално тегло"
-
-msgid "Kilograms"
-msgstr "Килограми"
-
-msgid "Preferred pickup type"
-msgstr "Предпочитан тип вземане"
-
-msgid "Courier"
-msgstr "Куриер"
-
-msgid "Parcel locker"
-msgstr "Автомат за пратки"
-
-msgid "Minimum order amount for free shipping"
-msgstr "Минимална стойност на поръчката за безплатна доставка"
-
-msgid "Users will need to spend this amount to get free shipping."
-msgstr ""
-"Потребителите трябва да направят поръчка на тази стойност, за да се "
-"възползват от безплатна доставка."
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Loco-Version: 2.8.0; wp-6.8.2; php-7.4.33"
 
 msgid "%s courier will deliver the parcel right to the customer's hands."
 msgstr "%s куриер ще предаде пратката лично на клиента."
@@ -63,110 +28,6 @@ msgstr ""
 "%s куриер ще достави пратката до избрания автомат, от който клиентът може да "
 "я вземе по всяко време."
 
-msgid "Allowed weight:"
-msgstr "Позволено тегло:"
-
-msgid "Delivery Fee:"
-msgstr "Такса за доставка:"
-
-msgid "Preferred pickup type:"
-msgstr "Предпочитан начин на вземане:"
-
-msgid "Documentation"
-msgstr "Документация"
-
-msgid "Settings"
-msgstr "Настройки"
-
-# src/Service/PayseraDeliveryOrderService.php:20
-msgid "Paysera: Delivery order created - %s"
-msgstr "Paysera: Създадена е поръчка за доставка - %s"
-
-# src/Service/PayseraDeliveryOrderService.php:21
-msgid "Paysera: Delivery order updated - %s"
-msgstr "Paysera: Поръчката за доставка е актуализирана - %s"
-
-msgid "About"
-msgstr "Относно"
-
-msgid "Delivery"
-msgstr "Доставка"
-
-msgid "Payments"
-msgstr "Плащания"
-
-msgid "Project ID"
-msgstr "ID на проект"
-
-msgid "Project password"
-msgstr "Парола на проект"
-
-msgid "Test mode"
-msgstr "Режим на тестване"
-
-msgid "House number field"
-msgstr "Поле за номер на улица/блок"
-
-msgid "Either project id or project password is incorrect"
-msgstr "ID или паролата на проекта не са коректни"
-
-msgid "Enabled"
-msgstr "Активирано"
-
-msgid "Disabled"
-msgstr "Деактивирано"
-
-msgid "Settings saved."
-msgstr "Настройките са запазени."
-
-msgid "Delivery Gateway List"
-msgstr "Списък с методи за доставка"
-
-msgid "Shipping zones"
-msgstr "Зони за доставка"
-
-msgid "Enable"
-msgstr "Активирай"
-
-msgid "Disable"
-msgstr "Деактивирай"
-
-#: assets/build/index.js:1
-msgid "House Number"
-msgstr "Номер на улица/блок"
-
-msgid "Please select the terminal location"
-msgstr "Моля, изберете местоположението на терминала."
-
-msgid "Please select the city/municipality"
-msgstr "Моля, изберете град/район"
-
-msgid "Sorry, %d kg exceeds the maximum weight of %d kg for %s"
-msgstr ""
-"Съжаляваме, %d кг надвишават максималното допустимо тегло от %d кг за %s"
-
-msgid "Sorry, %d kg is not enough for the minimum weight of %d kg for %s"
-msgstr "Съжаляваме, %d кг не достигат за минималното тегло от %d кг за %s"
-
-#: assets/build/paysera-shipping-block-frontend.js:1
-msgid "Terminal country"
-msgstr "Държава на терминала"
-
-#: assets/build/paysera-shipping-block-frontend.js:1
-msgid "Terminal city"
-msgstr "Град на терминала"
-
-#: assets/build/paysera-shipping-block-frontend.js:1
-msgid "Terminal location"
-msgstr "Местоположение на терминала"
-
-#: assets/build/index.js:1
-msgid "Please select the country"
-msgstr "Моля, изберете държава"
-
-msgid "About Paysera"
-msgstr "За Paysera"
-
 msgid ""
 "%s is a global fintech company providing financial and related services to "
 "clients from all over the world since 2004."
@@ -174,11 +35,218 @@ msgstr ""
 "%s е глобална финтех компания, предоставяща финансови и други свързани "
 "услуги на клиенти от цял свят от 2004 година."
 
-msgid "https://www.paysera.com/v2/en-GB/paysera-account"
-msgstr "https://www.paysera.bg/v2/bg-BG/paysera-digitalni-platejni-uslugi"
+msgid ":attribute cannot be greater than :fieldToCompare."
+msgstr ":attribute не може да бъде по-малък от :fieldToCompare."
+
+msgid ":attribute cannot be less than :fieldToCompare."
+msgstr ":attribute не може да бъде по-голям от :fieldToCompare."
+
+msgid ":attribute should be greater than or equal to :min."
+msgstr ":attribute трябва да бъде по-голям или равен на :min."
+
+msgid ":attribute value should be a number."
+msgstr "Стойността на :attribute трябва да бъде число."
+
+msgid "About"
+msgstr "Относно"
+
+msgid "About Paysera"
+msgstr "За Paysera"
+
+msgid ""
+"All countries that are entered here and are not part of the main Paysera "
+"countries list will be shown as 'Other countries' in Checkout"
+msgstr ""
+"Всички държави, които са въведени тук и не са част от основния списък с "
+"държави на Paysera, ще бъдат показани като \"Други държави\" при завършване "
+"на поръчката"
+
+#: assets/build/index.js:1
+msgid "All popular payment methods"
+msgstr "Всички популярни методи за плащане"
+
+msgid ""
+"All the main services can be easily managed via the %s which is available "
+"for download from the App Store, Google Play, and Huawei AppGallery."
+msgstr ""
+"Всичките основни услуги могат лесно да се управляват чрез %s. Изтеглете от "
+"App Store, Google Play и Huawei AppGallery."
+
+msgid "Allowed weight:"
+msgstr "Позволено тегло:"
+
+msgid "Alongside its' most popular services, Paysera also offers:"
+msgstr "Освен своите най-популярни услуги, Paysera предлага и:"
+
+msgid "Amounts do not match"
+msgstr "Сумите не съвпадат"
+
+msgid "Buyer consent"
+msgstr "Съгласие на купувача"
+
+msgid "Callback with refund initiated."
+msgstr "Започнато е възстановяване на платената сума.."
+
+msgid "Cart weight is exceeded"
+msgstr "Теглото на кошницата е превишено"
+
+#: assets/build/index.js:1
+msgid "Cart weight is not sufficient"
+msgstr "Теглото на кошницата е недостатъчно"
+
+msgid "Choose a payment method on the Paysera page"
+msgstr "Изберете метод на плащане на страницата на Paysera"
+
+msgid "Contact us >"
+msgstr "Връзка с нас >"
+
+msgid "Courier"
+msgstr "Куриер"
+
+msgid "Currencies do not match"
+msgstr "Валутите не съвпадат"
+
+msgid "Currency exchange at competitive rates"
+msgstr "Обмяна на валута при изгодни курсове"
+
+msgid "Delivery"
+msgstr "Доставка"
+
+msgid "Delivery Fee"
+msgstr "Такса за доставка"
+
+msgid "Delivery Fee:"
+msgstr "Такса за доставка:"
+
+msgid "Delivery Gateway List"
+msgstr "Списък с методи за доставка"
+
+msgid "Delivery orders will only be created for e-shop orders with this status"
+msgstr ""
+"Поръчки за доставка ще бъдат създавани само за поръчки от онлайн магазина с "
+"този статус"
+
+msgid "Description"
+msgstr "Описание"
+
+msgid "Details"
+msgstr "Подробности"
+
+msgid "Diagnostic"
+msgstr "Диагностика"
+
+msgid "Disable"
+msgstr "Деактивирай"
+
+msgid "Disabled"
+msgstr "Деактивирано"
+
+msgid "Documentation"
+msgstr "Документация"
+
+msgid "Download"
+msgstr "Изтегляне"
+
+msgid "Download the diagnostic report"
+msgstr "Изтегляне на доклад за диагностика"
+
+msgid "During working hours the support is available in 12 languages."
+msgstr "През работното време обслужването е достъпно на 12 езика."
+
+msgid "Either project id or project password is incorrect"
+msgstr "ID или паролата на проекта не са коректни"
+
+msgid "Enable"
+msgstr "Активирай"
+
+msgid "Enabled"
+msgstr "Активирано"
+
+msgid "Enables instant Euro and cheap international transfers"
+msgstr "Незабавни преводи в евро и евтини международни преводи"
+
+msgid "Error:"
+msgstr "Грешка:"
+
+msgid "Explore other services of Paysera"
+msgstr "Открийте и други услуги на Paysera"
+
+msgid "Extra Settings"
+msgstr "Допълнителни настройки"
+
+msgid ""
+"For the latest news about the Paysera services and status updates – follow "
+"us on %s and %s."
+msgstr ""
+"За новини относно услугите на Paysera и актуализации на статуса – "
+"последвайте ни в %s и %s."
 
 msgid "Getting started"
 msgstr "Начало"
+
+msgid "Go back"
+msgstr "Назад"
+
+msgid "Grid view"
+msgstr "Изглед на решетка"
+
+msgid "Hide shipping methods"
+msgstr "Скриване на методите за доставка"
+
+msgid "Hide shipping methods that are above or under set weight limits"
+msgstr ""
+"Скриване на методите за доставка, които са над или под зададените лимити за "
+"тегло"
+
+#: assets/build/index.js:1
+msgid "House Number"
+msgstr "Номер на улица/блок"
+
+msgid "House number field"
+msgstr "Поле за номер на улица/блок"
+
+msgid "https://developers.paysera.com/en/checkout/basic"
+msgstr "https://developers.paysera.com/en/checkout/basic"
+
+msgid "https://developers.paysera.com/en/delivery"
+msgstr "https://developers.paysera.com/en/delivery"
+
+msgid ""
+"https://support.paysera.com/index.php?"
+"/payseraeng/Knowledgebase/Article/View/1815/135/1005-project-id-and-signature"
+msgstr ""
+"https://support.paysera.com/bg/11-10-paysera-tickets-ticketing-system/131-10-"
+"05-project-id-and-signature"
+
+msgid "https://www.paysera.com/v2/en-GB/apple-pay"
+msgstr "https://www.paysera.bg/v2/bg-BG/apple-pay"
+
+msgid "https://www.paysera.com/v2/en-GB/blog/googlepay-samsungpay"
+msgstr "https://www.paysera.com/v2/en-GB/blog/googlepay-samsungpay"
+
+msgid "https://www.paysera.com/v2/en-GB/checkout-delivery-service"
+msgstr "https://www.paysera.com/v2/en-GB/checkout-delivery-service"
+
+msgid "https://www.paysera.com/v2/en-GB/contacts"
+msgstr "https://www.paysera.bg/v2/bg-BG/kontakti"
+
+msgid "https://www.paysera.com/v2/en/legal/rules-for-the-provision-of-the-payment-initiation-service"
+msgstr "https://www.paysera.com/v2/bg/dogovori/Pravila-za-predostavyane-na-uslugite-po-initsiirane-na-plashtane-i-predostavyane-na-informatsiya-za-smetka"
+
+msgid "https://www.paysera.com/v2/en-GB/mobile-application"
+msgstr "https://www.paysera.bg/v2/bg-BG/mobilno-prilojenie"
+
+msgid "https://www.paysera.com/v2/en-GB/payment-card-visa"
+msgstr "https://www.paysera.bg/v2/bg-BG/platezhnata-karta-paysera-visa"
+
+msgid "https://www.paysera.com/v2/en-GB/payment-gateway-checkout"
+msgstr "https://www.paysera.bg/v2/bg-BG/portal-za-plashtania-checkout"
+
+msgid "https://www.paysera.com/v2/en-GB/paysera-account"
+msgstr "https://www.paysera.bg/v2/bg-BG/paysera-digitalni-platejni-uslugi"
+
+msgid "https://www.paysera.com/v2/en/blog/iban-account"
+msgstr "https://www.paysera.com/v2/en/blog/iban-account"
 
 msgid ""
 "In order to receive full benefits of both Paysera Payment and Delivery "
@@ -189,225 +257,53 @@ msgstr ""
 "доставка на Paysera, моля, последвайте посочените линкове, за да получите "
 "подробни указания за работа."
 
-msgid "Paysera Payments"
-msgstr "Плащания с Paysera"
-
-msgid "Paysera Delivery"
-msgstr "Доставка с Paysera"
-
 msgid ""
-"This plugin enables you to accept online payments via cards, SMS, or the "
-"most popular banks in your country. It is easy to install and is used by "
-"thousands of online merchants across Europe."
+"Incorrect project ID and password, please check your project credentials – %s"
 msgstr ""
-"Този плъгин Ви позволява да приемате онлайн плащания чрез карти, SMS или най-"
-"популярните банки в страната Ви. Лесен за инсталиране и се използва от "
-"хиляди онлайн търговци в цяла Европа."
-
-msgid ""
-"This plugin displays several different delivery companies that your buyers "
-"can choose from when ordering your products. No need to sign separate "
-"agreements with the courier companies – we have done it for you. Enjoy low "
-"delivery prices and quick support when needed."
-msgstr ""
-"Този плъгин показва няколко различни куриерски компании, от които купувачите "
-"могат да изберат при поръчка на Вашите продукти. Няма нужда да подписвате "
-"отделни договори с куриерските компании – ние сме го направили вместо Вас. "
-"Насладете се на ниски цени за доставка и бърза поддръжка при нужда."
-
-msgid "https://www.paysera.com/v2/en-GB/payment-gateway-checkout"
-msgstr "https://www.paysera.bg/v2/bg-BG/portal-za-plashtania-checkout"
-
-msgid "Read more about it >"
-msgstr "Прочетете повече >"
-
-msgid "https://developers.paysera.com/en/checkout/basic"
-msgstr "https://developers.paysera.com/en/checkout/basic"
+"Невалидни ID и парола на проект. Моля, проверете данните за вход за Вашия "
+"проект – %s"
 
 msgid "Instructions >"
 msgstr "Инструкции >"
 
-msgid "https://www.paysera.com/v2/en-GB/checkout-delivery-service"
-msgstr "https://www.paysera.com/v2/en-GB/checkout-delivery-service"
-
-msgid "https://developers.paysera.com/en/delivery"
-msgstr "https://developers.paysera.com/en/delivery"
-
-msgid "Need assistance?"
-msgstr "Нуждаете се от помощ?"
-
-msgid "Paysera client support in English is available 24/7!"
-msgstr "Обслужване на клиенти на Paysera на английски език е достъпно 24/7!"
-
-msgid "During working hours the support is available in 12 languages."
-msgstr "През работното време обслужването е достъпно на 12 езика."
-
-msgid "https://www.paysera.com/v2/en-GB/contacts"
-msgstr "https://www.paysera.bg/v2/bg-BG/kontakti"
-
-msgid "Contact us >"
-msgstr "Връзка с нас >"
-
-msgid ""
-"For the latest news about the Paysera services and status updates – follow "
-"us on %s and %s."
-msgstr ""
-"За новини относно услугите на Paysera и актуализации на статуса – "
-"последвайте ни в %s и %s."
-
-msgid "Explore other services of Paysera"
-msgstr "Открийте и други услуги на Paysera"
-
-msgid "Alongside its' most popular services, Paysera also offers:"
-msgstr "Освен своите най-популярни услуги, Paysera предлага и:"
-
-msgid "Currency exchange at competitive rates"
-msgstr "Обмяна на валута при изгодни курсове"
-
-msgid "Enables instant Euro and cheap international transfers"
-msgstr "Незабавни преводи в евро и евтини международни преводи"
-
-msgid "Provides LT, BGN, and RON %s for business and private clients"
-msgstr "Предлага BGN, RON и LT %s за физически и юридически лица"
-
-msgid "https://www.paysera.com/v2/en/blog/iban-account"
-msgstr "https://www.paysera.com/v2/en/blog/iban-account"
-
 msgid "Issues %s that are compatible with %s and %s, and so much more."
 msgstr "Издава %s, които са съвместими с %s, %s и още много други."
 
-msgid "https://www.paysera.com/v2/en-GB/payment-card-visa"
-msgstr "https://www.paysera.bg/v2/bg-BG/platezhnata-karta-paysera-visa"
-
-msgid "Visa cards"
-msgstr "Карти Visa"
-
-msgid "https://www.paysera.com/v2/en-GB/blog/googlepay-samsungpay"
-msgstr "https://www.paysera.com/v2/en-GB/blog/googlepay-samsungpay"
-
-msgid "https://www.paysera.com/v2/en-GB/apple-pay"
-msgstr "https://www.paysera.bg/v2/bg-BG/apple-pay"
-
-msgid ""
-"All the main services can be easily managed via the %s which is available "
-"for download from the App Store, Google Play, and Huawei AppGallery."
-msgstr ""
-"Всичките основни услуги могат лесно да се управляват чрез %s. Изтеглете от "
-"App Store, Google Play и Huawei AppGallery."
-
-msgid "https://www.paysera.com/v2/en-GB/mobile-application"
-msgstr "https://www.paysera.bg/v2/bg-BG/mobilno-prilojenie"
-
-msgid "Paysera mobile app"
-msgstr "Мобилно приложение на Paysera"
-
-msgid "Thank you for choosing our services!"
-msgstr "Благодарим Ви, че избрахте нашите услуги!"
-
-msgid "Title"
-msgstr "Заглавие"
-
-#: assets/build/index.js:1
-msgid "All popular payment methods"
-msgstr "Всички популярни методи за плащане"
-
-msgid "Choose a payment method on the Paysera page"
-msgstr "Изберете метод на плащане на страницата на Paysera"
-
-msgid "Description"
-msgstr "Описание"
+msgid "Kilograms"
+msgstr "Килограми"
 
 msgid "List of payments"
 msgstr "Списък с плащания"
 
-msgid "Specific countries"
-msgstr "Специфични държави"
-
-msgid "Grid view"
-msgstr "Изглед на решетка"
-
-msgid "New Order Status"
-msgstr "Статус на нова поръчка"
-
-msgid "Paid Order Status"
-msgstr "Статус на платена поръчка"
-
-msgid "Pending Checkout"
-msgstr "Изчакващо завършване на поръчката"
-
-msgid "Buyer consent"
-msgstr "Съгласие на купувача"
-
-msgid ""
-"Please be informed that the account information and payment initiation "
-"services will be provided to you by Paysera in accordance with these %s. By "
-"proceeding with this payment, you agree to receive this service and the "
-"service terms and conditions."
-msgstr ""
-"Моля, имайте предвид, че информацията за сметка и услугите за иницииране на "
-"плащания ще бъдат предоставени от Paysera в съответствие с %s. Като "
-"продължите с това плащане, Вие се съгласявате да получите тази услуга и "
-"приемате условията за ползване."
-
-msgid "https://www.paysera.com/v2/en-GB/legal/pis-rules-2020"
-msgstr "https://www.paysera.bg/v2/bg-BG/dogovori/pis-rules-2020"
-
-msgid "rules"
-msgstr "Правилата"
-
-msgid "Ownership code"
-msgstr "Код за собственост"
-
-msgid "Write your ownership code"
-msgstr "Напишете Вашия код за собственост"
-
-msgid "Quality sign"
-msgstr "Знак за качество"
+msgid "Log Level"
+msgstr "Ниво"
 
 msgid "Main Settings"
 msgstr "Основни настройки"
 
-msgid "Extra Settings"
-msgstr "Допълнителни настройки"
+msgid "Maximum weight"
+msgstr "Максимално тегло"
 
-msgid "Order Status"
-msgstr "Статус на поръчка"
+msgid "Method title"
+msgstr "Метод"
 
-msgid "Project Additions"
-msgstr "Добавки към проекта"
+msgid "Minimum order amount for free shipping"
+msgstr "Минимална стойност на поръчката за безплатна доставка"
 
-msgid "Paysera: Order checkout process is started"
-msgstr "Paysera: Процесът на завършване на поръчката е започнат"
+msgid "Minimum weight"
+msgstr "Минимално тегло"
 
-msgid "Paysera: Customer came back to page"
-msgstr "Paysera: Клиентът се върна на страницата"
+msgid "more info"
+msgstr "повече информация"
 
-msgid "Paysera: Callback order payment completed"
-msgstr "Paysera: Callback на плащането на поръчката е изпълнен"
+msgid "More than 1 Paysera plugin active"
+msgstr "Активен е повече от един плъгин на Paysera"
 
-msgid "Paysera: Status changed to "
-msgstr "Paysera: Статусът е променен на "
+msgid "Need assistance?"
+msgstr "Нуждаете се от помощ?"
 
-msgid "Paysera Payment And Delivery"
-msgstr "Плащане и доставка чрез Paysera"
-
-msgid "Payment confirmed with a callback"
-msgstr "Плащането е потвърдено чрез callback"
-
-msgid "Amounts do not match"
-msgstr "Сумите не съвпадат"
-
-msgid "Currencies do not match"
-msgstr "Валутите не съвпадат"
-
-msgid "Paysera plugin requires at least PHP "
-msgstr "Плъгинът на Paysera изисква поне PHP"
-
-msgid "Terminals"
-msgstr "Терминали"
-
-msgid "Plugin & Services."
-msgstr "Плъгин и услуги."
+msgid "New Order Status"
+msgstr "Статус на нова поръчка"
 
 msgid ""
 "NEW! With the latest version, you can integrate delivery options into your e-"
@@ -415,6 +311,72 @@ msgid ""
 msgstr ""
 "НОВО! С най-новата версия можете да интегрирате опции за доставка във Вашия "
 "онлайн магазин. Повече информация за %s "
+
+msgid "Order Status"
+msgstr "Статус на поръчка"
+
+msgid "Order status"
+msgstr "Статус на поръчката"
+
+msgid "Ownership code"
+msgstr "Код за собственост"
+
+msgid "Paid Order Status"
+msgstr "Статус на платена поръчка"
+
+msgid "Parcel locker"
+msgstr "Автомат за пратки"
+
+msgid "Payment confirmed with a callback"
+msgstr "Плащането е потвърдено чрез callback"
+
+msgid "Payments"
+msgstr "Плащания"
+
+msgid "Paysera client support in English is available 24/7!"
+msgstr "Обслужване на клиенти на Paysera на английски език е достъпно 24/7!"
+
+msgid "Paysera Delivery"
+msgstr "Доставка с Paysera"
+
+msgid ""
+"Paysera Delivery: An error occurred. Please check the <a href=\"%s\">logs</a>"
+" for more details."
+msgstr ""
+"Paysera Доставка: Възникна грешка. Моля, проверете <a href=\"%s\">"
+"регистри</a> за повече подробности."
+
+msgid "Paysera mobile app"
+msgstr "Мобилно приложение на Paysera"
+
+msgid "Paysera Payment And Delivery"
+msgstr "Плащане и доставка чрез Paysera"
+
+msgid "Paysera Payments"
+msgstr "Плащания с Paysera"
+
+msgid ""
+"Paysera Payments: An error occurred. Please check the <a href=\"%s\">logs</a>"
+" for more details."
+msgstr ""
+"Paysera Плащания: Възникна грешка. Моля, проверете <a href=\"%s\">"
+"регистри</a> за повече подробности."
+
+msgid "Paysera plugin requires at least PHP "
+msgstr "Плъгинът на Paysera изисква поне PHP"
+
+msgid "Paysera: Callback order payment completed"
+msgstr "Paysera: Callback на плащането на поръчката е изпълнен"
+
+msgid "Paysera: Chosen terminal location - %s, %s, %s"
+msgstr "Paysera: Избрано местоположение на терминала - %s, %s, %s"
+
+msgid "Paysera: Customer came back to page"
+msgstr "Paysera: Клиентът се върна на страницата"
+
+# src/Service/PayseraDeliveryOrderService.php:20
+msgid "Paysera: Delivery order created - %s"
+msgstr "Paysera: Създадена е поръчка за доставка - %s"
 
 # src/Helper/PayseraDeliveryOrderRequestHelper.php:19
 msgid ""
@@ -432,57 +394,35 @@ msgstr ""
 "Paysera: Актуализацията на поръчката за доставка не бе успешна. Моля, "
 "актуализирайте поръчката ръчно в системата на Paysera."
 
-msgid "More than 1 Paysera plugin active"
-msgstr "Активен е повече от един плъгин на Paysera"
+# src/Service/PayseraDeliveryOrderService.php:21
+msgid "Paysera: Delivery order updated - %s"
+msgstr "Paysera: Поръчката за доставка е актуализирана - %s"
 
-msgid "Paysera: Chosen terminal location - %s, %s, %s"
-msgstr "Paysera: Избрано местоположение на терминала - %s, %s, %s"
+msgid "Paysera: Order checkout process is started"
+msgstr "Paysera: Процесът на завършване на поръчката е започнат"
 
-msgid "Error:"
-msgstr "Грешка:"
+msgid "Paysera: Status changed to "
+msgstr "Paysera: Статусът е променен на "
 
-msgid "Hide shipping methods"
-msgstr "Скриване на методите за доставка"
+msgid "Pending Checkout"
+msgstr "Изчакващо завършване на поръчката"
 
-msgid "Hide shipping methods that are above or under set weight limits"
-msgstr ""
-"Скриване на методите за доставка, които са над или под зададените лимити за "
-"тегло"
+msgid "PHP Details"
+msgstr "Подробности за PHP"
 
-msgid "Cart weight is exceeded"
-msgstr "Теглото на кошницата е превишено"
-
-#: assets/build/index.js:1
-msgid "Cart weight is not sufficient"
-msgstr "Теглото на кошницата е недостатъчно"
-
-msgid "The project ID and password fields must be filled with valid data"
-msgstr ""
-"Полетата за ID и парола на проект трябва да бъдат попълнени с валидни данни"
+msgid "Platform Details"
+msgstr "Подробности за платформата"
 
 msgid ""
-"All countries that are entered here and are not part of the main Paysera "
-"countries list will be shown as 'Other countries' in Checkout"
+"Please be informed that the account information and payment initiation "
+"services will be provided to you by Paysera in accordance with these %s. By "
+"proceeding with this payment, you agree to receive this service and the "
+"service terms and conditions."
 msgstr ""
-"Всички държави, които са въведени тук и не са част от основния списък с "
-"държави на Paysera, ще бъдат показани като \"Други държави\" при завършване "
-"на поръчката"
-
-msgid ""
-"Incorrect project ID and password, please check your project credentials – %s"
-msgstr ""
-"Невалидни ID и парола на проект. Моля, проверете данните за вход за Вашия "
-"проект – %s"
-
-msgid ""
-"https://support.paysera.com/index.php?/payseraeng/Knowledgebase/Article/"
-"View/1815/135/1005-project-id-and-signature"
-msgstr ""
-"https://support.paysera.com/bg/11-10-paysera-tickets-ticketing-"
-"system/131-10-05-project-id-and-signature"
-
-msgid "more info"
-msgstr "повече информация"
+"Моля, имайте предвид, че информацията за сметка и услугите за иницииране на "
+"плащания ще бъдат предоставени от Paysera в съответствие с %s. Като "
+"продължите с това плащане, Вие се съгласявате да получите тази услуга и "
+"приемате условията за ползване."
 
 msgid ""
 "Please provide package dimensions if you would like to use the shipping "
@@ -491,80 +431,178 @@ msgstr ""
 "Моля, предоставете размерите на пакета, ако желаете да използвате методите "
 "за доставка, предлагани от Paysera."
 
-msgid "The Paysera plugin requires WooCommerce to be installed and activated."
-msgstr ""
-"Плъгинът на Paysera изисква WooCommerce да бъде инсталиран и активиран."
+msgid "Please select the city/municipality"
+msgstr "Моля, изберете град/район"
 
-msgid "Go back"
-msgstr "Назад"
+#: assets/build/index.js:1
+msgid "Please select the country"
+msgstr "Моля, изберете държава"
 
-msgid "Order status"
+msgid "Please select the terminal location"
+msgstr "Моля, изберете местоположението на терминала."
+
+msgid "Plugin & Services."
+msgstr "Плъгин и услуги."
+
+msgid "Preferred pickup type"
+msgstr "Предпочитан тип вземане"
+
+msgid "Preferred pickup type:"
+msgstr "Предпочитан начин на вземане:"
+
+msgid "Project Additions"
+msgstr "Добавки към проекта"
+
+msgid "Project ID"
+msgstr "ID на проект"
+
+msgid "Project password"
+msgstr "Парола на проект"
+
+msgid "Provides LT, BGN, and RON %s for business and private clients"
+msgstr "Предлага BGN, RON и LT %s за физически и юридически лица"
+
+msgid "Quality sign"
+msgstr "Знак за качество"
+
+msgid "Read more about it >"
+msgstr "Прочетете повече >"
+
+msgid "Refunded Order Status"
 msgstr "Статус на поръчката"
 
-msgid "Delivery orders will only be created for e-shop orders with this status"
-msgstr ""
-"Поръчки за доставка ще бъдат създавани само за поръчки от онлайн магазина с "
-"този статус"
+msgid "Refunded via Paysera Payment Gateway"
+msgstr "Възстановява се чрез портала за плащане Paysera."
 
-msgid "Select the order status"
-msgstr "Изберете статуса на поръчката"
-
-msgid "Log Level"
-msgstr "Ниво"
-
-msgid "View"
-msgstr "Преглед"
-
-msgid "Download"
-msgstr "Изтегляне"
-
-msgid "This will save Paysera plugin logs in WooCommerce"
-msgstr "Това ще запази логовете на Paysera плъгина в WooCommerce"
-
-msgid ":attribute should be greater than or equal to :min."
-msgstr ":attribute трябва да бъде по-голям или равен на :min."
-
-msgid ":attribute cannot be less than :fieldToCompare."
-msgstr ":attribute не може да бъде по-голям от :fieldToCompare."
-
-msgid ":attribute cannot be greater than :fieldToCompare."
-msgstr ":attribute не може да бъде по-малък от :fieldToCompare."
-
-msgid ":attribute value should be a number."
-msgstr "Стойността на :attribute трябва да бъде число."
-
-msgid "Diagnostic"
-msgstr "Диагностика"
-
-msgid "Self-Diagnosis Tool"
-msgstr "Инструмент за диагностика"
-
-msgid "Paysera Delivery: An error occurred. Please check the <a href=\"%s\">logs</a> for more details."
-msgstr "Paysera Доставка: Възникна грешка. Моля, проверете <a href=\"%s\">регистри</a> за повече подробности."
-
-msgid "Paysera Payments: An error occurred. Please check the <a href=\"%s\">logs</a> for more details."
-msgstr "Paysera Плащания: Възникна грешка. Моля, проверете <a href=\"%s\">регистри</a> за повече подробности."
-
-msgid "This setting cannot be enabled due to compatibility issues. Please visit the <a href=\"%s\" target=\"_blank\">diagnostic page</a> to review and resolve them."
-msgstr "Тази настройка не може да бъде активирана поради проблеми със съвместимостта. Моля, посетете <a href=\"%s\" target=\"_blank\">страницата за диагностика</a>, за да ги разрешите."
-
-msgid "Download the diagnostic report"
-msgstr "Изтегляне на доклад за диагностика"
-
-msgid "PHP Details"
-msgstr "Подробности за PHP"
+msgid "rules"
+msgstr "Правилата"
 
 msgid "Security Details"
 msgstr "Подробности за сигурността"
 
-msgid "Platform Details"
-msgstr "Подробности за платформата"
+msgid "Select the order status"
+msgstr "Изберете статуса на поръчката"
 
-msgid "Test"
-msgstr "Тест"
+msgid "Self-Diagnosis Tool"
+msgstr "Инструмент за диагностика"
+
+msgid "Settings"
+msgstr "Настройки"
+
+msgid "Settings saved."
+msgstr "Настройките са запазени."
+
+msgid "Shipping zones"
+msgstr "Зони за доставка"
+
+msgid "Sorry, %d kg exceeds the maximum weight of %d kg for %s"
+msgstr ""
+"Съжаляваме, %d кг надвишават максималното допустимо тегло от %d кг за %s"
+
+msgid "Sorry, %d kg is not enough for the minimum weight of %d kg for %s"
+msgstr "Съжаляваме, %d кг не достигат за минималното тегло от %d кг за %s"
+
+msgid "Specific countries"
+msgstr "Специфични държави"
 
 msgid "Status"
 msgstr "Статус"
 
-msgid "Details"
-msgstr "Подробности"
+#: assets/build/paysera-shipping-block-frontend.js:1
+msgid "Terminal city"
+msgstr "Град на терминала"
+
+#: assets/build/paysera-shipping-block-frontend.js:1
+msgid "Terminal country"
+msgstr "Държава на терминала"
+
+#: assets/build/paysera-shipping-block-frontend.js:1
+msgid "Terminal location"
+msgstr "Местоположение на терминала"
+
+msgid "Terminals"
+msgstr "Терминали"
+
+msgid "Test"
+msgstr "Тест"
+
+msgid "Test mode"
+msgstr "Режим на тестване"
+
+msgid "Thank you for choosing our services!"
+msgstr "Благодарим Ви, че избрахте нашите услуги!"
+
+msgid "The Paysera plugin requires WooCommerce to be installed and activated."
+msgstr ""
+"Плъгинът на Paysera изисква WooCommerce да бъде инсталиран и активиран."
+
+msgid "The project ID and password fields must be filled with valid data"
+msgstr ""
+"Полетата за ID и парола на проект трябва да бъдат попълнени с валидни данни"
+
+msgid "The refund amount exceeds the order amount."
+msgstr "Сумата за възстановяване превишава сумата на поръчката."
+
+msgid "This controls the title which the user sees during shipping selection."
+msgstr ""
+"Това контролира заглавието, което потребителят вижда при избора на метод за "
+"доставка."
+
+msgid ""
+"This plugin displays several different delivery companies that your buyers "
+"can choose from when ordering your products. No need to sign separate "
+"agreements with the courier companies – we have done it for you. Enjoy low "
+"delivery prices and quick support when needed."
+msgstr ""
+"Този плъгин показва няколко различни куриерски компании, от които купувачите "
+"могат да изберат при поръчка на Вашите продукти. Няма нужда да подписвате "
+"отделни договори с куриерските компании – ние сме го направили вместо Вас. "
+"Насладете се на ниски цени за доставка и бърза поддръжка при нужда."
+
+msgid ""
+"This plugin enables you to accept online payments via cards, SMS, or the "
+"most popular banks in your country. It is easy to install and is used by "
+"thousands of online merchants across Europe."
+msgstr ""
+"Този плъгин Ви позволява да приемате онлайн плащания чрез карти, SMS или най-"
+"популярните банки в страната Ви. Лесен за инсталиране и се използва от "
+"хиляди онлайн търговци в цяла Европа."
+
+msgid ""
+"This setting cannot be enabled due to compatibility issues. Please visit the "
+"<a href=\"%s\" target=\"_blank\">diagnostic page</a> to review and resolve "
+"them."
+msgstr ""
+"Тази настройка не може да бъде активирана поради проблеми със съвместимостта."
+" Моля, посетете <a href=\"%s\" target=\"_blank\">страницата за "
+"диагностика</a>, за да ги разрешите."
+
+msgid "This will save Paysera plugin logs in WooCommerce"
+msgstr "Това ще запази логовете на Paysera плъгина в WooCommerce"
+
+msgid "Title"
+msgstr "Заглавие"
+
+msgid "Users will need to spend this amount to get free shipping."
+msgstr ""
+"Потребителите трябва да направят поръчка на тази стойност, за да се "
+"възползват от безплатна доставка."
+
+msgid "View"
+msgstr "Преглед"
+
+msgid "Visa cards"
+msgstr "Карти Visa"
+
+msgid "Write your ownership code"
+msgstr "Напишете Вашия код за собственост"
+
+msgid "A test delivery order will be created."
+msgstr "Ще бъде създадена тестова поръчка за доставка"
+
+msgid ""
+"Paysera delivery plugin is in test mode — delivery orders are simulated, but payments will be charged as you're using an external (non-Paysera) payment gateway."
+msgstr ""
+"Плъгинът за доставка на Paysera е в тестов режим - поръчките за доставка са "
+"симулирани, но плащанията ще бъдат таксувани, тъй като използвате външен "
+"портал за плащане."

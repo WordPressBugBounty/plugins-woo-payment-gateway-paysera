@@ -15,6 +15,7 @@ use Paysera\Scoped\Paysera\DeliverySdk\Service\DeliveryLoggerInterface;
 use Paysera\Dto\PayseraSettingsValidationDto;
 use Paysera\Entity\PayseraDeliverySettings;
 use Paysera\Entity\PayseraPaths;
+use Paysera\Helper\SecurityHelper;
 use Paysera\Provider\PayseraDeliverySettingsProvider;
 use Paysera\Scoped\Paysera\Component\RestClientCommon\Entity\Filter;
 use WC_Cache_Helper;
@@ -24,15 +25,18 @@ class PayseraDeliveryActions
     private MerchantClientProvider $merchantClientProvider;
     private DeliveryLoggerInterface $logger;
     private PayseraDeliverySettingsProvider $deliverySettingsProvider;
+    private SecurityHelper $securityHelper;
 
     public function __construct(
         MerchantClientProvider $merchantClientProvider,
         DeliveryLoggerInterface $logger,
-        PayseraDeliverySettingsProvider $deliverySettingsProvider
+        PayseraDeliverySettingsProvider $deliverySettingsProvider,
+        SecurityHelper $securityHelper = null
     ) {
         $this->merchantClientProvider = $merchantClientProvider;
         $this->logger = $logger;
         $this->deliverySettingsProvider = $deliverySettingsProvider;
+        $this->securityHelper = $securityHelper ?? new SecurityHelper();
     }
 
     public function build(): void
@@ -46,10 +50,12 @@ class PayseraDeliveryActions
 
     public function changeDeliveryGatewayStatus(): void
     {
-        $this->updateDeliveryGatewayStatus(
-            sanitize_text_field(wp_unslash($_GET['gateway'])),
-            sanitize_text_field(wp_unslash($_GET['change'])) === 'enable'
-        );
+        $this->securityHelper->validateAdminRequest('paysera_delivery_gateway_change');
+
+        $gateway = $this->getValidatedGatewayParameter();
+        $action = $this->securityHelper->getValidatedActionParameter('change');
+
+        $this->updateDeliveryGatewayStatus($gateway, $action === 'enable');
 
         wp_redirect(
             'admin.php?page=paysera-delivery&tab=' . PayseraDeliveryAdmin::TAB_DELIVERY_GATEWAYS_LIST_SETTINGS
@@ -58,14 +64,18 @@ class PayseraDeliveryActions
 
     public function changeDeliveryStatus(): void
     {
-        if (!$this->isReadyForEnabling()) {
+        $this->securityHelper->validateAdminRequest('paysera_delivery_change_status');
+
+        $action = $this->securityHelper->getValidatedActionParameter('status');
+
+        if (!$this->isReadyForEnabling($action)) {
             wp_redirect('admin.php?page=paysera-delivery&enabled_massage=yes');
             exit();
         }
 
         $this->updateSettingsOption(
             PayseraDeliverySettings::ENABLED,
-            sanitize_text_field(wp_unslash($_GET['status'])) === 'enable' ? 'yes' : 'no'
+            $action === 'enable' ? 'yes' : 'no'
         );
 
         wp_redirect('admin.php?page=paysera-delivery');
@@ -235,18 +245,41 @@ class PayseraDeliveryActions
         return $resolvedProjectId;
     }
 
-    private function isReadyForEnabling(): bool
+    private function isReadyForEnabling(string $action): bool
     {
-        if (!isset($_GET['status'])) {
-            return false;
-        }
-
-        if (sanitize_text_field(wp_unslash($_GET['status'])) === 'disable') {
+        if ($action === 'disable') {
             return true;
         }
 
         $deliverySettings = $this->deliverySettingsProvider->getPayseraDeliverySettings();
 
-        return !empty($deliverySettings->getProjectId()) && !empty($deliverySettings->getProjectPassword());
+        return $deliverySettings->getProjectId() !== ''
+            && $deliverySettings->getProjectId() !== null
+            && $deliverySettings->getProjectPassword() !== ''
+            && $deliverySettings->getProjectPassword() !== null
+        ;
+    }
+
+    private function getValidatedGatewayParameter(): string
+    {
+        if (!isset($_GET['gateway'])) {
+            wp_die(
+                __('Missing required parameter: gateway', PayseraPaths::PAYSERA_TRANSLATIONS),
+                __('Invalid Request', PayseraPaths::PAYSERA_TRANSLATIONS),
+                ['response' => 400]
+            );
+        }
+
+        $gateway = sanitize_text_field(wp_unslash($_GET['gateway']));
+
+        if ($gateway === '') {
+            wp_die(
+                __('Invalid gateway parameter', PayseraPaths::PAYSERA_TRANSLATIONS),
+                __('Invalid Request', PayseraPaths::PAYSERA_TRANSLATIONS),
+                ['response' => 400]
+            );
+        }
+
+        return $gateway;
     }
 }

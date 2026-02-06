@@ -110,13 +110,17 @@ class PayseraPaymentAdminHtml
             FILTER_VALIDATE_BOOLEAN
         );
 
-        $html .= '<a href="' . admin_url('admin-post.php?action=paysera_payment_gateway_change&change=enable')
-            . '" class="button paysera-button' . (($isEnabled === true) ? ' paysera-button-active"' : '"') . '>'
+        $html .= '<a href="' . wp_nonce_url(
+            admin_url('admin-post.php?action=paysera_payment_gateway_change&change=enable'),
+            'paysera_payment_gateway_change'
+        ) . '" class="button paysera-button' . ($isEnabled ? ' paysera-button-active"' : '"') . '>'
             . __('Enable', PayseraPaths::PAYSERA_TRANSLATIONS)
         ;
 
-        $html .= '<a href="' . admin_url('admin-post.php?action=paysera_payment_gateway_change&change=disable')
-            . '" class="button paysera-button' . (($isEnabled === false) ? ' paysera-button-active"' : '"') . '>'
+        $html .= '<a href="' . wp_nonce_url(
+            admin_url('admin-post.php?action=paysera_payment_gateway_change&change=disable'),
+            'paysera_payment_gateway_change'
+        ) . '" class="button paysera-button' . (!$isEnabled ? ' paysera-button-active"' : '"') . '>'
             . __('Disable', PayseraPaths::PAYSERA_TRANSLATIONS)
         ;
 

@@ -11,13 +11,13 @@ use Paysera\Entity\PayseraDeliverySettings;
 use Paysera\Entity\PayseraPaths;
 use Paysera\Exception\ValidationException;
 use Paysera\Factory\DeliverySettingsValidatorFactory;
-use Paysera\Helper\PayseraHTMLHelper;
 use Paysera\Helper\PostDataHelper;
 use Paysera\Provider\ContainerProvider;
 use Paysera\Provider\PayseraDeliverySettingsProvider;
 use Paysera\Scoped\Paysera\DeliverySdk\Entity\PayseraDeliveryGatewayInterface;
 use Paysera\Scoped\Paysera\DeliverySdk\Entity\PayseraDeliveryGatewaySettingsInterface;
 use Paysera\Scoped\Psr\Container\ContainerInterface;
+use Paysera\Service\DeliveryLogger;
 use Paysera\Validation\PayseraDeliverySettingsClientValidator;
 use Paysera\Validation\PayseraDeliverySettingsValidator;
 
@@ -56,6 +56,10 @@ abstract class Paysera_Delivery_Gateway extends WC_Shipping_Method implements Pa
      * @var PayseraDeliverySettingsProvider
      */
     private $payseraDeliverySettingsProvider;
+    /**
+     * @var DeliveryLogger
+     */
+    private $logger;
 
     /**
      * @var PostDataHelper
@@ -80,6 +84,7 @@ abstract class Paysera_Delivery_Gateway extends WC_Shipping_Method implements Pa
         $this->container = (new ContainerProvider())->getContainer();
         $this->payseraDeliveryActions = $this->container->get(PayseraDeliveryActions::class);
         $this->payseraDeliverySettingsProvider = $this->container->get(PayseraDeliverySettingsProvider::class);
+        $this->logger = $this->container->get(DeliveryLogger::class);
 
         $this->id = $this->generateId();
         $this->instance_id = absint($instance_id);
@@ -112,6 +117,11 @@ abstract class Paysera_Delivery_Gateway extends WC_Shipping_Method implements Pa
     public function getCode(): string
     {
         return $this->id;
+    }
+
+    public function isTestGateway(): bool
+    {
+        return strpos($this->getCode(), 'paysera_delivery_test_') === 0;
     }
 
     public function getName(): string
@@ -164,8 +174,24 @@ abstract class Paysera_Delivery_Gateway extends WC_Shipping_Method implements Pa
         $this->add_rate($rate);
     }
 
-    public function hideShippingWeightBased($rates, $package): array
+    /**
+     * @param array<WC_Shipping_Rate>|mixed $rates Shipping rates array or any value from third-party filters
+     * @param array<string, mixed> $package Package data from WooCommerce
+     *
+     * @return array<string, WC_Shipping_Rate>|mixed Returns filtered rates array when input is array,
+     *                                                otherwise returns input unchanged for compatibility
+     */
+    public function hideShippingWeightBased($rates, $package)
     {
+        if (!is_array($rates)) {
+            $this->logger->error(
+                'Invalid shipping rates type in woocommerce_package_rates filter. '
+                . 'Expected array, received: ' . gettype($rates) . '. '
+                . 'Check for plugin conflicts modifying this filter.'
+            );
+            return $rates;
+        }
+
         if (
             array_key_exists($this->id, $rates) === false
             || $this->payseraDeliverySettingsProvider->getPayseraDeliverySettings()->isHideShippingMethodsEnabled() === false
@@ -261,9 +287,9 @@ abstract class Paysera_Delivery_Gateway extends WC_Shipping_Method implements Pa
     public function is_available($package): bool
     {
         return
-            parent::is_available($package) === true
+            parent::is_available($package)
             && $this->payseraDeliverySettingsProvider->getPayseraDeliverySettings()->isEnabled()
-        ;
+            ;
     }
 
     //region Validation

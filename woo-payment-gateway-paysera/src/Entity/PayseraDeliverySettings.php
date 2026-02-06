@@ -40,6 +40,7 @@ class PayseraDeliverySettings implements PayseraDeliverySettingsInterface
     public const TERMINAL_LOCATION = 'paysera_terminal_location';
     public const BILLING_HOUSE_NO = 'billing_house_no';
     public const SHIPPING_HOUSE_NO = 'shipping_house_no';
+    public const DELIVERY_TEST_MODE = '_paysera_delivery_test_mode';
 
     public const DEFAULT_MINIMUM_WEIGHT = 0;
     public const DEFAULT_MAXIMUM_WEIGHT = 30;
@@ -91,6 +92,7 @@ class PayseraDeliverySettings implements PayseraDeliverySettingsInterface
     public const DELIVERY_ORDER_TERMINAL_CITY_META_KEY = '_paysera_delivery_order_terminal_city';
     public const DELIVERY_ORDER_TERMINAL_KEY = '_paysera_delivery_order_terminal_id';
     public const SELECTED_TERMINAL_NAME_KEY = '_paysera_selected_terminal_name';
+    public const DELIVERY_CUSTOMER_BACK_TO_PAGE = '_paysera_delivery_customer_back_to_page';
 
     private bool $enabled;
     private ?int $projectId;
@@ -104,6 +106,8 @@ class PayseraDeliverySettings implements PayseraDeliverySettingsInterface
     private array $deliveryGateways;
     private array $deliveryGatewayTitles;
     private array $shipmentMethods;
+    private string $userAgent;
+    private ?bool $singlePerOrderShipmentEnabled;
 
     public function __construct()
     {
@@ -112,13 +116,15 @@ class PayseraDeliverySettings implements PayseraDeliverySettingsInterface
         $this->resolvedProjectId = null;
         $this->projectPassword = null;
         $this->testModeEnabled = null;
-        $this->houseNumberFieldEnabled = null;
+        $this->houseNumberFieldEnabled = false;
         $this->gridViewEnabled = null;
         $this->hideShippingMethodsEnabled = null;
         $this->logLevel = null;
         $this->deliveryGateways = [];
         $this->deliveryGatewayTitles = [];
         $this->shipmentMethods = [];
+        $this->userAgent = '';
+        $this->singlePerOrderShipmentEnabled = false;
     }
 
     public function isEnabled(): bool
@@ -262,6 +268,28 @@ class PayseraDeliverySettings implements PayseraDeliverySettingsInterface
     {
         $this->shipmentMethods = $shipmentMethods;
 
+        return $this;
+    }
+
+    public function getUserAgent(): string
+    {
+        return $this->userAgent;
+    }
+
+    public function setUserAgent(string $userAgent): self
+    {
+        $this->userAgent = $userAgent;
+        return $this;
+    }
+
+    public function isSinglePerOrderShipmentEnabled(): bool
+    {
+        return $this->singlePerOrderShipmentEnabled;
+    }
+
+    public function setSinglePerOrderShipmentEnabled(bool $singlePerOrderShipmentEnabled): self
+    {
+        $this->singlePerOrderShipmentEnabled = $singlePerOrderShipmentEnabled;
         return $this;
     }
 }

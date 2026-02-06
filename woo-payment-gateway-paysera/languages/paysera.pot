@@ -298,7 +298,7 @@ msgstr ""
 msgid "Please be informed that the account information and payment initiation services will be provided to you by Paysera in accordance with these %s. By proceeding with this payment, you agree to receive this service and the service terms and conditions."
 msgstr ""
 
-msgid "https://www.paysera.com/v2/en-GB/legal/pis-rules-2020"
+msgid "https://www.paysera.com/v2/en/legal/rules-for-the-provision-of-the-payment-initiation-service"
 msgstr ""
 
 msgid "rules"
@@ -482,4 +482,23 @@ msgid "Status"
 msgstr ""
 
 msgid "Details"
+msgstr ""
+
+msgid "The refund amount exceeds the order amount."
+msgstr ""
+
+msgid "Refunded via Paysera Payment Gateway"
+msgstr ""
+
+msgid "Callback with refund initiated."
+msgstr ""
+
+msgid "Refunded Order Status"
+msgstr ""
+
+msgid "A test delivery order will be created."
+msgstr ""
+
+msgid ""
+"Paysera delivery plugin is in test mode — delivery orders are simulated, but payments will be charged as you're using an external (non-Paysera) payment gateway."
 msgstr ""

@@ -153,6 +153,7 @@ final class PayseraBlock extends AbstractPaymentMethodType
                 'restUrl' => rest_url('/'),
                 'base' => PayseraPaths::PAYSERA_REST_BASE,
                 'baseUrl' => rest_url(PayseraPaths::PAYSERA_REST_BASE),
+                'isTestModeEnabled' => $paymentSettings->isTestModeEnabled(),
                 'paymentSettings' => [
                     'title' => $paymentSettings->getTitle(),
                     'description' => $paymentSettings->getDescription(),

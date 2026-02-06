@@ -236,10 +236,12 @@ class PayseraAdminHtml
         if ($logHelper->isZipArchivable($loggerType)) {
             $html .= '&nbsp;' . $this->getLinkButton(
                 __('Download', PayseraPaths::PAYSERA_TRANSLATIONS),
-                admin_url(sprintf(
-                    'admin-post.php?action=paysera_log_archive_download&logger_type=%s',
-                    $loggerType
-                ))
+                wp_nonce_url(
+                    admin_url(sprintf(
+                        'admin-post.php?action=paysera_log_archive_download&logger_type=%s',
+                        $loggerType
+                    )),
+                    'paysera_download_logs')
             );
         }
 

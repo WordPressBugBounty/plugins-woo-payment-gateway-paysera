@@ -8,7 +8,7 @@ defined('ABSPATH') || exit;
 
 class PayseraRatesProvider
 {
-    private $rates;
+    private array $rates;
 
     public function __construct()
     {

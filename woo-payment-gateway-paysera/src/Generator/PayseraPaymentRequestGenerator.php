@@ -6,6 +6,7 @@ namespace Paysera\Generator;
 
 defined('ABSPATH') || exit;
 
+use Evp\Component\Money\Money;
 use Paysera\Entity\PayseraPaymentSettings;
 use Paysera\Scoped\Paysera\CheckoutSdk\CheckoutFacadeFactory;
 use Paysera\Scoped\Paysera\CheckoutSdk\Entity\Order;
@@ -35,9 +36,12 @@ class PayseraPaymentRequestGenerator
 
         $checkoutFacade = (new CheckoutFacadeFactory())->create();
 
+        $orderTotal = new Money($wcOrder->get_total(), $wcOrder->get_currency());
+        $amountInMinorUnits = $orderTotal->getAmountInMinorUnits();
+
         $order = new Order(
             $this->limitIntLength($wcOrder->get_id(), 40),
-            $this->limitIntLength((int) (number_format((float)$wcOrder->get_total(), 2, '', '')), 11),
+            $this->limitIntLength($amountInMinorUnits, 11),
             $this->limitStringLength($wcOrder->get_currency(), 3)
         );
         $order->setPayerFirstName($this->limitStringLength($wcOrder->get_billing_first_name()))

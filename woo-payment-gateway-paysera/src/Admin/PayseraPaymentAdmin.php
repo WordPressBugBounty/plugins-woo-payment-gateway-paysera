@@ -11,6 +11,7 @@ use Paysera\Entity\PayseraPaymentSettings;
 use Paysera\Helper\LogHelper;
 use Paysera\Helper\PayseraPaymentHelper;
 use Paysera\Provider\PayseraPaymentSettingsProvider;
+use Paysera\Service\SettingsSynchronizer;
 
 class PayseraPaymentAdmin
 {
@@ -85,7 +86,18 @@ class PayseraPaymentAdmin
             PayseraPaymentSettings::PROJECT_ADDITIONS_SETTINGS_NAME
         );
 
-        register_setting(PayseraPaymentSettings::MAIN_SETTINGS_NAME, PayseraPaymentSettings::MAIN_SETTINGS_NAME);
+        register_setting(
+            PayseraPaymentSettings::MAIN_SETTINGS_NAME,
+            PayseraPaymentSettings::MAIN_SETTINGS_NAME,
+            [
+                'sanitize_callback' => function ($value) {
+                    if (isset($value[PayseraPaymentSettings::TEST_MODE])) {
+                        SettingsSynchronizer::syncTestMode($value[PayseraPaymentSettings::TEST_MODE]);
+                    }
+                    return $value;
+                },
+            ]
+        );
         register_setting(PayseraPaymentSettings::EXTRA_SETTINGS_NAME, PayseraPaymentSettings::EXTRA_SETTINGS_NAME);
         register_setting(PayseraPaymentSettings::STATUS_SETTINGS_NAME, PayseraPaymentSettings::STATUS_SETTINGS_NAME);
         register_setting(
@@ -187,6 +199,13 @@ class PayseraPaymentAdmin
                 PayseraPaymentSettings::STATUS_SETTINGS_NAME,
                 self::TAB_ORDER_STATUS
             );
+            add_settings_field(
+                PayseraPaymentSettings::REFUND_PAYMENT_STATUS,
+                __('Refunded Order Status', PayseraPaths::PAYSERA_TRANSLATIONS),
+                [$this, 'refundPaymentRender'],
+                PayseraPaymentSettings::STATUS_SETTINGS_NAME,
+                self::TAB_ORDER_STATUS
+            );
         } elseif ($this->tab === self::TAB_PROJECT_ADDITIONS) {
             add_settings_field(
                 PayseraPaymentSettings::OWNERSHIP_CODE_ENABLED,
@@ -274,6 +293,9 @@ class PayseraPaymentAdmin
             $this->payseraAdminHtml->getEnableInput(
                 PayseraPaymentSettings::MAIN_SETTINGS_NAME . '[' . PayseraPaymentSettings::TEST_MODE . ']',
                 $this->payseraPaymentSettings->isTestModeEnabled() ? 'yes' : 'no'
+            ) .
+            $this->payseraAdminHtml->buildLabel(
+                __('A test delivery order and test payment will be created.', PayseraPaths::PAYSERA_TRANSLATIONS)
             )
         );
     }
@@ -370,6 +392,19 @@ class PayseraPaymentAdmin
             ),
             esc_attr(
                 PayseraPaymentSettings::STATUS_SETTINGS_NAME . '[' . PayseraPaymentSettings::PAID_ORDER_STATUS . ']'
+            )
+        );
+    }
+
+    public function refundPaymentRender(): void
+    {
+        printf(
+            $this->payseraAdminHtml->getSelectInput(
+                $this->payseraPaymentHelper->getWooCommerceOrderStatuses(),
+                $this->payseraPaymentSettings->getRefundPaymentStatus()
+            ),
+            esc_attr(
+                PayseraPaymentSettings::STATUS_SETTINGS_NAME . '[' . PayseraPaymentSettings::REFUND_PAYMENT_STATUS . ']'
             )
         );
     }

@@ -136,6 +136,15 @@ services:
   Paysera\Service\CompatibilityManager:
     class: Paysera\Service\CompatibilityManager
 
+  Paysera\Service\WordPressContext:
+    class: Paysera\Service\WordPressContext
+
+  Paysera\Service\WordPressContextInterface:
+    alias: Paysera\Service\WordPressContext
+
+  Paysera\Service\RefundAmountCalculator:
+    class: Paysera\Service\RefundAmountCalculator
+
   Paysera\Helper\SessionHelperInterface:
     alias: Paysera\Helper\WCSessionHelper
 

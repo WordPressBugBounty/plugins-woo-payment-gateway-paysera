@@ -4,32 +4,46 @@ msgstr ""
 "Project-Id-Version: Paysera Payment And Delivery\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-09-21 10:03+0000\n"
-"PO-Revision-Date: 2024-05-28 11:20+0300\n"
+"PO-Revision-Date: 2025-08-13 18:51+0000\n"
 "Last-Translator: \n"
 "Language-Team: Latvian\n"
 "Language: lv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n % 10 == 1 && n % 100 != 11 ? 0 : n != 0 ? 1 : 2;\n"
-"X-Generator: Poedit 3.4.3\n"
-"X-Loco-Version: 2.5.8; wp-6.3\n"
+"Plural-Forms: nplurals=3; plural=n % 10 == 1 && n % 100 != 11 ? 0 : n != 0 ? "
+"1 : 2;\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.8.0; wp-6.8.2; php-7.4.33"
 
 msgid "%s courier will deliver the parcel right to the customer's hands."
 msgstr "%s kurjers piegādās sūtījumu tieši klientam rokās."
 
 msgid ""
-"%s courier will deliver the parcel to the selected parcel terminal for customer to pickup "
-"any time."
+"%s courier will deliver the parcel to the selected parcel terminal for "
+"customer to pickup any time."
 msgstr ""
-"%s kurjers piegādās paku uz izvēlēto pakomātu, lai klients to varētu paņemt jebkurā laikā."
+"%s kurjers piegādās paku uz izvēlēto pakomātu, lai klients to varētu paņemt "
+"jebkurā laikā."
 
 msgid ""
-"%s is a global fintech company providing financial and related services to clients from "
-"all over the world since 2004."
+"%s is a global fintech company providing financial and related services to "
+"clients from all over the world since 2004."
 msgstr ""
-"%s ir globāls fintech uzņēmums, kas kopš 2004. gada sniedz finanšu un ar tām saistītus "
-"pakalpojumus klientiem visā pasaulē."
+"%s ir globāls fintech uzņēmums, kas kopš 2004. gada sniedz finanšu un ar tām "
+"saistītus pakalpojumus klientiem visā pasaulē."
+
+msgid ":attribute cannot be greater than :fieldToCompare."
+msgstr ":attribute vērtība nevar būt lielāka par :fieldToCompare."
+
+msgid ":attribute cannot be less than :fieldToCompare."
+msgstr ":attribute vērtība nevar būt mazāka par :fieldToCompare."
+
+msgid ":attribute should be greater than or equal to :min."
+msgstr ":attribute vērtībai jābūt lielākai vai vienādai a :min."
+
+msgid ":attribute value should be a number."
+msgstr ":attribute vērtībai ir jābūt skaitlim."
 
 msgid "About"
 msgstr "Par"
@@ -38,21 +52,22 @@ msgid "About Paysera"
 msgstr "Par Paysera"
 
 msgid ""
-"All countries that are entered here and are not part of the main Paysera countries list "
-"will be shown as 'Other countries' in Checkout"
+"All countries that are entered here and are not part of the main Paysera "
+"countries list will be shown as 'Other countries' in Checkout"
 msgstr ""
-"Visas šeit norādītās valstis, kuras nav iekļautas Paysera valstu galvenajā sarakstā, "
-"maksājot tiks norādītas kā 'Citas valstis'"
+"Visas šeit norādītās valstis, kuras nav iekļautas Paysera valstu galvenajā "
+"sarakstā, maksājot tiks norādītas kā 'Citas valstis'"
 
+#: assets/build/index.js:1
 msgid "All popular payment methods"
 msgstr "Visi populārie apmaksas veidi"
 
 msgid ""
-"All the main services can be easily managed via the %s which is available for download "
-"from the App Store, Google Play, and Huawei AppGallery."
+"All the main services can be easily managed via the %s which is available "
+"for download from the App Store, Google Play, and Huawei AppGallery."
 msgstr ""
-"Visus galvenos pakalpojumus var viegli pārvaldīt %s, kas pieejama App Store, Google Play "
-"un Huawei AppGallery."
+"Visus galvenos pakalpojumus var viegli pārvaldīt %s, kas pieejama App Store, "
+"Google Play un Huawei AppGallery."
 
 msgid "Allowed weight:"
 msgstr "Atļautais svars:"
@@ -66,9 +81,13 @@ msgstr "Summas nesakrīt"
 msgid "Buyer consent"
 msgstr "Pircēja piekrišana"
 
+msgid "Callback with refund initiated."
+msgstr "Uzsākts pieprasījums par atmaksu."
+
 msgid "Cart weight is exceeded"
 msgstr "Pārsniegts groza svars"
 
+#: assets/build/index.js:1
 msgid "Cart weight is not sufficient"
 msgstr "Ratiņa svars nav pietiekams"
 
@@ -99,8 +118,19 @@ msgstr "Piegādes maksa:"
 msgid "Delivery Gateway List"
 msgstr "Piegādes pakalpojumu sniedzēju saraksts"
 
+msgid "Delivery orders will only be created for e-shop orders with this status"
+msgstr ""
+"Piegādes pasūtījumi tiks veidoti tikai interneta veikala pasūtījumiem ar šo "
+"statusu"
+
 msgid "Description"
 msgstr "Apraksts"
+
+msgid "Details"
+msgstr "Informācija"
+
+msgid "Diagnostic"
+msgstr "Diagnostika"
 
 msgid "Disable"
 msgstr "Atspējot"
@@ -110,6 +140,12 @@ msgstr "Atspējots"
 
 msgid "Documentation"
 msgstr "Dokumentācija"
+
+msgid "Download"
+msgstr "Lejupielādēt"
+
+msgid "Download the diagnostic report"
+msgstr "Lejupielādēt diagnostikas atskaiti"
 
 msgid "During working hours the support is available in 12 languages."
 msgstr "Darba laikā atbalsts ir pieejams 12 valodās."
@@ -125,7 +161,8 @@ msgstr "Iespējots"
 
 msgid "Enables instant Euro and cheap international transfers"
 msgstr ""
-"Nodrošina zibmaksājumus eiro valūtā un starptautiskus pārskaitījumus par zemām cenām"
+"Nodrošina zibmaksājumus eiro valūtā un starptautiskus pārskaitījumus par "
+"zemām cenām"
 
 msgid "Error:"
 msgstr "Kļūda:"
@@ -137,11 +174,11 @@ msgid "Extra Settings"
 msgstr "Papildus iestatījumi"
 
 msgid ""
-"For the latest news about the Paysera services and status updates – follow us on %s and "
-"%s."
+"For the latest news about the Paysera services and status updates – follow "
+"us on %s and %s."
 msgstr ""
-"Sekojiet mums %s un %s, lai skatītu jaunākās ziņas par Paysera pakalpojumiem un statusa "
-"atjauninājumiem."
+"Sekojiet mums %s un %s, lai skatītu jaunākās ziņas par Paysera pakalpojumiem "
+"un statusa atjauninājumiem."
 
 msgid "Getting started"
 msgstr "Sākt"
@@ -156,8 +193,11 @@ msgid "Hide shipping methods"
 msgstr "Slēpt piegādes metodes"
 
 msgid "Hide shipping methods that are above or under set weight limits"
-msgstr "Slēpt piegādes veidus, kas pārsniedz vai nepārsniedz noteiktos svara ierobežojumus"
+msgstr ""
+"Slēpt piegādes veidus, kas pārsniedz vai nepārsniedz noteiktos svara "
+"ierobežojumus"
 
+#: assets/build/index.js:1
 msgid "House Number"
 msgstr "Mājas numurs"
 
@@ -171,11 +211,11 @@ msgid "https://developers.paysera.com/en/delivery"
 msgstr "https://developers.paysera.com/en/delivery"
 
 msgid ""
-"https://support.paysera.com/index.php?/payseraeng/Knowledgebase/Article/"
-"View/1815/135/1005-project-id-and-signature"
+"https://support.paysera.com/index.php?"
+"/payseraeng/Knowledgebase/Article/View/1815/135/1005-project-id-and-signature"
 msgstr ""
-"https://support.paysera.com/index.php?/payseralav/Knowledgebase/Article/"
-"View/1246/173/1005-projekta-id-un-parole"
+"https://support.paysera.com/index.php?"
+"/payseralav/Knowledgebase/Article/View/1246/173/1005-projekta-id-un-parole"
 
 msgid "https://www.paysera.com/v2/en-GB/apple-pay"
 msgstr "https://www.paysera.lv/v2/lv-LV/apple-pay"
@@ -189,8 +229,8 @@ msgstr "https://www.paysera.lv/v2/lv-LV/checkout-piegade"
 msgid "https://www.paysera.com/v2/en-GB/contacts"
 msgstr "https://www.paysera.lv/v2/lv-LV/kontakti"
 
-msgid "https://www.paysera.com/v2/en-GB/legal/pis-rules-2020"
-msgstr "https://www.paysera.lt/v2/lv-LT/ligums/mip-noteikumi-2020"
+msgid "https://www.paysera.com/v2/en/legal/rules-for-the-provision-of-the-payment-initiation-service"
+msgstr "https://www.paysera.com/v2/lv/ligums/maksajumu-iniciesanas-un-konta-informacijas-pakalpojumu-sniegsanas-noteikumi"
 
 msgid "https://www.paysera.com/v2/en-GB/mobile-application"
 msgstr "https://www.paysera.lv/v2/lv-LV/mobila-lietotne"
@@ -208,14 +248,18 @@ msgid "https://www.paysera.com/v2/en/blog/iban-account"
 msgstr "https://www.paysera.com/v2/en/blog/iban-account"
 
 msgid ""
-"In order to receive full benefits of both Paysera Payment and Delivery plugins, please "
-"use the outlined links to access our detailed how-to instructions."
+"In order to receive full benefits of both Paysera Payment and Delivery "
+"plugins, please use the outlined links to access our detailed how-to "
+"instructions."
 msgstr ""
-"Lai izmantotu visas Paysera Checkout un Piegādes pakalpojuma spraudņu priekšrocības, "
-"lūdzu, izmantojiet norādītās saites, lai piekļūtu mūsu how-to instrukcijām."
+"Lai izmantotu visas Paysera Checkout un Piegādes pakalpojuma spraudņu "
+"priekšrocības, lūdzu, izmantojiet norādītās saites, lai piekļūtu mūsu how-to "
+"instrukcijām."
 
-msgid "Incorrect project ID and password, please check your project credentials – %s"
-msgstr "Projekta ID un parole nav pareiza; lūdzu, pārbaudiet projekta datus – %s"
+msgid ""
+"Incorrect project ID and password, please check your project credentials – %s"
+msgstr ""
+"Projekta ID un parole nav pareiza; lūdzu, pārbaudiet projekta datus – %s"
 
 msgid "Instructions >"
 msgstr "Instrukcijas >"
@@ -228,6 +272,9 @@ msgstr "Kilogrami"
 
 msgid "List of payments"
 msgstr "Apmaksas veidu sarakts"
+
+msgid "Log Level"
+msgstr "Informācijas ieraksta līmenis"
 
 msgid "Main Settings"
 msgstr "Pamata iestatījumi"
@@ -257,14 +304,17 @@ msgid "New Order Status"
 msgstr "Jauna pasūtījuma statuss"
 
 msgid ""
-"NEW! With the latest version, you can integrate delivery options into your e-shop. More "
-"about the %s "
+"NEW! With the latest version, you can integrate delivery options into your e-"
+"shop. More about the %s "
 msgstr ""
-"JAUNUMS! Izmantojot jaunāko versiju, piegādes iespējas varat integrēt savā e-veikalā. "
-"Vairāk par %s "
+"JAUNUMS! Izmantojot jaunāko versiju, piegādes iespējas varat integrēt savā e-"
+"veikalā. Vairāk par %s "
 
 msgid "Order Status"
 msgstr "Pasūtījumu statusi"
+
+msgid "Order status"
+msgstr "Pasūtījuma statuss"
 
 msgid "Ownership code"
 msgstr "Īpašumtiesības kods"
@@ -287,6 +337,13 @@ msgstr "Paysera klientu atbalsts angļu valodā pieejams 24/7!"
 msgid "Paysera Delivery"
 msgstr "Paysera Piegāde"
 
+msgid ""
+"Paysera Delivery: An error occurred. Please check the <a href=\"%s\">logs</a>"
+" for more details."
+msgstr ""
+"Paysera Delivery: Notikusi kļūda. Sīkākai informācijai, lūdzu, skatiet <a "
+"href=\"%s\">žurnālus</a>."
+
 msgid "Paysera mobile app"
 msgstr "Paysera mobilā lietotne"
 
@@ -295,6 +352,13 @@ msgstr "Paysera Payment And Delivery"
 
 msgid "Paysera Payments"
 msgstr "Paysera Maksājumi"
+
+msgid ""
+"Paysera Payments: An error occurred. Please check the <a href=\"%s\">logs</a>"
+" for more details."
+msgstr ""
+"Paysera Payments: Notikusi kļūda. Sīkākai informācijai, lūdzu, skatiet <a "
+"href=\"%s\">žurnālus</a>."
 
 msgid "Paysera plugin requires at least PHP "
 msgstr "Paysera spraudnim ir nepieciešams vismaz PHP "
@@ -312,24 +376,25 @@ msgstr "Paysera: Pasūtījuma statuss pēc tā izveidošanas"
 msgid "Paysera: Delivery order created - %s"
 msgstr "Paysera: Piegādes pasūtījums ir izveidots - %s"
 
+# src/Helper/PayseraDeliveryOrderRequestHelper.php:19
+msgid ""
+"Paysera: Delivery order creation failed, please create order manually in "
+"Paysera system"
+msgstr ""
+"Paysera: Piegādes pasūtījuma izveide neizdevās, lūdzu, izveidojiet "
+"pasūtījumu manuāli Paysera sistēmā"
+
+# src/Helper/PayseraDeliveryOrderRequestHelper.php:20
+msgid ""
+"Paysera: Delivery order update failed, please update order manually in "
+"Paysera system"
+msgstr ""
+"Paysera: Piegādes pasūtījuma atjaunināšana neizdevās; lūdzu, atjauniniet "
+"pasūtījumu manuāli Paysera sistēmā"
 
 # src/Service/PayseraDeliveryOrderService.php:21
 msgid "Paysera: Delivery order updated - %s"
 msgstr "Paysera: Piegādes pasūtījums atjaunināt - %s"
-
-# src/Helper/PayseraDeliveryOrderRequestHelper.php:19
-msgid ""
-"Paysera: Delivery order creation failed, please create order manually in Paysera system"
-msgstr ""
-"Paysera: Piegādes pasūtījuma izveide neizdevās, lūdzu, izveidojiet pasūtījumu manuāli "
-"Paysera sistēmā"
-
-# src/Helper/PayseraDeliveryOrderRequestHelper.php:20
-msgid ""
-"Paysera: Delivery order update failed, please update order manually in Paysera system"
-msgstr ""
-"Paysera: Piegādes pasūtījuma atjaunināšana neizdevās; lūdzu, atjauniniet pasūtījumu manuāli "
-"Paysera sistēmā"
 
 msgid "Paysera: Order checkout process is started"
 msgstr "Paysera: Pasūtījuma statuss ar nepabeigtu apmaksu"
@@ -340,21 +405,28 @@ msgstr "Paysera: statuss mainīts uz "
 msgid "Pending Checkout"
 msgstr "Gaida apmaksu"
 
-msgid ""
-"Please be informed that the account information and payment initiation services will be "
-"provided to you by Paysera in accordance with these %s. By proceeding with this payment, "
-"you agree to receive this service and the service terms and conditions."
-msgstr ""
-"Informējam, ka kontu informācijas un maksājumu iniciēšanas pakalpojumus jums sniegs "
-"Paysera saskaņā ar %s. Veicot šo maksājumu, jūs piekrītat pakalpojuma sniegšanas "
-"noteikumiem."
+msgid "PHP Details"
+msgstr "PHP informācija"
+
+msgid "Platform Details"
+msgstr "Platformas informācija"
 
 msgid ""
-"Please provide package dimensions if you would like to use the shipping methods provided "
-"by Paysera."
+"Please be informed that the account information and payment initiation "
+"services will be provided to you by Paysera in accordance with these %s. By "
+"proceeding with this payment, you agree to receive this service and the "
+"service terms and conditions."
 msgstr ""
-"Lūdzu, norādiet iepakojuma izmērus, ja vēlaties izmantot Paysera piedāvātos piegādes "
-"veidus."
+"Informējam, ka kontu informācijas un maksājumu iniciēšanas pakalpojumus jums "
+"sniegs Paysera saskaņā ar %s. Veicot šo maksājumu, jūs piekrītat pakalpojuma "
+"sniegšanas noteikumiem."
+
+msgid ""
+"Please provide package dimensions if you would like to use the shipping "
+"methods provided by Paysera."
+msgstr ""
+"Lūdzu, norādiet iepakojuma izmērus, ja vēlaties izmantot Paysera piedāvātos "
+"piegādes veidus."
 
 msgid "Please select the city/municipality"
 msgstr "Lūdzu, izvēlieties pilsētu/pašvaldību"
@@ -393,8 +465,23 @@ msgstr "Kvalitātes zīmi"
 msgid "Read more about it >"
 msgstr "Lasīt vairāk >"
 
+msgid "Refunded Order Status"
+msgstr "Pasūtījuma statuss"
+
+msgid "Refunded via Paysera Payment Gateway"
+msgstr "Atmaksa veikta, izmantojot Paysera maksājumu pieņemšanas pakalpojumu."
+
 msgid "rules"
 msgstr "Noteikumiem"
+
+msgid "Security Details"
+msgstr "Drošības informācija"
+
+msgid "Select the order status"
+msgstr "Izvēlēties pasūtījuma statusu"
+
+msgid "Self-Diagnosis Tool"
+msgstr "Pašdiagnostikas rīks"
 
 msgid "Settings"
 msgstr "Iestatījumi"
@@ -414,6 +501,9 @@ msgstr "Atvainojiet, %d kg nav pietiekami minimālajam svaram %s kg"
 msgid "Specific countries"
 msgstr "Valstis"
 
+msgid "Status"
+msgstr "Statuss"
+
 #: assets/build/paysera-shipping-block-frontend.js:1
 msgid "Terminal city"
 msgstr "Pakomāta pilsēta"
@@ -429,6 +519,9 @@ msgstr "Pakomāta atrašanās vieta"
 msgid "Terminals"
 msgstr "Pakomāta"
 
+msgid "Test"
+msgstr "Pārbaudīt"
+
 msgid "Test mode"
 msgstr "Testa režīms"
 
@@ -436,33 +529,49 @@ msgid "Thank you for choosing our services!"
 msgstr "Paldies, ka izmantojat mūsu pakalpojumus!"
 
 msgid "The Paysera plugin requires WooCommerce to be installed and activated."
-msgstr "Lai izmantotu Paysera spraudni, ir jāinstalē un jāaktivizē WooCommerce."
+msgstr ""
+"Lai izmantotu Paysera spraudni, ir jāinstalē un jāaktivizē WooCommerce."
 
 msgid "The project ID and password fields must be filled with valid data"
 msgstr "Projekta ID un paroles lauki ir jāaizpilda ar derīgiem datiem"
+
+msgid "The refund amount exceeds the order amount."
+msgstr "Atmaksas summa pārsniedz pasūtījuma summu."
 
 msgid "This controls the title which the user sees during shipping selection."
 msgstr "as norāda nosaukumu, ko lietotājs redz, izvēloties piegādes veidu."
 
 msgid ""
-"This plugin displays several different delivery companies that your buyers can choose "
-"from when ordering your products. No need to sign separate agreements with the courier "
-"companies – we have done it for you. Enjoy low delivery prices and quick support when "
-"needed."
+"This plugin displays several different delivery companies that your buyers "
+"can choose from when ordering your products. No need to sign separate "
+"agreements with the courier companies – we have done it for you. Enjoy low "
+"delivery prices and quick support when needed."
 msgstr ""
-"Šis spraudnis parāda vairākus dažādus piegādes uzņēmumus, no kuriem pircēji var "
-"izvēlēties, pasūtot jūsu preces. Nav nepieciešams parakstīt atsevišķus līgumus ar "
-"kurjerdienestiem – mēs to esam izdarījuši jūsu vietā. Izbaudiet zemas piegādes cenas un "
-"ātru atbalstu, kad tas nepieciešams."
+"Šis spraudnis parāda vairākus dažādus piegādes uzņēmumus, no kuriem pircēji "
+"var izvēlēties, pasūtot jūsu preces. Nav nepieciešams parakstīt atsevišķus "
+"līgumus ar kurjerdienestiem – mēs to esam izdarījuši jūsu vietā. Izbaudiet "
+"zemas piegādes cenas un ātru atbalstu, kad tas nepieciešams."
 
 msgid ""
-"This plugin enables you to accept online payments via cards, SMS, or the most popular "
-"banks in your country. It is easy to install and is used by thousands of online merchants "
-"across Europe."
+"This plugin enables you to accept online payments via cards, SMS, or the "
+"most popular banks in your country. It is easy to install and is used by "
+"thousands of online merchants across Europe."
 msgstr ""
-"Šis spraudnis ļauj pieņemt tiešsaistes maksājumus, izmantojot kartes, SMS vai populārākās "
-"bankas jūsu valstī. To ir viegli instalēt, un to izmanto tūkstošiem tiešsaistes tirgotāju "
-"visā Eiropā."
+"Šis spraudnis ļauj pieņemt tiešsaistes maksājumus, izmantojot kartes, SMS "
+"vai populārākās bankas jūsu valstī. To ir viegli instalēt, un to izmanto "
+"tūkstošiem tiešsaistes tirgotāju visā Eiropā."
+
+msgid ""
+"This setting cannot be enabled due to compatibility issues. Please visit the "
+"<a href=\"%s\" target=\"_blank\">diagnostic page</a> to review and resolve "
+"them."
+msgstr ""
+"Šo iestatījumu nevar iespējot saderības problēmu dēļ – lūdzu, skatiet <a "
+"href=\"%s\" target=\"_blank\">diagnostikas lapu</a>."
+
+msgid "This will save Paysera plugin logs in WooCommerce"
+msgstr ""
+"Tas saglabās Paysera spraudņa informācijas ierakstus WooCommerce platformā"
 
 msgid "Title"
 msgstr "Nosaukums"
@@ -470,77 +579,21 @@ msgstr "Nosaukums"
 msgid "Users will need to spend this amount to get free shipping."
 msgstr "Lietotājiem būs jāiztērē šī summa, lai saņemtu bezmaksas piegādi."
 
+msgid "View"
+msgstr "Skatīt"
+
 msgid "Visa cards"
 msgstr "Visa kartes"
 
 msgid "Write your ownership code"
 msgstr "Uzrakstiet savu īpašumtiesību kodu"
 
-msgid "Order status"
-msgstr "Pasūtījuma statuss"
+msgid "A test delivery order will be created."
+msgstr "Tiks izveidots testa piegādes pasūtījums"
 
-msgid "Delivery orders will only be created for e-shop orders with this status"
-msgstr "Piegādes pasūtījumi tiks veidoti tikai interneta veikala pasūtījumiem ar šo statusu"
-
-msgid "Select the order status"
-msgstr "Izvēlēties pasūtījuma statusu"
-
-msgid "Log Level"
-msgstr "Informācijas ieraksta līmenis"
-
-msgid "View"
-msgstr "Skatīt"
-
-msgid "Download"
-msgstr "Lejupielādēt"
-
-msgid "This will save Paysera plugin logs in WooCommerce"
-msgstr "Tas saglabās Paysera spraudņa informācijas ierakstus WooCommerce platformā"
-
-msgid ":attribute should be greater than or equal to :min."
-msgstr ":attribute vērtībai jābūt lielākai vai vienādai a :min."
-
-msgid ":attribute cannot be less than :fieldToCompare."
-msgstr ":attribute vērtība nevar būt mazāka par :fieldToCompare."
-
-msgid ":attribute cannot be greater than :fieldToCompare."
-msgstr ":attribute vērtība nevar būt lielāka par :fieldToCompare."
-
-msgid ":attribute value should be a number."
-msgstr ":attribute vērtībai ir jābūt skaitlim."
-
-msgid "Diagnostic"
-msgstr "Diagnostika"
-
-msgid "Self-Diagnosis Tool"
-msgstr "Pašdiagnostikas rīks"
-
-msgid "Paysera Delivery: An error occurred. Please check the <a href=\"%s\">logs</a> for more details."
-msgstr "Paysera Delivery: Notikusi kļūda. Sīkākai informācijai, lūdzu, skatiet <a href=\"%s\">žurnālus</a>."
-
-msgid "Paysera Payments: An error occurred. Please check the <a href=\"%s\">logs</a> for more details."
-msgstr "Paysera Payments: Notikusi kļūda. Sīkākai informācijai, lūdzu, skatiet <a href=\"%s\">žurnālus</a>."
-
-msgid "This setting cannot be enabled due to compatibility issues. Please visit the <a href=\"%s\" target=\"_blank\">diagnostic page</a> to review and resolve them."
-msgstr "Šo iestatījumu nevar iespējot saderības problēmu dēļ – lūdzu, skatiet <a href=\"%s\" target=\"_blank\">diagnostikas lapu</a>."
-
-msgid "Download the diagnostic report"
-msgstr "Lejupielādēt diagnostikas atskaiti"
-
-msgid "PHP Details"
-msgstr "PHP informācija"
-
-msgid "Security Details"
-msgstr "Drošības informācija"
-
-msgid "Platform Details"
-msgstr "Platformas informācija"
-
-msgid "Test"
-msgstr "Pārbaudīt"
-
-msgid "Status"
-msgstr "Statuss"
-
-msgid "Details"
-msgstr "Informācija"
+msgid ""
+"Paysera delivery plugin is in test mode — delivery orders are simulated, but payments will be charged as you're using an external (non-Paysera) payment gateway."
+msgstr ""
+"Paysera piegādes pakalpojuma spraudnis ir testa režīmā – piegādes pasūtījumi "
+"tiek simulēti, bet apmaksa tiks piemērota, jo jūs izmantojat ārēju (nevis "
+"Paysera) maksājumu apstrādes pakalpojumu."

@@ -3,387 +3,88 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WooCommerce Payment Gateway - Paysera 3.5.8\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/plugins/woo-payment-gateway-paysera/\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/plugins/woo-payment-gateway-"
+"paysera/\n"
 "POT-Creation-Date: 2024-10-17T13:10:11+00:00\n"
-"PO-Revision-Date: 2025-02-05 14:32+0200\n"
+"PO-Revision-Date: 2025-09-08 12:37+0000\n"
 "Last-Translator: \n"
-"Language-Team: \n"
+"Language-Team: Georgian\n"
 "Language: ka_GE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: Loco https://localise.biz/\n"
 "X-Domain: paysera\n"
-
-msgid "Method title"
-msgstr "დასახელება"
-
-msgid "This controls the title which the user sees during shipping selection."
-msgstr "აღნიშნული აკონტროლებს სათაურს, რომელსაც მომხმარებელი ხედავს ტრანსპორტირების შერჩევისას"
-
-msgid "Delivery Fee"
-msgstr "მიწოდების მომსახურების საკომისიო"
-
-msgid "Minimum weight"
-msgstr "მინიმალური წონა"
-
-msgid "Maximum weight"
-msgstr "მაქსიმალური წონა"
-
-msgid "Kilograms"
-msgstr "კგ."
-
-msgid "Preferred pickup type"
-msgstr "გატანის სასურველი ტიპი"
-
-msgid "Courier"
-msgstr "კურიერი"
-
-msgid "Parcel locker"
-msgstr "ამანათის ლოქერი "
-
-msgid "Minimum order amount for free shipping"
-msgstr "შეკვეთის მინიმალური ღირებულება, უფასო მიწოდების სერვისის მისაღებად"
-
-msgid "Users will need to spend this amount to get free shipping."
-msgstr "უფასო მიწოდების სერვისის მისაღებად, მომხმარებელმა უნდა შეუკვეთოს განსაზღვრეული ღირებულების პროდუქტი"
+"Plural-Forms: nplurals=1; plural=0;"
 
 msgid "%s courier will deliver the parcel right to the customer's hands."
 msgstr "%s კურიერი ამანათს გადასცემს მომხმარებელს ხელიდან ხელში."
 
-msgid "%s courier will deliver the parcel to the selected parcel terminal for customer to pickup any time."
-msgstr "%s  კურიერი ამანათს  მომხმარებლის მიერ არჩეულ ლოქერში დატოვებს, რის შემდეგაც მომხმარებელი მისთვის სასურველ დროს შეძლებს ამანათის გატანას."
+msgid ""
+"%s courier will deliver the parcel to the selected parcel terminal for "
+"customer to pickup any time."
+msgstr ""
+"%s  კურიერი ამანათს  მომხმარებლის მიერ არჩეულ ლოქერში დატოვებს, რის შემდეგაც "
+"მომხმარებელი მისთვის სასურველ დროს შეძლებს ამანათის გატანას."
 
-msgid "Allowed weight:"
-msgstr "ნებადართული წონა:"
+msgid ""
+"%s is a global fintech company providing financial and related services to "
+"clients from all over the world since 2004."
+msgstr ""
+"%s არის საერთაშორისო Fintech კომპანია, რომელიც 2004 წლიდან მომხმარებლებს "
+"მსოფლიოს მასშტაბით სთავაზობს ფინანსური მომსახურების გაწევას. "
 
-msgid "Delivery Fee:"
-msgstr "საკურიერო მომსახურების საკომისიო:"
+msgid ":attribute cannot be greater than :fieldToCompare."
+msgstr "მახასიათებელი არ უნდა აღემატებოდეს :fieldToCompare."
 
-msgid "Preferred pickup type:"
-msgstr "გატანის სასურველი ტიპი:"
+msgid ":attribute cannot be less than :fieldToCompare."
+msgstr "მახასიათებელი უნდა იყოს სულ მცირე:fieldToCompare."
 
-msgid "Documentation"
-msgstr "დოკუმენტები"
+msgid ":attribute should be greater than or equal to :min."
+msgstr ""
+"მახასიათებელი უნდა უტოლდებოდეს ან აღემატებოდეს მინიმალურ მაჩვენებელს: მინ. "
 
-msgid "Settings"
-msgstr "პარამეტრები"
-
-# src/Service/PayseraDeliveryOrderService.php:20
-msgid "Paysera: Delivery order created - %s"
-msgstr "პეისერა: საკურიერო მომსახურების მოთხვნა შექმნილია - %s "
-
-# src/Service/PayseraDeliveryOrderService.php:21
-msgid "Paysera: Delivery order updated - %s"
-msgstr "პეისერა: საკურიერო მომსახურების მოთხვნა განახლებულია - %s "
+msgid ":attribute value should be a number."
+msgstr "მახასიათებლის მნიშვნელობა უნდა მიუთითოთ რიცხვის გამოყენებით."
 
 msgid "About"
 msgstr "ჩვენს შესახებ"
 
-msgid "Delivery"
-msgstr "საკურიერო მომსახურება"
-
-msgid "Payments"
-msgstr "გადახდები"
-
-msgid "Project ID"
-msgstr "პროექტის ID"
-
-msgid "Project password"
-msgstr "პროეტის პაროლი"
-
-msgid "Test mode"
-msgstr "სატესტო რეჟიმი"
-
-msgid "House number field"
-msgstr "ბინის ნომრის ველი"
-
-msgid "Either project id or project password is incorrect"
-msgstr "პროექტის ID ან პაროლი არასწორია "
-
-msgid "Enabled"
-msgstr "გააქტიურებულია"
-
-msgid "Disabled"
-msgstr "გაუქმებულია"
-
-msgid "Settings saved."
-msgstr "პარამეტრები დამახსოვრებულია"
-
-msgid "Delivery Gateway List"
-msgstr "მიწოდების ჰაბის ჩამონათვალი"
-
-msgid "Shipping zones"
-msgstr "მიწოდების მომსახურების ზონები"
-
-msgid "Enable"
-msgstr "გააქტიურება"
-
-msgid "Disable"
-msgstr "გაუქმება"
-
-#: assets/build/index.js:1
-msgid "House Number"
-msgstr "სახლის ნომერი"
-
-msgid "Please select the terminal location"
-msgstr "გთხოვთ, აირჩიოთ ტერმინალის ადგილმდებარეობა"
-
-msgid "Please select the city/municipality"
-msgstr "გთხოვთ, აირჩიოთ ქალაქი/მუნიციპალიტეტი"
-
-msgid "Sorry, %d kg exceeds the maximum weight of %d kg for %s"
-msgstr "უკაცრავად,  %d კგ. აჭარბებს  %s-თვის განსაზღვრულ მაქსიმალური წონის ოდენობას (%d კგ.) "
-
-msgid "Sorry, %d kg is not enough for the minimum weight of %d kg for %s"
-msgstr "უკაცრავად,  %d კგ. არ არის საკმარისი %s-თვის განსაზღვრული მინიმალური წონის  %d კგ. შესავსებად."
-
-#: assets/build/paysera-shipping-block-frontend.js:1
-msgid "Terminal country"
-msgstr "ტერმინალის ქვეყანა"
-
-#: assets/build/paysera-shipping-block-frontend.js:1
-msgid "Terminal city"
-msgstr "ტერმინალის ქალაქი"
-
-#: assets/build/paysera-shipping-block-frontend.js:1
-msgid "Terminal location"
-msgstr "ტერმინალის ადგილმდებარეობა"
-
-#: assets/build/index.js:1
-msgid "Please select the country"
-msgstr "გთხოვთ, აირჩიოთ ქვეყანა"
-
 msgid "About Paysera"
 msgstr "პეისერას შესახებ"
 
-msgid "%s is a global fintech company providing financial and related services to clients from all over the world since 2004."
-msgstr "%s არის საერთაშორისო Fintech კომპანია, რომელიც 2004 წლიდან მომხმარებლებს მსოფლიოს მასშტაბით სთავაზობს ფინანსური მომსახურების გაწევას. "
-
-msgid "https://www.paysera.com/v2/en-GB/paysera-account"
-msgstr "https://www.paysera.com/v2/ka-GB/business-angarishis-gaxsna"
-
-msgid "Getting started"
-msgstr "დაიწყეთ ახლა"
-
-msgid "In order to receive full benefits of both Paysera Payment and Delivery plugins, please use the outlined links to access our detailed how-to instructions."
-msgstr "იმისთვის, რომ ისარგებლოთ პეისერა გადახდებისა და საკურიერო მომსახურების ფლაგინებით, გთხოვთ, გამოიყენოთ ხაზგასმული ბმულები, რათა შეძლოთ დეტალური ინსტრუქციის მიღება."
-
-msgid "Paysera Payments"
-msgstr "პეისერა გადახდები"
-
-msgid "Paysera Delivery"
-msgstr "პეისერა საკურიერო მომსახურება"
-
-msgid "This plugin enables you to accept online payments via cards, SMS, or the most popular banks in your country. It is easy to install and is used by thousands of online merchants across Europe."
-msgstr "აღნიშნული პლაგინები გაძლევთ შესაძლებობას მიიღოთ ონლაინ გადახდები ბარათის, SMS-ის ან თქვენს ქვეყანაში არსებული ბანკების მეშვეობით. აღნიშნული მაარტივი ფუნქციონალით ევროპის მასშტაბით ათასობით მერჩანტი სარგებლობს."
-
-msgid "This plugin displays several different delivery companies that your buyers can choose from when ordering your products. No need to sign separate agreements with the courier companies – we have done it for you. Enjoy low delivery prices and quick support when needed."
-msgstr "აღნიშნული პლაგინები თქვენს მომხმარებელს აძლევს შესაძლებლობას თქვენი პროდუქტის შესყიდვისას აირჩიოს მისთვის სასურველი საკურიერო კომპანია. ჩვენ თავიდან აგაცილებთ საკურიერო კომპანიებთან ინდივიდუალურად ხელშეკრულებების გაფორმების პროცესს. ისარგებლეთ დაბალი საკურიერო მომსახურების ტარიფებითა და საჭიროების შემთხვევაში მომხმარებელთა მხარდაჭერის სამსახურის სწრაფი მომსახურებთ. "
-
-msgid "https://www.paysera.com/v2/en-GB/payment-gateway-checkout"
-msgstr "https://www.paysera.com/v2/en-GB/payment-gateway-checkout"
-
-msgid "Read more about it >"
-msgstr "გაეცანით დამატებით ინფორმაციას"
-
-msgid "https://developers.paysera.com/en/checkout/basic"
-msgstr "https://developers.paysera.com/en/checkout/basic"
-
-msgid "Instructions >"
-msgstr "ინსტრუქცი"
-
-msgid "https://www.paysera.com/v2/en-GB/checkout-delivery-service"
-msgstr "https://www.paysera.com/v2/en-GB/checkout-delivery-service"
-
-msgid "https://developers.paysera.com/en/delivery"
-msgstr "https://developers.paysera.com/en/delivery"
-
-msgid "Need assistance?"
-msgstr "გჭირდებათ დახმარება?"
-
-msgid "Paysera client support in English is available 24/7!"
-msgstr "პეისერას მომხმარებელთა მხარდაჭერის სამსახური ინგლისურ ენაზე ხელმისაწვდომია 24/7 "
-
-msgid "During working hours the support is available in 12 languages."
-msgstr "სამუშაო საათებში მხარდაჭერის გაწევა შესაძლებელია 12 ენაზე."
-
-msgid "https://www.paysera.com/v2/en-GB/contacts"
-msgstr "https://www.paysera.com/v2/ka-GB/kontaqtebi"
-
-msgid "Contact us >"
-msgstr "დაგვიკავშირდით > "
-
-msgid "For the latest news about the Paysera services and status updates – follow us on %s and %s."
-msgstr "პეისერას მომსახურების შესახებ სიახლეების მისაღებად გამოგვიწერეთ  on %s და %s."
-
-msgid "Explore other services of Paysera"
-msgstr "აღმოაჩინეთ პეისერას სხვა სერვისები"
-
-msgid "Alongside its' most popular services, Paysera also offers:"
-msgstr "მის ყველზე ცნობილ სერვისებთან ერთად, პეისერა ასევე გთავაზობთ:"
-
-msgid "Currency exchange at competitive rates"
-msgstr "ვალუტის კონვერტაციას ხელსაყრელი კურსით"
-
-msgid "Enables instant Euro and cheap international transfers"
-msgstr "ევროს მყისიერ და საერთაშორისო გადარიცხებს დაბალი ტარიფით"
-
-msgid "Provides LT, BGN, and RON %s for business and private clients"
-msgstr " LT-ს, BGN-ისა და RON-ის %s შეთავაზებას ფიზიკური და იურისიდული პირებისთვის"
-
-msgid "https://www.paysera.com/v2/en/blog/iban-account"
-msgstr "https://www.paysera.com/v2/en/blog/iban-account"
-
-msgid "Issues %s that are compatible with %s and %s, and so much more."
-msgstr "%s გაცემას, რომელიც თავსებადია  %s-ს და %s-თან. ეს და სხვა მრავალი."
-
-msgid "https://www.paysera.com/v2/en-GB/payment-card-visa"
-msgstr "https://www.paysera.com/v2/ka-GB/visa-sagadaxdo-barati"
-
-msgid "Visa cards"
-msgstr "ევროპული Visa ბარათი"
-
-msgid "https://www.paysera.com/v2/en-GB/blog/googlepay-samsungpay"
-msgstr "https://www.paysera.com/v2/en-GB/blog/googlepay-samsungpay"
-
-msgid "https://www.paysera.com/v2/en-GB/apple-pay"
-msgstr "https://www.paysera.com/v2/ka-GB/apple-pay"
-
-msgid "All the main services can be easily managed via the %s which is available for download from the App Store, Google Play, and Huawei AppGallery."
-msgstr "ყველა მომსახურების მართვა მარტივად შესაძლებელია %s-ის გამოყენებით, რომლის ჩამოტვირთვ"
-
-msgid "https://www.paysera.com/v2/en-GB/mobile-application"
-msgstr "https://www.paysera.com/v2/en-GB/mobile-application"
-
-msgid "Paysera mobile app"
-msgstr "Paysera მობილური აპლიკაცია"
-
-msgid "Thank you for choosing our services!"
-msgstr "გმადლობთ, რომ სარგებლობთ ჩვენი მომსახურებით!"
-
-msgid "Title"
-msgstr "დასახელება"
+msgid ""
+"All countries that are entered here and are not part of the main Paysera "
+"countries list will be shown as 'Other countries' in Checkout"
+msgstr ""
+"ყველა ქვეყანა, რომელიც მოცემულია აქ და არ არის პეისერას ძირითადი ქვეყნების "
+"ჩამონათვალში, გადახდისას  ნაჩვენები იქნება, როგორც \"სხვა ქვეყნები\"  "
 
 #: assets/build/index.js:1
 msgid "All popular payment methods"
 msgstr "გადახდის ყველა ცნობილი მეთოდი"
 
-msgid "Choose a payment method on the Paysera page"
-msgstr "პეისერა გვერდზე აირჩიეთ გადახდის მეთოდი"
+msgid ""
+"All the main services can be easily managed via the %s which is available "
+"for download from the App Store, Google Play, and Huawei AppGallery."
+msgstr ""
+"ყველა მომსახურების მართვა მარტივად შესაძლებელია %s-ის გამოყენებით, რომლის "
+"ჩამოტვირთვ"
 
-msgid "Description"
-msgstr "აღწერა"
+msgid "Allowed weight:"
+msgstr "ნებადართული წონა:"
 
-msgid "List of payments"
-msgstr "გადახდების ჩამონათვალი"
-
-msgid "Specific countries"
-msgstr "სპეციფიკური ქვეყნები"
-
-msgid "Grid view"
-msgstr "ქსელის ნახვა "
-
-msgid "New Order Status"
-msgstr "ახალი დავალების სტატუსი"
-
-msgid "Paid Order Status"
-msgstr "გადახდილი დავალების სტატუსი"
-
-msgid "Pending Checkout"
-msgstr "მომლოდინე გადახდა"
-
-msgid "Buyer consent"
-msgstr "მყიდველის თანხმობა"
-
-msgid "Please be informed that the account information and payment initiation services will be provided to you by Paysera in accordance with these %s. By proceeding with this payment, you agree to receive this service and the service terms and conditions."
-msgstr "გაცნობებთ, რომ ანგარიშის შესახებ  ინფორმაცია და  გადახდის ინიციირების მომსახურება მოგეწოდებათ პეისერას მიერ აღნიშნული %s შესაბამისად. წინამდებარე გადახდის გაგრძელებით თვქენ ეთანხმებით აღნიშნული მომსახურებით სარგებლობასა და მომსახურების წესებსა და პირობებს.  "
-
-msgid "https://www.paysera.com/v2/en-GB/legal/pis-rules-2020"
-msgstr "https://www.paysera.com/v2/en-GB/legal/pis-rules-2020"
-
-msgid "rules"
-msgstr "წესები"
-
-msgid "Ownership code"
-msgstr "მფლობელის კოდი "
-
-msgid "Write your ownership code"
-msgstr "შეიყვანეთ  მფლობელის თვქენი კოდი"
-
-msgid "Quality sign"
-msgstr "ხარისხის ნიშანი"
-
-msgid "Main Settings"
-msgstr "ძირითადი პარამეტრები"
-
-msgid "Extra Settings"
-msgstr "დამატებითი პარამეტრები"
-
-msgid "Order Status"
-msgstr "შეკვეთის სტატუსი"
-
-msgid "Project Additions"
-msgstr "პროექტის დამატებები"
-
-msgid "Paysera: Order checkout process is started"
-msgstr "პეისერა: გადახდის დამუშავების პროცესი დაწყებულია "
-
-msgid "Paysera: Customer came back to page"
-msgstr "პეისერა: მომხმარებელი დაბრუნდა გვერდზე"
-
-msgid "Paysera: Callback order payment completed"
-msgstr "პეისერა:მოთხოვნა შესრულებულია"
-
-msgid "Paysera: Status changed to "
-msgstr "პეისერა: სტატუსი შეიცვალა"
-
-msgid "Paysera Payment And Delivery"
-msgstr "გადახდა და საკურიერო მომსახურება"
-
-msgid "Payment confirmed with a callback"
-msgstr "გადახდა დადასტურებულია"
+msgid "Alongside its' most popular services, Paysera also offers:"
+msgstr "მის ყველზე ცნობილ სერვისებთან ერთად, პეისერა ასევე გთავაზობთ:"
 
 msgid "Amounts do not match"
 msgstr "თანხა არასწორია"
 
-msgid "Currencies do not match"
-msgstr "ვალუტა არასწორია"
+msgid "Buyer consent"
+msgstr "მყიდველის თანხმობა"
 
-msgid "Paysera plugin requires at least PHP "
-msgstr "პეისერა პლაგინისთვის აუცილებელია მინიმუმ PHP "
-
-msgid "Terminals"
-msgstr "ტერმინალი"
-
-msgid "Plugin & Services."
-msgstr "პლაგინი & მომსახურება"
-
-msgid "NEW! With the latest version, you can integrate delivery options into your e-shop. More about the %s "
-msgstr "სიახლე! უახლესი ვერსია მოგცემთ შესაძლებლობას თქვენს ელ.მაღაზიებში დააინტეგრიროთ საკურიერო მომსახურება. გაეცანით დამატებით ინფორმაციას %s "
-
-# src/Helper/PayseraDeliveryOrderRequestHelper.php:19
-msgid "Paysera: Delivery order creation failed, please create order manually in Paysera system"
-msgstr "პეისერ: საკურირო მომსახურების მოთხოვნა ვერ შესრულდა. გთხოვთ, მოთხოვნა პეისერას სისტემაში შექმნათ ხელით"
-
-# src/Helper/PayseraDeliveryOrderRequestHelper.php:20
-msgid "Paysera: Delivery order update failed, please update order manually in Paysera system"
-msgstr "პეისერა: საკურიერო მომსახურების მოთხოვნის განახლება ვერ მოხერხდა. გთხოვთ,  მოთხოვნა პეისერას სისტემაში განაახლოთ ხელით "
-
-msgid "More than 1 Paysera plugin active"
-msgstr "აქტიურია სულ მცირე პეისერას 1 პლაგინი"
-
-msgid "Paysera: Chosen terminal location - %s, %s, %s"
-msgstr "პეისერა: აირჩიეთ ტერმინალის ადგილმდებარეობა - %s, %s, %s"
-
-msgid "Error:"
-msgstr "შეცდომა:"
-
-msgid "Hide shipping methods"
-msgstr "გადაზიდვის მეთოდის დამალვა"
-
-msgid "Hide shipping methods that are above or under set weight limits"
-msgstr "დადგენილი წონის ლიმიტის ზემოთ გადაზიდვის მეთოდის დამალვა "
+msgid "Callback with refund initiated."
+msgstr " უკუკავშირი თანხის დაბრუნების ინიციირებასთან ერთად."
 
 msgid "Cart weight is exceeded"
 msgstr "კალათის წონა გადაჭარბებულია"
@@ -392,95 +93,521 @@ msgstr "კალათის წონა გადაჭარბებულ�
 msgid "Cart weight is not sufficient"
 msgstr "კალათის წონა არასაკმარისია "
 
-msgid "The project ID and password fields must be filled with valid data"
-msgstr "პროექტის ID-სა და პაროლის ველების შევსება სავალდებულოა "
+msgid "Choose a payment method on the Paysera page"
+msgstr "პეისერა გვერდზე აირჩიეთ გადახდის მეთოდი"
 
-msgid "All countries that are entered here and are not part of the main Paysera countries list will be shown as 'Other countries' in Checkout"
-msgstr "ყველა ქვეყანა, რომელიც მოცემულია აქ და არ არის პეისერას ძირითადი ქვეყნების ჩამონათვალში, გადახდისას  ნაჩვენები იქნება, როგორც \"სხვა ქვეყნები\"  "
+msgid "Contact us >"
+msgstr "დაგვიკავშირდით > "
 
-msgid "Incorrect project ID and password, please check your project credentials – %s"
-msgstr "პროექტის ID და პაროლი არასწორია, გთხივთ, შეამოწმოთ  პროექტის ავტორიზაციის მონაცემები – %s "
+msgid "Courier"
+msgstr "კურიერი"
 
-msgid "https://support.paysera.com/index.php?/payseraeng/Knowledgebase/Article/View/1815/135/1005-project-id-and-signature"
-msgstr "https://support.paysera.com/index.php?/payseraeng/Knowledgebase/Article/View/1815/135/1005-project-id-and-signature"
+msgid "Currencies do not match"
+msgstr "ვალუტა არასწორია"
 
-msgid "more info"
-msgstr "დამატებითი ინფორმაცია"
+msgid "Currency exchange at competitive rates"
+msgstr "ვალუტის კონვერტაციას ხელსაყრელი კურსით"
 
-msgid "Please provide package dimensions if you would like to use the shipping methods provided by Paysera."
-msgstr "გთხოვთ, მიუთითოთ ამანათის ზომები, რათა შეძლოთ პეისერას საკურიერო მომსახურებით სარგებლობა "
+msgid "Delivery"
+msgstr "საკურიერო მომსახურება"
 
-msgid "The Paysera plugin requires WooCommerce to be installed and activated."
-msgstr "პეისერა პლაგინის გამოყენებისთვის აუცილებელია WooCommerce-ის დაყენება და გააქციურება. "
+msgid "Delivery Fee"
+msgstr "მიწოდების მომსახურების საკომისიო"
 
-msgid "Go back"
-msgstr "უკან "
+msgid "Delivery Fee:"
+msgstr "საკურიერო მომსახურების საკომისიო:"
 
-msgid "Order status"
-msgstr "დავალების სტატუსი"
+msgid "Delivery Gateway List"
+msgstr "მიწოდების ჰაბის ჩამონათვალი"
 
 msgid "Delivery orders will only be created for e-shop orders with this status"
-msgstr "საკურიერო მომსახურების შექმნა შესაძლებელია აღნიშნული სტატუსით  ელ.მაღაზიისთვის დავალების გაგზავნით "
+msgstr ""
+"საკურიერო მომსახურების შექმნა შესაძლებელია აღნიშნული სტატუსით  ელ."
+"მაღაზიისთვის დავალების გაგზავნით "
 
-msgid "Select the order status"
-msgstr "აირჩიეთ დავალების სტატუსი"
+msgid "Description"
+msgstr "აღწერა"
 
-msgid "Log Level"
-msgstr "ავტორიზაციის დონე"
-
-msgid "View"
-msgstr "ნახვა"
-
-msgid "Download"
-msgstr "ჩამოტვირთვა"
-
-msgid "This will save Paysera plugin logs in WooCommerce"
-msgstr "აღნიშნულით დაიმახსოვრებთ პეისერა პლაგინ ლოგებს WooCommerce-ზე  "
-
-msgid ":attribute should be greater than or equal to :min."
-msgstr "მახასიათებელი უნდა უტოლდებოდეს ან აღემატებოდეს მინიმალურ მაჩვენებელს: მინ. "
-
-msgid ":attribute cannot be less than :fieldToCompare."
-msgstr "მახასიათებელი უნდა იყოს სულ მცირე:fieldToCompare."
-
-msgid ":attribute cannot be greater than :fieldToCompare."
-msgstr "მახასიათებელი არ უნდა აღემატებოდეს :fieldToCompare."
-
-msgid ":attribute value should be a number."
-msgstr "მახასიათებლის მნიშვნელობა უნდა მიუთითოთ რიცხვის გამოყენებით."
+msgid "Details"
+msgstr "მონაცემები"
 
 msgid "Diagnostic"
 msgstr "დიაგნოსტიკა"
 
-msgid "Self-Diagnosis Tool"
-msgstr "თვითდიაგნოსტიკის ინსტრუმენტი"
+msgid "Disable"
+msgstr "გაუქმება"
 
-msgid "Paysera Delivery: An error occurred. Please check the <a href=\"%s\">logs</a> for more details."
-msgstr "Paysera საკურიერო მომსახურება: დაფიქსირდა შეცდომა. გთხოვთ, გადაამოწმოთ <a href=\"%s\">ლოგები</a> დამატებითი ინფორმაციისთვის."
+msgid "Disabled"
+msgstr "გაუქმებულია"
 
-msgid "Paysera Payments: An error occurred. Please check the <a href=\"%s\">logs</a> for more details."
-msgstr "Paysera გადარიცხვები: დაფიქსირდა შეცდომა. გთხოვთ, გადაამოწმოთ <a href=\"%s\">ლოგები</a> დამატებითი ინფორმაციისთვის."
+msgid "Documentation"
+msgstr "დოკუმენტები"
 
-msgid "This setting cannot be enabled due to compatibility issues. Please visit the <a href=\"%s\" target=\"_blank\">diagnostic page</a> to review and resolve them."
-msgstr "აღნიშნული პარამეტრის გააქციურება თავსებადობის პრობლემების გამო ვერ ხერხდება. გთხოვთ, ეწვიოთ <a href=\"%s\" target=\"_blank\">დიაგნოსტიკის გვერდს</a> მათ მოსაგვარებლად."
+msgid "Download"
+msgstr "ჩამოტვირთვა"
 
 msgid "Download the diagnostic report"
 msgstr "დიაგნოსტიკის რეპორტის ჩამოტვირთვა"
 
+msgid "During working hours the support is available in 12 languages."
+msgstr "სამუშაო საათებში მხარდაჭერის გაწევა შესაძლებელია 12 ენაზე."
+
+msgid "Either project id or project password is incorrect"
+msgstr "პროექტის ID ან პაროლი არასწორია "
+
+msgid "Enable"
+msgstr "გააქტიურება"
+
+msgid "Enabled"
+msgstr "გააქტიურებულია"
+
+msgid "Enables instant Euro and cheap international transfers"
+msgstr "ევროს მყისიერ და საერთაშორისო გადარიცხებს დაბალი ტარიფით"
+
+msgid "Error:"
+msgstr "შეცდომა:"
+
+msgid "Explore other services of Paysera"
+msgstr "აღმოაჩინეთ პეისერას სხვა სერვისები"
+
+msgid "Extra Settings"
+msgstr "დამატებითი პარამეტრები"
+
+msgid ""
+"For the latest news about the Paysera services and status updates – follow "
+"us on %s and %s."
+msgstr ""
+"პეისერას მომსახურების შესახებ სიახლეების მისაღებად გამოგვიწერეთ  on %s და %s."
+
+msgid "Getting started"
+msgstr "დაიწყეთ ახლა"
+
+msgid "Go back"
+msgstr "უკან "
+
+msgid "Grid view"
+msgstr "ქსელის ნახვა "
+
+msgid "Hide shipping methods"
+msgstr "გადაზიდვის მეთოდის დამალვა"
+
+msgid "Hide shipping methods that are above or under set weight limits"
+msgstr "დადგენილი წონის ლიმიტის ზემოთ გადაზიდვის მეთოდის დამალვა "
+
+#: assets/build/index.js:1
+msgid "House Number"
+msgstr "სახლის ნომერი"
+
+msgid "House number field"
+msgstr "ბინის ნომრის ველი"
+
+msgid "https://developers.paysera.com/en/checkout/basic"
+msgstr "https://developers.paysera.com/en/checkout/basic"
+
+msgid "https://developers.paysera.com/en/delivery"
+msgstr "https://developers.paysera.com/en/delivery"
+
+msgid ""
+"https://support.paysera.com/index.php?"
+"/payseraeng/Knowledgebase/Article/View/1815/135/1005-project-id-and-signature"
+msgstr ""
+"https://support.paysera.com/index.php?"
+"/payseraeng/Knowledgebase/Article/View/1815/135/1005-project-id-and-signature"
+
+msgid "https://www.paysera.com/v2/en-GB/apple-pay"
+msgstr "https://www.paysera.com/v2/ka-GB/apple-pay"
+
+msgid "https://www.paysera.com/v2/en-GB/blog/googlepay-samsungpay"
+msgstr "https://www.paysera.com/v2/en-GB/blog/googlepay-samsungpay"
+
+msgid "https://www.paysera.com/v2/en-GB/checkout-delivery-service"
+msgstr "https://www.paysera.com/v2/en-GB/checkout-delivery-service"
+
+msgid "https://www.paysera.com/v2/en-GB/contacts"
+msgstr "https://www.paysera.com/v2/ka-GB/kontaqtebi"
+
+msgid "https://www.paysera.com/v2/en/legal/rules-for-the-provision-of-the-payment-initiation-service"
+msgstr "https://www.paysera.com/v2/en/legal/rules-for-the-provision-of-the-payment-initiation-service"
+
+msgid "https://www.paysera.com/v2/en-GB/mobile-application"
+msgstr "https://www.paysera.com/v2/en-GB/mobile-application"
+
+msgid "https://www.paysera.com/v2/en-GB/payment-card-visa"
+msgstr "https://www.paysera.com/v2/ka-GB/visa-sagadaxdo-barati"
+
+msgid "https://www.paysera.com/v2/en-GB/payment-gateway-checkout"
+msgstr "https://www.paysera.com/v2/en-GB/payment-gateway-checkout"
+
+msgid "https://www.paysera.com/v2/en-GB/paysera-account"
+msgstr "https://www.paysera.com/v2/ka-GB/business-angarishis-gaxsna"
+
+msgid "https://www.paysera.com/v2/en/blog/iban-account"
+msgstr "https://www.paysera.com/v2/en/blog/iban-account"
+
+msgid ""
+"In order to receive full benefits of both Paysera Payment and Delivery "
+"plugins, please use the outlined links to access our detailed how-to "
+"instructions."
+msgstr ""
+"იმისთვის, რომ ისარგებლოთ პეისერა გადახდებისა და საკურიერო მომსახურების "
+"ფლაგინებით, გთხოვთ, გამოიყენოთ ხაზგასმული ბმულები, რათა შეძლოთ დეტალური "
+"ინსტრუქციის მიღება."
+
+msgid ""
+"Incorrect project ID and password, please check your project credentials – %s"
+msgstr ""
+"პროექტის ID და პაროლი არასწორია, გთხივთ, შეამოწმოთ  პროექტის ავტორიზაციის "
+"მონაცემები – %s "
+
+msgid "Instructions >"
+msgstr "ინსტრუქცი"
+
+msgid "Issues %s that are compatible with %s and %s, and so much more."
+msgstr "%s გაცემას, რომელიც თავსებადია  %s-ს და %s-თან. ეს და სხვა მრავალი."
+
+msgid "Kilograms"
+msgstr "კგ."
+
+msgid "List of payments"
+msgstr "გადახდების ჩამონათვალი"
+
+msgid "Log Level"
+msgstr "ავტორიზაციის დონე"
+
+msgid "Main Settings"
+msgstr "ძირითადი პარამეტრები"
+
+msgid "Maximum weight"
+msgstr "მაქსიმალური წონა"
+
+msgid "Method title"
+msgstr "დასახელება"
+
+msgid "Minimum order amount for free shipping"
+msgstr "შეკვეთის მინიმალური ღირებულება, უფასო მიწოდების სერვისის მისაღებად"
+
+msgid "Minimum weight"
+msgstr "მინიმალური წონა"
+
+msgid "more info"
+msgstr "დამატებითი ინფორმაცია"
+
+msgid "More than 1 Paysera plugin active"
+msgstr "აქტიურია სულ მცირე პეისერას 1 პლაგინი"
+
+msgid "Need assistance?"
+msgstr "გჭირდებათ დახმარება?"
+
+msgid "New Order Status"
+msgstr "ახალი დავალების სტატუსი"
+
+msgid ""
+"NEW! With the latest version, you can integrate delivery options into your e-"
+"shop. More about the %s "
+msgstr ""
+"სიახლე! უახლესი ვერსია მოგცემთ შესაძლებლობას თქვენს ელ.მაღაზიებში "
+"დააინტეგრიროთ საკურიერო მომსახურება. გაეცანით დამატებით ინფორმაციას %s "
+
+msgid "Order Status"
+msgstr "შეკვეთის სტატუსი"
+
+msgid "Order status"
+msgstr "დავალების სტატუსი"
+
+msgid "Ownership code"
+msgstr "მფლობელის კოდი "
+
+msgid "Paid Order Status"
+msgstr "გადახდილი დავალების სტატუსი"
+
+msgid "Parcel locker"
+msgstr "ამანათის ლოქერი "
+
+msgid "Payment confirmed with a callback"
+msgstr "გადახდა დადასტურებულია"
+
+msgid "Payments"
+msgstr "გადახდები"
+
+msgid "Paysera client support in English is available 24/7!"
+msgstr ""
+"პეისერას მომხმარებელთა მხარდაჭერის სამსახური ინგლისურ ენაზე ხელმისაწვდომია "
+"24/7 "
+
+msgid "Paysera Delivery"
+msgstr "პეისერა საკურიერო მომსახურება"
+
+msgid ""
+"Paysera Delivery: An error occurred. Please check the <a href=\"%s\">logs</a>"
+" for more details."
+msgstr ""
+"Paysera საკურიერო მომსახურება: დაფიქსირდა შეცდომა. გთხოვთ, გადაამოწმოთ <a "
+"href=\"%s\">ლოგები</a> დამატებითი ინფორმაციისთვის."
+
+msgid "Paysera mobile app"
+msgstr "Paysera მობილური აპლიკაცია"
+
+msgid "Paysera Payment And Delivery"
+msgstr "გადახდა და საკურიერო მომსახურება"
+
+msgid "Paysera Payments"
+msgstr "პეისერა გადახდები"
+
+msgid ""
+"Paysera Payments: An error occurred. Please check the <a href=\"%s\">logs</a>"
+" for more details."
+msgstr ""
+"Paysera გადარიცხვები: დაფიქსირდა შეცდომა. გთხოვთ, გადაამოწმოთ <a href=\"%s\">"
+"ლოგები</a> დამატებითი ინფორმაციისთვის."
+
+msgid "Paysera plugin requires at least PHP "
+msgstr "პეისერა პლაგინისთვის აუცილებელია მინიმუმ PHP "
+
+msgid "Paysera: Callback order payment completed"
+msgstr "პეისერა:მოთხოვნა შესრულებულია"
+
+msgid "Paysera: Chosen terminal location - %s, %s, %s"
+msgstr "პეისერა: აირჩიეთ ტერმინალის ადგილმდებარეობა - %s, %s, %s"
+
+msgid "Paysera: Customer came back to page"
+msgstr "პეისერა: მომხმარებელი დაბრუნდა გვერდზე"
+
+# src/Service/PayseraDeliveryOrderService.php:20
+msgid "Paysera: Delivery order created - %s"
+msgstr "პეისერა: საკურიერო მომსახურების მოთხვნა შექმნილია - %s "
+
+# src/Helper/PayseraDeliveryOrderRequestHelper.php:19
+msgid ""
+"Paysera: Delivery order creation failed, please create order manually in "
+"Paysera system"
+msgstr ""
+"პეისერ: საკურირო მომსახურების მოთხოვნა ვერ შესრულდა. გთხოვთ, მოთხოვნა "
+"პეისერას სისტემაში შექმნათ ხელით"
+
+# src/Helper/PayseraDeliveryOrderRequestHelper.php:20
+msgid ""
+"Paysera: Delivery order update failed, please update order manually in "
+"Paysera system"
+msgstr ""
+"პეისერა: საკურიერო მომსახურების მოთხოვნის განახლება ვერ მოხერხდა. გთხოვთ,  "
+"მოთხოვნა პეისერას სისტემაში განაახლოთ ხელით "
+
+# src/Service/PayseraDeliveryOrderService.php:21
+msgid "Paysera: Delivery order updated - %s"
+msgstr "პეისერა: საკურიერო მომსახურების მოთხვნა განახლებულია - %s "
+
+msgid "Paysera: Order checkout process is started"
+msgstr "პეისერა: გადახდის დამუშავების პროცესი დაწყებულია "
+
+msgid "Paysera: Status changed to "
+msgstr "პეისერა: სტატუსი შეიცვალა"
+
+msgid "Pending Checkout"
+msgstr "მომლოდინე გადახდა"
+
 msgid "PHP Details"
 msgstr "PHP მონაცემები"
-
-msgid "Security Details"
-msgstr "უსაფრთხოების მონაცემები"
 
 msgid "Platform Details"
 msgstr "პლატფორმის მონაცებეი"
 
-msgid "Test"
-msgstr "ტესტი"
+msgid ""
+"Please be informed that the account information and payment initiation "
+"services will be provided to you by Paysera in accordance with these %s. By "
+"proceeding with this payment, you agree to receive this service and the "
+"service terms and conditions."
+msgstr ""
+"გაცნობებთ, რომ ანგარიშის შესახებ  ინფორმაცია და  გადახდის ინიციირების "
+"მომსახურება მოგეწოდებათ პეისერას მიერ აღნიშნული %s შესაბამისად. წინამდებარე "
+"გადახდის გაგრძელებით თვქენ ეთანხმებით აღნიშნული მომსახურებით სარგებლობასა და "
+"მომსახურების წესებსა და პირობებს.  "
+
+msgid ""
+"Please provide package dimensions if you would like to use the shipping "
+"methods provided by Paysera."
+msgstr ""
+"გთხოვთ, მიუთითოთ ამანათის ზომები, რათა შეძლოთ პეისერას საკურიერო "
+"მომსახურებით სარგებლობა "
+
+msgid "Please select the city/municipality"
+msgstr "გთხოვთ, აირჩიოთ ქალაქი/მუნიციპალიტეტი"
+
+#: assets/build/index.js:1
+msgid "Please select the country"
+msgstr "გთხოვთ, აირჩიოთ ქვეყანა"
+
+msgid "Please select the terminal location"
+msgstr "გთხოვთ, აირჩიოთ ტერმინალის ადგილმდებარეობა"
+
+msgid "Plugin & Services."
+msgstr "პლაგინი & მომსახურება"
+
+msgid "Preferred pickup type"
+msgstr "გატანის სასურველი ტიპი"
+
+msgid "Preferred pickup type:"
+msgstr "გატანის სასურველი ტიპი:"
+
+msgid "Project Additions"
+msgstr "პროექტის დამატებები"
+
+msgid "Project ID"
+msgstr "პროექტის ID"
+
+msgid "Project password"
+msgstr "პროეტის პაროლი"
+
+msgid "Provides LT, BGN, and RON %s for business and private clients"
+msgstr ""
+" LT-ს, BGN-ისა და RON-ის %s შეთავაზებას ფიზიკური და იურისიდული პირებისთვის"
+
+msgid "Quality sign"
+msgstr "ხარისხის ნიშანი"
+
+msgid "Read more about it >"
+msgstr "გაეცანით დამატებით ინფორმაციას"
+
+msgid "Refunded Order Status"
+msgstr "მოთხოვნის სტატუსი "
+
+msgid "Refunded via Paysera Payment Gateway"
+msgstr "თანხის დაბრუნება Paysera საგადახდო ჰაბის გამოყენებით"
+
+msgid "rules"
+msgstr "წესები"
+
+msgid "Security Details"
+msgstr "უსაფრთხოების მონაცემები"
+
+msgid "Select the order status"
+msgstr "აირჩიეთ დავალების სტატუსი"
+
+msgid "Self-Diagnosis Tool"
+msgstr "თვითდიაგნოსტიკის ინსტრუმენტი"
+
+msgid "Settings"
+msgstr "პარამეტრები"
+
+msgid "Settings saved."
+msgstr "პარამეტრები დამახსოვრებულია"
+
+msgid "Shipping zones"
+msgstr "მიწოდების მომსახურების ზონები"
+
+msgid "Sorry, %d kg exceeds the maximum weight of %d kg for %s"
+msgstr ""
+"უკაცრავად,  %d კგ. აჭარბებს  %s-თვის განსაზღვრულ მაქსიმალური წონის ოდენობას "
+"(%d კგ.) "
+
+msgid "Sorry, %d kg is not enough for the minimum weight of %d kg for %s"
+msgstr ""
+"უკაცრავად,  %d კგ. არ არის საკმარისი %s-თვის განსაზღვრული მინიმალური წონის  "
+"%d კგ. შესავსებად."
+
+msgid "Specific countries"
+msgstr "სპეციფიკური ქვეყნები"
 
 msgid "Status"
 msgstr "სტატუსი"
 
-msgid "Details"
-msgstr "მონაცემები"
+#: assets/build/paysera-shipping-block-frontend.js:1
+msgid "Terminal city"
+msgstr "ტერმინალის ქალაქი"
+
+#: assets/build/paysera-shipping-block-frontend.js:1
+msgid "Terminal country"
+msgstr "ტერმინალის ქვეყანა"
+
+#: assets/build/paysera-shipping-block-frontend.js:1
+msgid "Terminal location"
+msgstr "ტერმინალის ადგილმდებარეობა"
+
+msgid "Terminals"
+msgstr "ტერმინალი"
+
+msgid "Test"
+msgstr "ტესტი"
+
+msgid "Test mode"
+msgstr "სატესტო რეჟიმი"
+
+msgid "Thank you for choosing our services!"
+msgstr "გმადლობთ, რომ სარგებლობთ ჩვენი მომსახურებით!"
+
+msgid "The Paysera plugin requires WooCommerce to be installed and activated."
+msgstr ""
+"პეისერა პლაგინის გამოყენებისთვის აუცილებელია WooCommerce-ის დაყენება და "
+"გააქციურება. "
+
+msgid "The project ID and password fields must be filled with valid data"
+msgstr "პროექტის ID-სა და პაროლის ველების შევსება სავალდებულოა "
+
+msgid "The refund amount exceeds the order amount."
+msgstr ""
+"\n"
+
+msgid "This controls the title which the user sees during shipping selection."
+msgstr ""
+"აღნიშნული აკონტროლებს სათაურს, რომელსაც მომხმარებელი ხედავს ტრანსპორტირების "
+"შერჩევისას"
+
+msgid ""
+"This plugin displays several different delivery companies that your buyers "
+"can choose from when ordering your products. No need to sign separate "
+"agreements with the courier companies – we have done it for you. Enjoy low "
+"delivery prices and quick support when needed."
+msgstr ""
+"აღნიშნული პლაგინები თქვენს მომხმარებელს აძლევს შესაძლებლობას თქვენი "
+"პროდუქტის შესყიდვისას აირჩიოს მისთვის სასურველი საკურიერო კომპანია. ჩვენ "
+"თავიდან აგაცილებთ საკურიერო კომპანიებთან ინდივიდუალურად ხელშეკრულებების "
+"გაფორმების პროცესს. ისარგებლეთ დაბალი საკურიერო მომსახურების ტარიფებითა და "
+"საჭიროების შემთხვევაში მომხმარებელთა მხარდაჭერის სამსახურის სწრაფი "
+"მომსახურებთ. "
+
+msgid ""
+"This plugin enables you to accept online payments via cards, SMS, or the "
+"most popular banks in your country. It is easy to install and is used by "
+"thousands of online merchants across Europe."
+msgstr ""
+"აღნიშნული პლაგინები გაძლევთ შესაძლებობას მიიღოთ ონლაინ გადახდები ბარათის, "
+"SMS-ის ან თქვენს ქვეყანაში არსებული ბანკების მეშვეობით. აღნიშნული მაარტივი "
+"ფუნქციონალით ევროპის მასშტაბით ათასობით მერჩანტი სარგებლობს."
+
+msgid ""
+"This setting cannot be enabled due to compatibility issues. Please visit the "
+"<a href=\"%s\" target=\"_blank\">diagnostic page</a> to review and resolve "
+"them."
+msgstr ""
+"აღნიშნული პარამეტრის გააქციურება თავსებადობის პრობლემების გამო ვერ ხერხდება. "
+"გთხოვთ, ეწვიოთ <a href=\"%s\" target=\"_blank\">დიაგნოსტიკის გვერდს</a> მათ "
+"მოსაგვარებლად."
+
+msgid "This will save Paysera plugin logs in WooCommerce"
+msgstr "აღნიშნულით დაიმახსოვრებთ პეისერა პლაგინ ლოგებს WooCommerce-ზე  "
+
+msgid "Title"
+msgstr "დასახელება"
+
+msgid "Users will need to spend this amount to get free shipping."
+msgstr ""
+"უფასო მიწოდების სერვისის მისაღებად, მომხმარებელმა უნდა შეუკვეთოს "
+"განსაზღვრეული ღირებულების პროდუქტი"
+
+msgid "View"
+msgstr "ნახვა"
+
+msgid "Visa cards"
+msgstr "ევროპული Visa ბარათი"
+
+msgid "Write your ownership code"
+msgstr "შეიყვანეთ  მფლობელის თვქენი კოდი"
+
+msgid "A test delivery order will be created."
+msgstr "შეიქმნება საკურიერო მომსახურების სატესტო მოთხოვნა"
+
+msgid ""
+"Paysera delivery plugin is in test mode — delivery orders are simulated, but payments will be charged as you're using an external (non-Paysera) payment gateway."
+msgstr ""
+"Paysera საკურიერო მომსახურების პლაგინი სატესტო რეჟიმშია - საკურიერო "
+"მომსახურების მოთხოვნა სიმულირებულია, თუმცა თანხა ჩამოგეჭრებათ, რადგან "
+"იყენებთ გარე (არა-Paysera) საგადახდო ჰაბს. "

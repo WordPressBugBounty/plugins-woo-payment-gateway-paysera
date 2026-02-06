@@ -13,20 +13,23 @@ class PayseraSettingsValidationDto implements PayseraDeliverySettingsInterface
     private ?string $resolvedProjectId;
     private ?bool $testMode;
     private ?bool $enableNumberField;
+    private string $userAgent;
 
     public function __construct(
         ?string $projectId = null,
         ?string $projectPassword = null,
+        string $userAgent = '',
         ?string $resolvedProjectId = null,
         ?bool $testMode = null,
         ?bool $enableNumberField = null
     )
     {
-        $this->projectId = $projectId !== null ? (int) $projectId : null;
+        $this->projectId = $projectId !== null ? (int)$projectId : null;
+        $this->userAgent = $userAgent;
         $this->resolvedProjectId = $resolvedProjectId;
         $this->projectPassword = $projectPassword;
         $this->testMode = $testMode;
-        $this->enableNumberField = $enableNumberField;
+        $this->enableNumberField = $enableNumberField ?? false;
     }
 
     public function getProjectId(): ?int
@@ -52,5 +55,15 @@ class PayseraSettingsValidationDto implements PayseraDeliverySettingsInterface
     public function isHouseNumberFieldEnabled(): ?bool
     {
         return $this->enableNumberField;
+    }
+
+    public function getUserAgent(): string
+    {
+        return $this->userAgent;
+    }
+
+    public function isSinglePerOrderShipmentEnabled(): bool
+    {
+        return false;
     }
 }

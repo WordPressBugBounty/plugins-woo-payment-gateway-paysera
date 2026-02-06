@@ -66,7 +66,7 @@ class PayseraPaymentFrontHtml
                 PayseraPaths::PAYSERA_TRANSLATIONS
             ),
             '<a href="'
-            . __('https://www.paysera.com/v2/en-GB/legal/pis-rules-2020', PayseraPaths::PAYSERA_TRANSLATIONS)
+            . __('https://www.paysera.com/v2/en/legal/rules-for-the-provision-of-the-payment-initiation-service', PayseraPaths::PAYSERA_TRANSLATIONS)
             . ' " target="_blank" rel="noopener noreferrer"> ' . __('rules', PayseraPaths::PAYSERA_TRANSLATIONS)
             . '</a>'
         );

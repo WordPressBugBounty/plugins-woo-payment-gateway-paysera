@@ -8,30 +8,31 @@ use Evp\Component\Money\Money;
 use Paysera\Entity\PayseraPaths;
 use Paysera\Entity\PayseraPaymentSettings;
 use Paysera\Exception\PayseraPaymentException;
-use Paysera\Factory\LoggerFactory;
+use Paysera\Exception\PayseraPaymentRefundException;
 use Paysera\Front\PayseraPaymentFrontHtml;
 use Paysera\Generator\PayseraPaymentFieldGenerator;
 use Paysera\Generator\PayseraPaymentRequestGenerator;
-use Paysera\Helper\LogHelper;
 use Paysera\Helper\PayseraHTMLHelper;
 use Paysera\Helper\PayseraPaymentLibraryHelper;
 use Paysera\Provider\ContainerProvider;
 use Paysera\Provider\PayseraPaymentSettingsProvider;
+use Paysera\Repository\RefundRepository;
 use Paysera\Scoped\Paysera\CheckoutSdk\CheckoutFacadeFactory;
 use Paysera\Scoped\Paysera\CheckoutSdk\Entity\PaymentCallbackValidationResponse;
+use Paysera\Scoped\Paysera\CheckoutSdk\Entity\Refund;
 use Paysera\Scoped\Paysera\CheckoutSdk\Entity\Request\PaymentCallbackValidationRequest;
-use Paysera\Scoped\Psr\Container\ContainerExceptionInterface;
 use Paysera\Scoped\Psr\Container\ContainerInterface;
-use Paysera\Scoped\Psr\Container\NotFoundExceptionInterface;
 use Paysera\Service\LoggerInterface;
 use Paysera\Helper\EventHandlingHelper;
 use Paysera\Entity\PayseraDeliverySettings;
 use Paysera\Service\PaymentLoggerInterface;
+use Paysera\Service\RefundAmountCalculator;
 
 class Paysera_Payment_Gateway extends WC_Payment_Gateway
 {
     private const RESPONSE_STATUS_CONFIRMED = 1;
     private const RESPONSE_STATUS_ADDITIONAL_INFO = 3;
+    private const RESPONSE_STATUS_REFUNDED = 5;
 
     private ContainerInterface $container;
     private PayseraPaymentSettings $payseraPaymentSettings;
@@ -69,7 +70,7 @@ class Paysera_Payment_Gateway extends WC_Payment_Gateway
         $this->init_settings();
 
         add_action('woocommerce_thankyou_paysera', [$this, 'processOrderAfterPayment']);
-        add_action('woocommerce_api_wc_gateway_paysera', [$this, 'checkCallbackRequest']);
+        add_action('woocommerce_api_wc_gateway_paysera', [$this, 'processCallbackRequest']);
         add_action('woocommerce_update_options_payment_gateways_paysera', [$this, 'process_admin_options']);
     }
 
@@ -81,7 +82,11 @@ class Paysera_Payment_Gateway extends WC_Payment_Gateway
     public function payment_fields(): void
     {
         PayseraHTMLHelper::enqueueCSS('paysera-payment-css', PayseraPaths::PAYSERA_PAYMENT_CSS);
-        PayseraHTMLHelper::enqueueJS('paysera-payment-frontend-js', PayseraPaths::PAYSERA_PAYMENT_FRONTEND_JS, ['jquery']);
+        PayseraHTMLHelper::enqueueJS(
+            'paysera-payment-frontend-js',
+            PayseraPaths::PAYSERA_PAYMENT_FRONTEND_JS,
+            ['jquery']
+        );
 
         print_r($this->payseraPaymentFieldGenerator->generatePaymentField());
     }
@@ -96,91 +101,190 @@ class Paysera_Payment_Gateway extends WC_Payment_Gateway
 
         wc_maybe_reduce_stock_levels($order_id);
 
+        $payType = '';
+        if ($this->payseraPaymentSettings->isListOfPaymentsEnabled()) {
+            $rawPayType = $_POST['payment']['pay_type'] ?? $_POST['pay_type'] ?? '';
+
+            $payType = sanitize_text_field($rawPayType);
+
+            if (!preg_match('/^[a-zA-Z0-9_-]*$/', $payType)) {
+                $payType = '';
+            }
+        }
+
         return [
             'result' => 'success',
             'redirect' => $this->payseraPaymentRequestGenerator->buildPaymentRequestUrl(
                 $order,
-                ($this->payseraPaymentSettings->isListOfPaymentsEnabled() === true)
-                    ? esc_html($_REQUEST['payment']['pay_type'] ?? $_POST['pay_type'] ?? '') : '',
+                $payType,
                 $this->get_return_url($order)
             ),
         ];
+    }
+
+    public function processCallbackRequest(): void
+    {
+        try {
+            $requestData = $_REQUEST;
+            $callbackResponse = $this->checkCallback($requestData);
+            $order = wc_get_order($callbackResponse->getOrder()->getOrderId());
+            if (!$order instanceof WC_Order) {
+                throw new PayseraPaymentException('Order not found: ' . $callbackResponse->getOrder()->getOrderId());
+            }
+
+            switch ($callbackResponse->getStatus()) {
+                case self::RESPONSE_STATUS_CONFIRMED:
+                    $this->confirmOrder($callbackResponse, $order);
+                    break;
+                case self::RESPONSE_STATUS_REFUNDED:
+                    $this->refundOrder($callbackResponse, $order);
+                    break;
+            }
+            die('OK');
+        } catch (PayseraPaymentException|PayseraPaymentRefundException $exception) {
+            $this->logError($exception->getMessage(), $exception->getCode());
+            wp_send_json_error($exception->getMessage(), $exception->getCode());
+        } catch (Throwable $exception) {
+            $this->logger->error($exception->getMessage(), $exception);
+            wp_send_json_error('Error while processing callback', 500);
+        } finally {
+            exit;
+        }
+    }
+    private function logError($message, $code = 500): void
+    {
+        if ($code >= 500) {
+            $this->logger->error($message);
+            return;
+        }
+        $this->logger->info($message);
+    }
+
+    private function checkCallback(array $request): PaymentCallbackValidationResponse
+    {
+        if (!isset($request['data'])) {
+            throw new PayseraPaymentException('Error while processing callback request: "data" parameter not found', 400);
+        }
+
+        $checkoutFacade = (new CheckoutFacadeFactory())->create();
+
+        $paymentValidationRequest = new PaymentCallbackValidationRequest(
+            (int)$this->payseraPaymentSettings->getProjectId(),
+            (string)$this->payseraPaymentSettings->getProjectPassword(),
+            (string)$request['data']
+        );
+        $paymentValidationRequest->setSs1($request['ss1'] ?? null)
+            ->setSs2($request['ss2'] ?? null)
+            ->setSs3($request['ss3'] ?? null);
+
+        return $checkoutFacade->getPaymentCallbackValidatedData($paymentValidationRequest);
+    }
+
+    private function confirmOrder(PaymentCallbackValidationResponse $callbackResponse, WC_Order $order): void
+    {
+        if (!$this->isPaymentValid($order, $callbackResponse)) {
+            throw new PayseraPaymentException('Payment confirmation failed: Payment not valid');
+        }
+        if ($order->get_meta(PayseraPaymentSettings::ORDER_PAYMENT_CONFIRMED_META_KEY) === '1') {
+            return;
+        }
+
+        $order->update_meta_data(PayseraPaymentSettings::ORDER_PAYMENT_CONFIRMED_META_KEY, '1');
+        $order->update_meta_data(PayseraPaymentSettings::ORDER_PAYMENT_AMOUNT, $callbackResponse->getPaymentAmount());
+        $order->update_meta_data(PayseraPaymentSettings::ORDER_PAYMENT_CURRENCY, $callbackResponse->getPaymentCurrency());
+        $order->save();
+
+        error_log(
+            $this->formatLogMessage(
+                $order,
+                __('Payment confirmed with a callback', PayseraPaths::PAYSERA_TRANSLATIONS)
+            )
+        );
+
+        $order->add_order_note(
+            __(
+                PayseraPaths::PAYSERA_MESSAGE . 'Callback order payment completed',
+                PayseraPaths::PAYSERA_TRANSLATIONS
+            )
+        );
+
+        $this->updateOrderStatus($order, $this->payseraPaymentSettings->getPaidOrderStatus());
+
+        $eventHandlingHelper = $this->container->get(EventHandlingHelper::class);
+        $eventHandlingHelper->handle(
+            PayseraDeliverySettings::WC_ORDER_EVENT_PAYMENT_COMPLETED,
+            [
+                'order' => $order,
+            ]
+        );
+    }
+
+    /**
+     * @throws PayseraPaymentRefundException
+     */
+    private function refundOrder(PaymentCallbackValidationResponse $callbackResponse, WC_Order $order): void
+    {
+        $order->add_order_note(
+            PayseraPaths::PAYSERA_MESSAGE .
+            __( 'Callback with refund initiated', PayseraPaths::PAYSERA_TRANSLATIONS)
+        );
+
+        if (!$callbackResponse->getRefund() instanceof Refund) {
+            throw new PayseraPaymentRefundException('Refund not found in callback response', 422);
+        }
+        $refund = $callbackResponse->getRefund();
+
+        $refundRepository = new RefundRepository();
+
+        if ($refundRepository->refundExistsForCallback($order, $refund)) {
+            throw new PayseraPaymentRefundException('Refund already exists for this callback', 422);
+        };
+
+        $refundAmountCalculator = $this->container->get(RefundAmountCalculator::class);
+        $shopCalculatedRefundAmount = $refundAmountCalculator->calculateShopRefundAmount($order, $refund);
+
+        $orderTotal = new Money($order->get_total(), $order->get_currency());
+        $totalRefunded = new Money($order->get_total_refunded(), $order->get_currency());
+        $moneyLeft = $orderTotal->sub($totalRefunded);
+
+        if ($moneyLeft->isLt($shopCalculatedRefundAmount)) {
+            throw new PayseraPaymentRefundException(
+                __('The refund amount exceeds the available refundable balance.', PayseraPaths::PAYSERA_TRANSLATIONS),
+                422
+            );
+        }
+
+        $refundRepository->createRefund($order, $shopCalculatedRefundAmount, $refund, __('Refunded via Paysera Payment Gateway', PayseraPaths::PAYSERA_TRANSLATIONS));
+
+        $totalRefunded = new Money($order->get_total_refunded(), $order->get_currency());
+
+        if ($totalRefunded->isEqual($orderTotal)) {
+            $this->updateOrderStatus($order, $this->payseraPaymentSettings->getRefundPaymentStatus());
+        }
+
+        $order->add_order_note(
+            PayseraPaths::PAYSERA_MESSAGE .
+            __(
+                'Refunded via Paysera Payment Gateway',
+                PayseraPaths::PAYSERA_TRANSLATIONS
+            )
+        );
     }
 
     public function processOrderAfterPayment($orderId): void
     {
         $order = wc_get_order($orderId);
 
+        if ($order->get_meta(PayseraDeliverySettings::DELIVERY_CUSTOMER_BACK_TO_PAGE)) {
+            return;
+        }
+
         $order->add_order_note(
             __(PayseraPaths::PAYSERA_MESSAGE . 'Customer came back to page', PayseraPaths::PAYSERA_TRANSLATIONS)
         );
-    }
 
-    public function checkCallbackRequest(): void
-    {
-        if (!isset($_REQUEST['data'])) {
-            $this->logger->error('Error while processing callback request: "data" parameter not found');
-            print_r('"data" parameter not found');
-            exit();
-        }
-
-        $checkoutFacade = (new CheckoutFacadeFactory())->create();
-        $paymentValidationRequest = new PaymentCallbackValidationRequest(
-            (int) $this->payseraPaymentSettings->getProjectId(),
-            (string) $this->payseraPaymentSettings->getProjectPassword(),
-            (string) $_REQUEST['data']
-        );
-        $paymentValidationRequest->setSs1($_REQUEST['ss1'] ?? null)
-            ->setSs2($_REQUEST['ss2'] ?? null)
-            ->setSs3($_REQUEST['ss3'] ?? null);
-
-        try {
-            $response = $checkoutFacade->getPaymentCallbackValidatedData($paymentValidationRequest);
-            if ($response->getStatus() !== self::RESPONSE_STATUS_CONFIRMED) {
-                return;
-            }
-
-            $order = wc_get_order($response->getOrder()->getOrderId());
-
-            if (!$this->isPaymentValid($order, $response)) {
-                return;
-            }
-            error_log(
-                $this->formatLogMessage(
-                    $order,
-                    __('Payment confirmed with a callback', PayseraPaths::PAYSERA_TRANSLATIONS)
-                )
-            );
-
-            $order->add_order_note(
-                __(
-                    PayseraPaths::PAYSERA_MESSAGE . 'Callback order payment completed',
-                    PayseraPaths::PAYSERA_TRANSLATIONS
-                )
-            );
-            $this->updateOrderStatus($order, $this->payseraPaymentSettings->getPaidOrderStatus());
-
-            $eventHandlingHelper = $this->container->get(EventHandlingHelper::class);
-            $eventHandlingHelper->handle(
-                PayseraDeliverySettings::WC_ORDER_EVENT_PAYMENT_COMPLETED,
-                [
-                    'order' => $order,
-                ]
-            );
-
-            print_r('OK');
-        } catch (Throwable $exception) {
-            $this->logger->error('Error while processing callback request', $exception);
-
-            $error = get_class($exception) . ': ' . $exception->getMessage();
-            if ($exception->getPrevious() instanceof \Throwable) {
-                $error .= sprintf(' (%s)', $exception->getPrevious()->getMessage());
-            }
-
-            print_r($error);
-        }
-
-        exit();
+        $order->add_meta_data(PayseraDeliverySettings::DELIVERY_CUSTOMER_BACK_TO_PAGE, '1', true);
+        $order->save_meta_data();
     }
 
     /**
@@ -191,16 +295,21 @@ class Paysera_Payment_Gateway extends WC_Payment_Gateway
      */
     private function isPaymentValid(WC_Order $order, PaymentCallbackValidationResponse $response): bool
     {
-        $money = Money::create($order->get_total());
-        if (!$money->isEqual(Money::createFromNoDelimiterAmount($response->getOrder()->getAmount(), null))) {
-            throw new PayseraPaymentException(
-                $this->formatLogMessage($order, __('Amounts do not match', PayseraPaths::PAYSERA_TRANSLATIONS))
-            );
-        }
-
         if ($order->get_currency() !== $response->getOrder()->getCurrency()) {
             throw new PayseraPaymentException(
                 $this->formatLogMessage($order, __('Currencies do not match', PayseraPaths::PAYSERA_TRANSLATIONS))
+            );
+        }
+
+        $orderMoney = new Money($order->get_total(), $order->get_currency());
+        $responseMoney = Money::createFromNoDelimiterAmount(
+            $response->getOrder()->getAmount(),
+            $response->getOrder()->getCurrency()
+        );
+
+        if (!$orderMoney->isEqual($responseMoney)) {
+            throw new PayseraPaymentException(
+                $this->formatLogMessage($order, __('Amounts do not match', PayseraPaths::PAYSERA_TRANSLATIONS))
             );
         }
 
@@ -239,10 +348,10 @@ class Paysera_Payment_Gateway extends WC_Payment_Gateway
     public function is_available(): bool
     {
         return
-            parent::is_available() === true
+            parent::is_available()
             && !empty($this->payseraPaymentSettings->getProjectId())
             && !empty($this->payseraPaymentSettings->getProjectPassword())
-        ;
+            ;
     }
 
     /**

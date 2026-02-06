@@ -47,6 +47,14 @@ class LogHelper
         return count($this->getLogFiles($loggerType)) > 0;
     }
 
+    public function isValidLoggerType(string $loggerType): bool
+    {
+        return in_array($loggerType, [
+            self::LOGGER_TYPE_DELIVERY,
+            self::LOGGER_TYPE_PAYMENT,
+        ], true);
+    }
+
     public function generateZipArchive(string $loggerType): ?string
     {
         if (!$this->isZipArchivable($loggerType)) {
@@ -70,14 +78,38 @@ class LogHelper
         return $filePath;
     }
 
+    /**
+     * @return string[] List of absolute file paths to log files
+     */
     private function getLogFiles(string $loggerType): array
     {
-        $filePaths = glob(path_join(WC_LOG_DIR, sprintf('%s%s-*.log', self::LOG_FILE_PREFIX, $loggerType)));
+        if (!$this->isValidLoggerType($loggerType)) {
+            return [];
+        }
+
+        $sanitizedLoggerType = preg_replace('/[^a-zA-Z0-9_-]/', '', $loggerType);
+
+        $pattern = path_join(WC_LOG_DIR, sprintf('%s%s-*.log', self::LOG_FILE_PREFIX, $sanitizedLoggerType));
+        $filePaths = glob($pattern);
 
         if ($filePaths === false) {
             return [];
         }
 
-        return $filePaths;
+        $allowedDir = realpath(WC_LOG_DIR);
+        if ($allowedDir === false) {
+            return [];
+        }
+
+        $validFiles = [];
+
+        foreach ($filePaths as $file) {
+            $realPath = realpath($file);
+            if ($realPath !== false && strpos($realPath, $allowedDir) === 0) {
+                $validFiles[] = $file;
+            }
+        }
+
+        return $validFiles;
     }
 }

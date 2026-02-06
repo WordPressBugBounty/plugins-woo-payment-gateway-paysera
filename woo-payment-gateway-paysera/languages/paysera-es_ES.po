@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: Paysera Payment And Delivery\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-09-21 10:03+0000\n"
-"PO-Revision-Date: 2024-05-28 11:19+0300\n"
+"PO-Revision-Date: 2025-09-08 12:38+0000\n"
 "Last-Translator: \n"
 "Language-Team: Spanish (Spain)\n"
 "Language: es_ES\n"
@@ -12,25 +12,39 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 3.4.3\n"
-"X-Loco-Version: 2.5.8; wp-6.3\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.8.0; wp-6.8.2; php-7.4.33"
 
 msgid "%s courier will deliver the parcel right to the customer's hands."
-msgstr "El repartidor de %s entregará el paquete directamente en las manos del cliente."
+msgstr ""
+"El repartidor de %s entregará el paquete directamente en las manos del "
+"cliente."
 
 msgid ""
-"%s courier will deliver the parcel to the selected parcel terminal for customer to pickup any "
-"time."
+"%s courier will deliver the parcel to the selected parcel terminal for "
+"customer to pickup any time."
 msgstr ""
-"El repartidor de %s entregará el paquete en el casillero de paquetes seleccionado para que el "
-"cliente lo recoja en cualquier momento."
+"El repartidor de %s entregará el paquete en el casillero de paquetes "
+"seleccionado para que el cliente lo recoja en cualquier momento."
 
 msgid ""
-"%s is a global fintech company providing financial and related services to clients from all "
-"over the world since 2004."
+"%s is a global fintech company providing financial and related services to "
+"clients from all over the world since 2004."
 msgstr ""
-"%s es una empresa global de tecnología financiera que ofrece servicios financieros y "
-"relacionados a clientes de todo el mundo desde 2004."
+"%s es una empresa global de tecnología financiera que ofrece servicios "
+"financieros y relacionados a clientes de todo el mundo desde 2004."
+
+msgid ":attribute cannot be greater than :fieldToCompare."
+msgstr ":attribute no puede ser mayor que :fieldToCompare."
+
+msgid ":attribute cannot be less than :fieldToCompare."
+msgstr ":attribute no puede ser menor que :fieldToCompare."
+
+msgid ":attribute should be greater than or equal to :min."
+msgstr ":attribute debe ser mayor o igual que :min."
+
+msgid ":attribute value should be a number."
+msgstr ":attribute el valor debe ser un número."
 
 msgid "About"
 msgstr "Sobre"
@@ -39,21 +53,24 @@ msgid "About Paysera"
 msgstr "Sobre Paysera"
 
 msgid ""
-"All countries that are entered here and are not part of the main Paysera countries list will be "
-"shown as 'Other countries' in Checkout"
+"All countries that are entered here and are not part of the main Paysera "
+"countries list will be shown as 'Other countries' in Checkout"
 msgstr ""
-"Todos los países indicados aquí, que no están incluidos en la lista principal de países de "
-"Paysera, se mostrarán como 'Otros países' al proceder al Pago"
+"Todos los países indicados aquí, que no están incluidos en la lista "
+"principal de países de Paysera, se mostrarán como 'Otros países' al proceder "
+"al Pago"
 
+#: assets/build/index.js:1
 msgid "All popular payment methods"
 msgstr "Todos los métodos de pago populares"
 
 msgid ""
-"All the main services can be easily managed via the %s which is available for download from the "
-"App Store, Google Play, and Huawei AppGallery."
+"All the main services can be easily managed via the %s which is available "
+"for download from the App Store, Google Play, and Huawei AppGallery."
 msgstr ""
-"Todos los servicios principales se pueden administrar fácilmente a través de la %s, que está "
-"disponible para descargar desde App Store, Google Play y Huawei AppGallery."
+"Todos los servicios principales se pueden administrar fácilmente a través de "
+"la %s, que está disponible para descargar desde App Store, Google Play y "
+"Huawei AppGallery."
 
 msgid "Allowed weight:"
 msgstr "Peso permitido:"
@@ -67,9 +84,13 @@ msgstr "Las cantidades no coinciden"
 msgid "Buyer consent"
 msgstr "Consentimiento del comprador"
 
+msgid "Callback with refund initiated."
+msgstr "Se ha iniciado la llamada de devolución."
+
 msgid "Cart weight is exceeded"
 msgstr "Se excede el peso del carro"
 
+#: assets/build/index.js:1
 msgid "Cart weight is not sufficient"
 msgstr "El peso del carro no es suficiente"
 
@@ -100,8 +121,19 @@ msgstr "Gastos de envío"
 msgid "Delivery Gateway List"
 msgstr "Lista de pasarelas de entrega"
 
+msgid "Delivery orders will only be created for e-shop orders with this status"
+msgstr ""
+"Los pedidos de entrega solo se crearán para pedidos de tienda electrónica "
+"con este estado"
+
 msgid "Description"
 msgstr "Descripción"
+
+msgid "Details"
+msgstr "Detalles"
+
+msgid "Diagnostic"
+msgstr "Diagnóstico"
 
 msgid "Disable"
 msgstr "Desactivar"
@@ -111,6 +143,12 @@ msgstr "Deshabilitado"
 
 msgid "Documentation"
 msgstr "Documentación"
+
+msgid "Download"
+msgstr "Descargar"
+
+msgid "Download the diagnostic report"
+msgstr "Descargar informe de diagnóstico"
 
 msgid "During working hours the support is available in 12 languages."
 msgstr "Durante el horario laboral, el soporte está disponible en 12 idiomas."
@@ -137,10 +175,11 @@ msgid "Extra Settings"
 msgstr "Configuración extra"
 
 msgid ""
-"For the latest news about the Paysera services and status updates – follow us on %s and %s."
+"For the latest news about the Paysera services and status updates – follow "
+"us on %s and %s."
 msgstr ""
-"Para conocer las últimas noticias sobre los servicios de Paysera y las actualizaciones de "
-"estado, síganos en %s e %s."
+"Para conocer las últimas noticias sobre los servicios de Paysera y las "
+"actualizaciones de estado, síganos en %s e %s."
 
 msgid "Getting started"
 msgstr "Empezando"
@@ -156,9 +195,10 @@ msgstr "Ocultar métodos de envío"
 
 msgid "Hide shipping methods that are above or under set weight limits"
 msgstr ""
-"Ocultar los métodos de envío que están por encima o por debajo de los límites de peso "
-"establecidos"
+"Ocultar los métodos de envío que están por encima o por debajo de los "
+"límites de peso establecidos"
 
+#: assets/build/index.js:1
 msgid "House Number"
 msgstr "Número de casa"
 
@@ -172,11 +212,11 @@ msgid "https://developers.paysera.com/en/delivery"
 msgstr "https://developers.paysera.com/en/delivery"
 
 msgid ""
-"https://support.paysera.com/index.php?/payseraeng/Knowledgebase/Article/View/1815/135/1005-"
-"project-id-and-signature"
+"https://support.paysera.com/index.php?"
+"/payseraeng/Knowledgebase/Article/View/1815/135/1005-project-id-and-signature"
 msgstr ""
-"https://support.paysera.com/index.php?/payseraesp/Knowledgebase/Article/View/1869/203/1005-id-"
-"de-proyecto-y-firma"
+"https://support.paysera.com/index.php?"
+"/payseraesp/Knowledgebase/Article/View/1869/203/1005-id-de-proyecto-y-firma"
 
 msgid "https://www.paysera.com/v2/en-GB/apple-pay"
 msgstr "https://www.paysera.com/v2/es-ES/apple-pay"
@@ -190,8 +230,8 @@ msgstr "https://www.paysera.com/v2/en-ES/checkout-delivery-service"
 msgid "https://www.paysera.com/v2/en-GB/contacts"
 msgstr "https://www.paysera.com/v2/es-ES/contactos"
 
-msgid "https://www.paysera.com/v2/en-GB/legal/pis-rules-2020"
-msgstr "https://www.paysera.lt/v2/es-LT/legal/pis-reglas-2020"
+msgid "https://www.paysera.com/v2/en/legal/rules-for-the-provision-of-the-payment-initiation-service"
+msgstr "https://www.paysera.com/v2/en/legal/rules-for-the-provision-of-the-payment-initiation-service"
 
 msgid "https://www.paysera.com/v2/en-GB/mobile-application"
 msgstr "https://www.paysera.com/v2/es-ES/aplicacion-movil"
@@ -209,16 +249,19 @@ msgid "https://www.paysera.com/v2/en/blog/iban-account"
 msgstr "https://www.paysera.com/v2/en/blog/iban-account"
 
 msgid ""
-"In order to receive full benefits of both Paysera Payment and Delivery plugins, please use the "
-"outlined links to access our detailed how-to instructions."
+"In order to receive full benefits of both Paysera Payment and Delivery "
+"plugins, please use the outlined links to access our detailed how-to "
+"instructions."
 msgstr ""
-"Para recibir todos los beneficios de los complementos Paysera Checkout y Delivery, utilice los "
-"enlaces descritos para acceder a nuestras instrucciones detalladas."
+"Para recibir todos los beneficios de los complementos Paysera Checkout y "
+"Delivery, utilice los enlaces descritos para acceder a nuestras "
+"instrucciones detalladas."
 
-msgid "Incorrect project ID and password, please check your project credentials – %s"
+msgid ""
+"Incorrect project ID and password, please check your project credentials – %s"
 msgstr ""
-"El número ID y la contraseña del proyecto son incorrectos, compruebe las credenciales de su "
-"proyecto – %s"
+"El número ID y la contraseña del proyecto son incorrectos, compruebe las "
+"credenciales de su proyecto – %s"
 
 msgid "Instructions >"
 msgstr "Instrucciones >"
@@ -231,6 +274,9 @@ msgstr "Kilogramos"
 
 msgid "List of payments"
 msgstr "Lista de pagos"
+
+msgid "Log Level"
+msgstr "Nivel de registro"
 
 msgid "Main Settings"
 msgstr "Ajustes principales"
@@ -260,13 +306,16 @@ msgid "New Order Status"
 msgstr "Nuevo estado de pedido"
 
 msgid ""
-"NEW! With the latest version, you can integrate delivery options into your e-shop. More about "
-"the %s "
+"NEW! With the latest version, you can integrate delivery options into your e-"
+"shop. More about the %s "
 msgstr ""
-"¡NUEVO! Con la última versión, puede integrar opciones de entrega en su tienda electrónica. Más "
-"sobre %s "
+"¡NUEVO! Con la última versión, puede integrar opciones de entrega en su "
+"tienda electrónica. Más sobre %s "
 
 msgid "Order Status"
+msgstr "Estado del pedido"
+
+msgid "Order status"
 msgstr "Estado del pedido"
 
 msgid "Ownership code"
@@ -285,10 +334,19 @@ msgid "Payments"
 msgstr "Pagos"
 
 msgid "Paysera client support in English is available 24/7!"
-msgstr "¡El servicio de atención al cliente de Paysera en inglés está disponible 24/7!"
+msgstr ""
+"¡El servicio de atención al cliente de Paysera en inglés está disponible "
+"24/7!"
 
 msgid "Paysera Delivery"
 msgstr "Entrega de Paysera"
+
+msgid ""
+"Paysera Delivery: An error occurred. Please check the <a href=\"%s\">logs</a>"
+" for more details."
+msgstr ""
+"Entrega de Paysera: Ha ocurrido un error. Por favor, revise los <a "
+"href=\"%s\">registros</a> para más detalles."
 
 msgid "Paysera mobile app"
 msgstr "Aplicación móvil Paysera"
@@ -298,6 +356,13 @@ msgstr "Paysera Payment And Delivery"
 
 msgid "Paysera Payments"
 msgstr "Pagos de Paysera"
+
+msgid ""
+"Paysera Payments: An error occurred. Please check the <a href=\"%s\">logs</a>"
+" for more details."
+msgstr ""
+"Pagos de Paysera: Ha ocurrido un error. Por favor, revise los <a href=\"%s\">"
+"registros</a> para más detalles."
 
 msgid "Paysera plugin requires at least PHP "
 msgstr "El complemento Paysera requiere al menos PHP"
@@ -315,21 +380,25 @@ msgstr "Paysera: Estado del pedido con pago no finalizado"
 msgid "Paysera: Delivery order created - %s"
 msgstr "Paysera: Orden de entrega creada - %s"
 
+# src/Helper/PayseraDeliveryOrderRequestHelper.php:19
+msgid ""
+"Paysera: Delivery order creation failed, please create order manually in "
+"Paysera system"
+msgstr ""
+"Paysera: La creación del pedido de entrega falló, cree el pedido manualmente "
+"en el sistema Paysera"
+
+# src/Helper/PayseraDeliveryOrderRequestHelper.php:20
+msgid ""
+"Paysera: Delivery order update failed, please update order manually in "
+"Paysera system"
+msgstr ""
+"Paysera: Error al actualizar el pedido de entrega, actualice el pedido "
+"manualmente en el sistema Paysera"
+
 # src/Service/PayseraDeliveryOrderService.php:21
 msgid "Paysera: Delivery order updated - %s"
 msgstr "Paysera: Pedido de entrega actualizado - %s"
-
-# src/Helper/PayseraDeliveryOrderRequestHelper.php:19
-msgid "Paysera: Delivery order creation failed, please create order manually in Paysera system"
-msgstr ""
-"Paysera: La creación del pedido de entrega falló, cree el pedido manualmente en el sistema "
-"Paysera"
-
-# src/Helper/PayseraDeliveryOrderRequestHelper.php:20
-msgid "Paysera: Delivery order update failed, please update order manually in Paysera system"
-msgstr ""
-"Paysera: Error al actualizar el pedido de entrega, actualice el pedido manualmente en el sistema "
-"Paysera"
 
 msgid "Paysera: Order checkout process is started"
 msgstr "Paysera: Estado del pedido con pago no finalizado"
@@ -340,21 +409,29 @@ msgstr "Paysera: El estado cambió a "
 msgid "Pending Checkout"
 msgstr "Pendiente de pago"
 
-msgid ""
-"Please be informed that the account information and payment initiation services will be "
-"provided to you by Paysera in accordance with these %s. By proceeding with this payment, you "
-"agree to receive this service and the service terms and conditions."
-msgstr ""
-"Tenga en cuenta que Paysera le proporcionará la información de la cuenta y los servicios de "
-"inicio de pago de acuerdo con estas %s. Al continuar con este pago, acepta recibir este "
-"servicio y los términos y condiciones del servicio."
+msgid "PHP Details"
+msgstr "Detalles de PHP"
+
+msgid "Platform Details"
+msgstr "Detalles de la plataforma"
 
 msgid ""
-"Please provide package dimensions if you would like to use the shipping methods provided by "
-"Paysera."
+"Please be informed that the account information and payment initiation "
+"services will be provided to you by Paysera in accordance with these %s. By "
+"proceeding with this payment, you agree to receive this service and the "
+"service terms and conditions."
 msgstr ""
-"Por favor, indique las dimensiones del paquete si desea usar los métodos de envío "
-"proporcionados por Paysera."
+"Tenga en cuenta que Paysera le proporcionará la información de la cuenta y "
+"los servicios de inicio de pago de acuerdo con estas %s. Al continuar con "
+"este pago, acepta recibir este servicio y los términos y condiciones del "
+"servicio."
+
+msgid ""
+"Please provide package dimensions if you would like to use the shipping "
+"methods provided by Paysera."
+msgstr ""
+"Por favor, indique las dimensiones del paquete si desea usar los métodos de "
+"envío proporcionados por Paysera."
 
 msgid "Please select the city/municipality"
 msgstr "Seleccione la ciudad/municipio"
@@ -393,8 +470,23 @@ msgstr "Señal de calidad"
 msgid "Read more about it >"
 msgstr "Lee más sobre eso >"
 
+msgid "Refunded Order Status"
+msgstr "Estado de la orden reembolsada"
+
+msgid "Refunded via Paysera Payment Gateway"
+msgstr "Reembolsado a través de la pasarela de pagos Paysera."
+
 msgid "rules"
 msgstr "reglas"
+
+msgid "Security Details"
+msgstr "Detalles de seguridad"
+
+msgid "Select the order status"
+msgstr "Selecciona el estado del pedido"
+
+msgid "Self-Diagnosis Tool"
+msgstr "Herramienta de autodiagnóstico"
 
 msgid "Settings"
 msgstr "Ajustes"
@@ -414,6 +506,9 @@ msgstr "Lo sentimos,%d kg no es suficiente para el peso mínimo de %s kg"
 msgid "Specific countries"
 msgstr "Países específicos"
 
+msgid "Status"
+msgstr "Estado"
+
 #: assets/build/paysera-shipping-block-frontend.js:1
 msgid "Terminal city"
 msgstr "Ciudad de casillero"
@@ -429,6 +524,9 @@ msgstr "Ubicación del casillero"
 msgid "Terminals"
 msgstr "Casilleros"
 
+msgid "Test"
+msgstr "Prueba"
+
 msgid "Test mode"
 msgstr "Modo de prueba"
 
@@ -436,37 +534,63 @@ msgid "Thank you for choosing our services!"
 msgstr "¡Gracias por elegir nuestros servicios!"
 
 msgid "The Paysera plugin requires WooCommerce to be installed and activated."
-msgstr "El plugin de Paysera requiere que WooCommerce esté instalado y activado."
+msgstr ""
+"El plugin de Paysera requiere que WooCommerce esté instalado y activado."
 
 msgid "The project ID and password fields must be filled with valid data"
-msgstr "Projekti ID ja parooli väljad peavad olema täidetud kehtivate andmetega"
+msgstr ""
+"Projekti ID ja parooli väljad peavad olema täidetud kehtivate andmetega"
+
+msgid "The refund amount exceeds the order amount."
+msgstr "El monto del reembolso supera el saldo disponible para reembolsar."
 
 msgid "This controls the title which the user sees during shipping selection."
-msgstr "Esto controla el título que ve el usuario al seleccionar un método de entrega."
+msgstr ""
+"Esto controla el título que ve el usuario al seleccionar un método de "
+"entrega."
 
 msgid ""
-"This plugin displays several different delivery companies that your buyers can choose from when "
-"ordering your products. No need to sign separate agreements with the courier companies – we "
-"have done it for you. Enjoy low delivery prices and quick support when needed."
+"This plugin displays several different delivery companies that your buyers "
+"can choose from when ordering your products. No need to sign separate "
+"agreements with the courier companies – we have done it for you. Enjoy low "
+"delivery prices and quick support when needed."
 msgstr ""
-"Este complemento muestra varias empresas de entrega diferentes entre las que sus compradores "
-"pueden elegir al realizar el pedido de sus productos. No es necesario firmar acuerdos separados "
-"con las empresas de mensajería - lo hemos hecho por usted. Disfrute de precios de envío bajos y "
-"soporte rápido cuando lo necesite."
+"Este complemento muestra varias empresas de entrega diferentes entre las que "
+"sus compradores pueden elegir al realizar el pedido de sus productos. No es "
+"necesario firmar acuerdos separados con las empresas de mensajería - lo "
+"hemos hecho por usted. Disfrute de precios de envío bajos y soporte rápido "
+"cuando lo necesite."
 
 msgid ""
-"This plugin enables you to accept online payments via cards, SMS, or the most popular banks in "
-"your country. It is easy to install and is used by thousands of online merchants across Europe."
+"This plugin enables you to accept online payments via cards, SMS, or the "
+"most popular banks in your country. It is easy to install and is used by "
+"thousands of online merchants across Europe."
 msgstr ""
-"Este complemento le permite aceptar pagos en línea mediante tarjetas, SMS o los bancos más "
-"populares de su país. Es fácil de instalar y lo utilizan miles de comerciantes en línea en toda "
-"Europa."
+"Este complemento le permite aceptar pagos en línea mediante tarjetas, SMS o "
+"los bancos más populares de su país. Es fácil de instalar y lo utilizan "
+"miles de comerciantes en línea en toda Europa."
+
+msgid ""
+"This setting cannot be enabled due to compatibility issues. Please visit the "
+"<a href=\"%s\" target=\"_blank\">diagnostic page</a> to review and resolve "
+"them."
+msgstr ""
+"Esta configuración no se puede habilitar debido a problemas de "
+"compatibilidad. Por favor, visite la <a href=\"%s\" target=\"_blank\">página "
+"de diagnóstico</a> para resolverlos."
+
+msgid "This will save Paysera plugin logs in WooCommerce"
+msgstr "Esto guardará los registros del plugin de Paysera en WooCommerce"
 
 msgid "Title"
 msgstr "Título"
 
 msgid "Users will need to spend this amount to get free shipping."
-msgstr "Los usuarios necesitarán gastar esta cantidad para obtener envío gratuito."
+msgstr ""
+"Los usuarios necesitarán gastar esta cantidad para obtener envío gratuito."
+
+msgid "View"
+msgstr "Ver"
 
 msgid "Visa cards"
 msgstr "Tarjetas Visa"
@@ -474,71 +598,12 @@ msgstr "Tarjetas Visa"
 msgid "Write your ownership code"
 msgstr "Escriba su código de propiedad"
 
-msgid "Order status"
-msgstr "Estado del pedido"
+msgid "A test delivery order will be created."
+msgstr "Se programará una orden de entrega de prueba."
 
-msgid "Delivery orders will only be created for e-shop orders with this status"
-msgstr "Los pedidos de entrega solo se crearán para pedidos de tienda electrónica con este estado"
-
-msgid "Select the order status"
-msgstr "Selecciona el estado del pedido"
-
-msgid "Log Level"
-msgstr "Nivel de registro"
-
-msgid "View"
-msgstr "Ver"
-
-msgid "Download"
-msgstr "Descargar"
-
-msgid "This will save Paysera plugin logs in WooCommerce"
-msgstr "Esto guardará los registros del plugin de Paysera en WooCommerce"
-
-msgid ":attribute should be greater than or equal to :min."
-msgstr ":attribute debe ser mayor o igual que :min."
-
-msgid ":attribute cannot be less than :fieldToCompare."
-msgstr ":attribute no puede ser menor que :fieldToCompare."
-
-msgid ":attribute cannot be greater than :fieldToCompare."
-msgstr ":attribute no puede ser mayor que :fieldToCompare."
-
-msgid ":attribute value should be a number."
-msgstr ":attribute el valor debe ser un número."
-
-msgid "Diagnostic"
-msgstr "Diagnóstico"
-
-msgid "Self-Diagnosis Tool"
-msgstr "Herramienta de autodiagnóstico"
-
-msgid "Paysera Delivery: An error occurred. Please check the <a href=\"%s\">logs</a> for more details."
-msgstr "Entrega de Paysera: Ha ocurrido un error. Por favor, revise los <a href=\"%s\">registros</a> para más detalles."
-
-msgid "Paysera Payments: An error occurred. Please check the <a href=\"%s\">logs</a> for more details."
-msgstr "Pagos de Paysera: Ha ocurrido un error. Por favor, revise los <a href=\"%s\">registros</a> para más detalles."
-
-msgid "This setting cannot be enabled due to compatibility issues. Please visit the <a href=\"%s\" target=\"_blank\">diagnostic page</a> to review and resolve them."
-msgstr "Esta configuración no se puede habilitar debido a problemas de compatibilidad. Por favor, visite la <a href=\"%s\" target=\"_blank\">página de diagnóstico</a> para resolverlos."
-
-msgid "Download the diagnostic report"
-msgstr "Descargar informe de diagnóstico"
-
-msgid "PHP Details"
-msgstr "Detalles de PHP"
-
-msgid "Security Details"
-msgstr "Detalles de seguridad"
-
-msgid "Platform Details"
-msgstr "Detalles de la plataforma"
-
-msgid "Test"
-msgstr "Prueba"
-
-msgid "Status"
-msgstr "Estado"
-
-msgid "Details"
-msgstr "Detalles"
+msgid ""
+"Paysera delivery plugin is in test mode — delivery orders are simulated, but payments will be charged as you're using an external (non-Paysera) payment gateway."
+msgstr ""
+"El plugin de entrega de Paysera está en modo de prueba: los pedidos de "
+"entrega son simulados, pero los pagos se cobrarán porque se está utilizando "
+"una pasarela de pago externa (no Paysera)."

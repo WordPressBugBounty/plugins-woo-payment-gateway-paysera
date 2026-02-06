@@ -345,3 +345,28 @@ jQuery(document).ready(function ($) {
         return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
     }
 });
+
+if (payseraDeliveryFrontEndData.isTestModeEnabled === "1") {
+    jQuery(document).ready(function ($) {
+        const noticeBox = $('.paysera-delivery-testmode-notice');
+        function checkSelectedMethods() {
+            const selectedShipping = $('input[name^="shipping_method"]:checked').val();
+            const selectedPayment = $('input[name="payment_method"]:checked').val();
+
+            if (
+                selectedShipping?.includes('paysera_delivery') &&
+                selectedPayment !== 'paysera'
+            ) {
+                noticeBox.show();
+            } else {
+                noticeBox.hide();
+            }
+        }
+
+        checkSelectedMethods();
+        $(document.body).on('updated_checkout', function() {
+            checkSelectedMethods();
+        });
+        $('form.checkout').on('change', 'input[name="payment_method"]', checkSelectedMethods);
+    });
+}

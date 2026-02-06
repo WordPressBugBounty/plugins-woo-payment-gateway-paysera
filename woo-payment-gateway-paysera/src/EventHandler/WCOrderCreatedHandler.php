@@ -91,17 +91,22 @@ class WCOrderCreatedHandler implements EventHandlerInterface
             return;
         }
 
+        if ($deliverySettings->isTestModeEnabled()) {
+            $this->logger->info(sprintf('Test mode is enabled for order id %d.', $orderId));
+
+            $order->add_order_note(
+                __('A test delivery order will be created', PayseraPaths::PAYSERA_TRANSLATIONS)
+            );
+
+            $order->update_meta_data(PayseraDeliverySettings::DELIVERY_TEST_MODE, '1');
+            $order->save();
+        }
+
         $merchantOrder = $this->orderFactory->createFromWcOrder($order);
         $deliveryGateway = $merchantOrder->getDeliveryGateway();
 
         if ($deliveryGateway === null) {
             $this->logger->info(sprintf('Paysera delivery gateway code not found for order id %d.', $orderId));
-
-            return;
-        }
-
-        if ($deliverySettings->isTestModeEnabled() === true) {
-            $this->logger->info(sprintf('Test mode is enabled for order id %d.', $orderId));
 
             return;
         }

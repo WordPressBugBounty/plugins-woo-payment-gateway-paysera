@@ -225,13 +225,8 @@ class PayseraDeliveryHelper
     public function getCartTotalDeliveryWeight(): float
     {
         if ($this->cartTotalWeight === null) {
-            $this->cartTotalWeight = 0;
 
-            foreach (WC()->cart->cart_contents as $item) {
-                $product = wc_get_product($item['product_id']);
-
-                $this->cartTotalWeight += (float) ($product->get_weight() ?? 0) * (float) $item['quantity'];
-            }
+            $this->cartTotalWeight = WC()->cart->get_cart_contents_weight();
 
             if (get_option('woocommerce_weight_unit') === 'g') {
                 $this->cartTotalWeight /= 1000;

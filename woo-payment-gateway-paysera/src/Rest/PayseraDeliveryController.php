@@ -51,11 +51,12 @@ class PayseraDeliveryController extends PayseraRestController
                 [
                     'methods' => WP_REST_Server::CREATABLE,
                     'callback' => [$this, 'getTerminalCountries'],
-                    'permission_callback' => '__return_true',
+                    'permission_callback' => [$this, 'checkPublicEndpointPermission'],
                     'args' => [
                         'shipping_method' => [
                             'required' => true,
                             'type' => 'string',
+                            'sanitize_callback' => 'sanitize_text_field',
                         ],
                     ],
                 ],
@@ -69,15 +70,17 @@ class PayseraDeliveryController extends PayseraRestController
                 [
                     'methods' => WP_REST_Server::CREATABLE,
                     'callback' => [$this, 'getTerminalCities'],
-                    'permission_callback' => '__return_true',
+                    'permission_callback' => [$this, 'checkPublicEndpointPermission'],
                     'args' => [
                         'shipping_method' => [
                             'required' => true,
                             'type' => 'string',
+                            'sanitize_callback' => 'sanitize_text_field',
                         ],
                         'country' => [
                             'required' => true,
                             'type' => 'string',
+                            'sanitize_callback' => 'sanitize_text_field',
                         ],
                     ],
                 ],
@@ -91,19 +94,22 @@ class PayseraDeliveryController extends PayseraRestController
                 [
                     'methods' => WP_REST_Server::CREATABLE,
                     'callback' => [$this, 'getTerminalLocations'],
-                    'permission_callback' => '__return_true',
+                    'permission_callback' => [$this, 'checkPublicEndpointPermission'],
                     'args' => [
                         'shipping_method' => [
                             'required' => true,
                             'type' => 'string',
+                            'sanitize_callback' => 'sanitize_text_field',
                         ],
                         'country' => [
                             'required' => true,
                             'type' => 'string',
+                            'sanitize_callback' => 'sanitize_text_field',
                         ],
                         'city' => [
                             'required' => true,
                             'type' => 'string',
+                            'sanitize_callback' => 'sanitize_text_field',
                         ],
                     ],
                 ],
@@ -117,11 +123,12 @@ class PayseraDeliveryController extends PayseraRestController
                 [
                     'methods' => WP_REST_Server::CREATABLE,
                     'callback' => [$this, 'setTerminalLocation'],
-                    'permission_callback' => '__return_true',
+                    'permission_callback' => [$this, 'checkPublicEndpointWithNoncePermission'],
                     'args' => [
                         'terminal' => [
                             'required' => true,
                             'type' => 'string',
+                            'sanitize_callback' => 'sanitize_text_field',
                         ],
                     ],
                 ],
@@ -135,7 +142,7 @@ class PayseraDeliveryController extends PayseraRestController
                 [
                     'methods' => WP_REST_Server::CREATABLE,
                     'callback' => [$this, 'getHouseNo'],
-                    'permission_callback' => '__return_true',
+                    'permission_callback' => [$this, 'checkPublicEndpointPermission'],
                     'args' => [],
                 ],
             ]
@@ -148,15 +155,17 @@ class PayseraDeliveryController extends PayseraRestController
                 [
                     'methods' => WP_REST_Server::CREATABLE,
                     'callback' => [$this, 'setHouseNo'],
-                    'permission_callback' => '__return_true',
+                    'permission_callback' => [$this, 'checkPublicEndpointWithNoncePermission'],
                     'args' => [
                         'field_name' => [
                             'required' => true,
                             'type' => 'string',
+                            'sanitize_callback' => 'sanitize_text_field',
                         ],
                         'house_no' => [
                             'required' => true,
                             'type' => 'string',
+                            'sanitize_callback' => 'sanitize_text_field',
                         ],
                     ],
                 ],
@@ -170,11 +179,14 @@ class PayseraDeliveryController extends PayseraRestController
                 [
                     'methods' => WP_REST_Server::READABLE,
                     'callback' => [$this, 'checkDeliveryOrderUpdates'],
-                    'permission_callback' => '__return_true',
+                    'permission_callback' => [$this, 'checkAdminEndpointPermission'],
                     'args' => [
                         'id' => [
                             'required' => true,
                             'type' => 'integer',
+                            'validate_callback' => function($param) {
+                                return is_numeric($param) && $param > 0;
+                            },
                         ],
                     ],
                 ],
@@ -188,7 +200,7 @@ class PayseraDeliveryController extends PayseraRestController
                 [
                     'methods' => WP_REST_Server::READABLE,
                     'callback' => [$this, 'validateWeight'],
-                    'permission_callback' => '__return_true',
+                    'permission_callback' => [$this, 'checkPublicEndpointPermission'],
                     'args' => [],
                 ],
             ]
@@ -354,5 +366,37 @@ class PayseraDeliveryController extends PayseraRestController
         ;
 
         return rest_ensure_response($result);
+    }
+
+    public function checkPublicEndpointPermission(): bool
+    {
+        return true;
+    }
+
+    public function checkPublicEndpointWithNoncePermission(): bool
+    {
+        $nonce = null;
+
+        // Check for nonce in header (standard REST API)
+        if (isset($_SERVER['HTTP_X_WP_NONCE'])) {
+            $nonce = sanitize_text_field(wp_unslash($_SERVER['HTTP_X_WP_NONCE']));
+        }
+
+        // Fallback to request parameter
+        if (!$nonce && isset($_REQUEST['_wpnonce'])) {
+            $nonce = sanitize_text_field(wp_unslash($_REQUEST['_wpnonce']));
+        }
+
+        // Validate the REST nonce
+        if (!$nonce || !wp_verify_nonce($nonce, 'wp_rest')) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function checkAdminEndpointPermission(): bool
+    {
+        return current_user_can('manage_woocommerce');
     }
 }

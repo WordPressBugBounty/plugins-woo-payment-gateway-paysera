@@ -25,6 +25,7 @@ class Order extends AbstractEntity implements MerchantOrderInterface
     private Callback $callback;
     private ?WC_Order_Item_Shipping $actualShippingMethod = null;
     private PartyFactory $partyFactory;
+    private bool $testMode;
 
     public function __construct(
         WC_Order $order,
@@ -38,6 +39,18 @@ class Order extends AbstractEntity implements MerchantOrderInterface
         $this->initParties();
         $this->orderItems = $orderItems;
         $this->callback = new Callback($this->id);
+        $this->testMode = (bool) $order->get_meta(PayseraDeliverySettings::DELIVERY_TEST_MODE) ?? false;
+    }
+
+    public function setTestMode(bool $testMode): MerchantOrderInterface
+    {
+        $this->testMode = $testMode;
+        return $this;
+    }
+
+    public function isTestMode(): bool
+    {
+        return $this->testMode;
     }
 
     public function getWcOrder(): WC_Order
