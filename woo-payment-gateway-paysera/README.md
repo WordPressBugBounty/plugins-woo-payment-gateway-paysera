@@ -13,7 +13,7 @@ Requires at least: 4.0
 
 Tested up to: 6.9
 
-Stable tag: 3.11.0
+Stable tag: 3.11.1
 
 Requires PHP: 7.4
 
@@ -166,6 +166,9 @@ Installation from admin panel (marketplace):
 
 Changelog
 ---------
+
+= 3.11.1 =
+* Fix — Resolved a Fatal Error caused by a strict type check on the delivery gateway label filter when NULL is passed by third-party plugins or themes.
 
 = 3.11.0 =
 * Update — Updated the link to Service Rules to reflect the most recent documentation.
@@ -578,6 +581,9 @@ Changelog
 
 Upgrade Notice
 --------------
+
+= 3.11.1 =
+* Fix — Resolved a Fatal Error caused by a strict type check on the delivery gateway label filter when NULL is passed by third-party plugins or themes.
 
 = 3.11.0 =
 * Update — Updated the link to Service Rules to reflect the most recent documentation.

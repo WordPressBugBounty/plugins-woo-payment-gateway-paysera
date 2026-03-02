@@ -11,6 +11,9 @@ use WC_Order;
 use WC_Order_Refund;
 use WP_Error;
 
+/**
+ * TODO: Make HPOS compatible
+ */
 class RefundRepository
 {
     private const REFUND_ID_HASH_META_KEY = '_paysera_refund_id_hash';

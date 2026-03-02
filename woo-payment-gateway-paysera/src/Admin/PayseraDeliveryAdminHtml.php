@@ -41,7 +41,7 @@ class PayseraDeliveryAdminHtml
             printf('nav-tab-active');
         }
 
-        printf('"href="' . $this->payseraDeliveryHelper->settingsUrl() . '">');
+        printf('" href="' . $this->payseraDeliveryHelper->settingsUrl() . '">');
         printf(__('Main Settings', PayseraPaths::PAYSERA_TRANSLATIONS) . '</a>');
 
         if ($projectId !== null) {
@@ -51,7 +51,7 @@ class PayseraDeliveryAdminHtml
             }
 
             printf(
-                '"href="'
+                '" href="'
                 . $this->payseraDeliveryHelper->settingsUrl(['tab' => PayseraDeliveryAdmin::TAB_EXTRA_SETTINGS]) . '">'
             );
             printf(__('Extra Settings', PayseraPaths::PAYSERA_TRANSLATIONS) . '</a>');
@@ -63,7 +63,7 @@ class PayseraDeliveryAdminHtml
             }
 
             printf(
-                '"href="' .
+                '" href="' .
                 $this->payseraDeliveryHelper->settingsUrl(
                     ['tab' => PayseraDeliveryAdmin::TAB_DELIVERY_GATEWAYS_LIST_SETTINGS]
                 ) . '">'

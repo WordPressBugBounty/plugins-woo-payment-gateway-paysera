@@ -90,7 +90,9 @@ class PayseraInit
         } else {
             add_filter('woocommerce_package_rates', [$this, 'applyDeliveryGatewayWeightRestrictionsHint'], PHP_INT_MAX, 2);
         }
-        add_filter('woocommerce_cart_shipping_method_full_label', [$this, 'deliveryGatewayLogos'], PHP_INT_MAX, 2);
+         if ($this->deliverySettingsProvider->getPayseraDeliverySettings()->isEnabled()) {
+            add_filter('woocommerce_cart_shipping_method_full_label', [$this, 'deliveryGatewayLogos'], PHP_INT_MAX, 2);
+        }
         add_action('admin_notices', [$this, 'payseraDeliveryPluginNotice']);
         add_action('admin_enqueue_scripts', [$this, 'enqueueNoticeScripts']);
         add_action('woocommerce_init', [$this, 'enableCartFrontendForRestApi']);
@@ -340,8 +342,9 @@ class PayseraInit
         }
     }
 
-    public function deliveryGatewayLogos(string $label, WC_Shipping_Rate $shippingRate): string
+    public function deliveryGatewayLogos($label, WC_Shipping_Rate $shippingRate): string
     {
+        $label = (string) ($label ?? '');
         $isDeliveryDisabled = $this->deliverySettingsProvider->getPayseraDeliverySettings()->isEnabled() === false;
         $noDeliveryGateways = empty($this->deliverySettingsProvider->getPayseraDeliverySettings()->getDeliveryGateways()) === true;
         $isNotPayseraGateway = $this->deliveryHelper->isPayseraDeliveryGateway($shippingRate->get_method_id()) === false;

@@ -40,7 +40,7 @@ class PayseraPaymentAdminHtml
             printf('nav-tab-active');
         }
 
-        printf('"href="' . $this->payseraPaymentHelper->settingsUrl() . '">');
+        printf('" href="' . $this->payseraPaymentHelper->settingsUrl() . '">');
         printf(__('Main Settings', PayseraPaths::PAYSERA_TRANSLATIONS) . '</a>');
 
         if ($projectId !== null && $projectId !== 0) {
@@ -51,7 +51,7 @@ class PayseraPaymentAdminHtml
             }
 
             printf(
-                '"href="'
+                '" href="'
                 . $this->payseraPaymentHelper->settingsUrl(['tab' => PayseraPaymentAdmin::TAB_EXTRA_SETTINGS]) . '">'
             );
             printf(__('Extra Settings', PayseraPaths::PAYSERA_TRANSLATIONS) . '</a>');
@@ -62,7 +62,7 @@ class PayseraPaymentAdminHtml
             }
 
             printf(
-                '"href="'
+                '" href="'
                 . $this->payseraPaymentHelper->settingsUrl(['tab' => PayseraPaymentAdmin::TAB_ORDER_STATUS]) . '">'
             );
             printf(__('Order Status', PayseraPaths::PAYSERA_TRANSLATIONS) . '</a>');
@@ -73,7 +73,7 @@ class PayseraPaymentAdminHtml
             }
 
             printf(
-                '"href="'
+                '" href="'
                 . $this->payseraPaymentHelper->settingsUrl(['tab' => PayseraPaymentAdmin::TAB_PROJECT_ADDITIONS]) . '">'
             );
             printf(__('Project Additions', PayseraPaths::PAYSERA_TRANSLATIONS) . '</a>');
