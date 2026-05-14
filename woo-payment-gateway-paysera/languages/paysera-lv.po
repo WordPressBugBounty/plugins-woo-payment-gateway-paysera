@@ -204,11 +204,11 @@ msgstr "Mājas numurs"
 msgid "House number field"
 msgstr "Mājas numura lauks"
 
-msgid "https://developers.paysera.com/en/checkout/basic"
-msgstr "https://developers.paysera.com/en/checkout/basic"
+msgid "https://developers.paysera.com/guides/checkout-classic"
+msgstr "https://developers.paysera.com/guides/checkout-classic"
 
-msgid "https://developers.paysera.com/en/delivery"
-msgstr "https://developers.paysera.com/en/delivery"
+msgid "https://developers.paysera.com/guides/delivery"
+msgstr "https://developers.paysera.com/guides/delivery"
 
 msgid ""
 "https://support.paysera.com/index.php?"
@@ -242,7 +242,7 @@ msgid "https://www.paysera.com/v2/en-GB/payment-gateway-checkout"
 msgstr "https://www.paysera.lv/v2/lv-LV/maksajumu-pienemsana-interneta"
 
 msgid "https://www.paysera.com/v2/en-GB/paysera-account"
-msgstr "https://www.paysera.lv/v2/lv-LV/jusu-labakais-konts"
+msgstr "https://www.paysera.com/v2/en-GB/paysera-account"
 
 msgid "https://www.paysera.com/v2/en/blog/iban-account"
 msgstr "https://www.paysera.com/v2/en/blog/iban-account"

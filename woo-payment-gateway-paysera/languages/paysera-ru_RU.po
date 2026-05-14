@@ -199,11 +199,11 @@ msgstr "Номер дома"
 msgid "House number field"
 msgstr "Поле номера дома"
 
-msgid "https://developers.paysera.com/en/checkout/basic"
-msgstr "https://developers.paysera.com/ru/checkout/basic"
+msgid "https://developers.paysera.com/guides/checkout-classic"
+msgstr "https://developers.paysera.com/guides/checkout-classic"
 
-msgid "https://developers.paysera.com/en/delivery"
-msgstr "https://developers.paysera.com/ru/delivery"
+msgid "https://developers.paysera.com/guides/delivery"
+msgstr "https://developers.paysera.com/guides/delivery"
 
 msgid ""
 "https://support.paysera.com/index.php?"

@@ -3,7 +3,7 @@ Paysera Payment Gateway for WooCommerce
 
 Version: 3.11.0
 
-Date: 2025-01-12
+Date: 2026-05-14
 
 Contributors: Paysera
 
@@ -13,7 +13,7 @@ Requires at least: 4.0
 
 Tested up to: 6.9
 
-Stable tag: 3.11.1
+Stable tag: 3.11.2
 
 Requires PHP: 7.4
 
@@ -36,12 +36,12 @@ In order to receive full benefits of both Paysera Payment and Delivery plugins, 
 1. Paysera Payments
    This service included in the plugin enables you to accept online payments via cards, SMS, or the most popular banks in your country. It is used by thousands of online merchants across Europe, and is easy to integrate and manage.
    Read more about Paysera Checkout - https://www.paysera.com/v2/en/payment-gateway-checkout
-   Instructions - https://developers.paysera.com/en/checkout/basic
+   Instructions - https://developers.paysera.com/guides/checkout-classic
 
 2. Paysera Delivery
    This service, that is also included in this plugin displays different delivery companies that your buyers can choose from when ordering your products. No need to sign separate agreements with couriers or overcome several different integrations – we have done it for you. Enjoy low delivery prices and quick support when needed.
    Read more about Paysera Delivery - https://www.paysera.com/v2/en/checkout-delivery-service
-   Instructions - https://developers.paysera.com/en/delivery/
+   Instructions - https://developers.paysera.com/guides/delivery
 
 Features and benefits
 -----------
@@ -166,6 +166,10 @@ Installation from admin panel (marketplace):
 
 Changelog
 ---------
+
+= 3.11.2 =
+* Fix — Resolved an issue where the checkout process could not be completed after changing the country value on the Checkout page.
+* Fix — Updated outdated documentation links on the plugin admin page and in the plugin description so they point to the new Paysera developers portal.
 
 = 3.11.1 =
 * Fix — Resolved a Fatal Error caused by a strict type check on the delivery gateway label filter when NULL is passed by third-party plugins or themes.
@@ -581,6 +585,10 @@ Changelog
 
 Upgrade Notice
 --------------
+
+= 3.11.2 =
+* Fix — Resolved an issue where the checkout process could not be completed after changing the country value on the Checkout page.
+* Fix — Updated outdated documentation links on the plugin admin page and in the plugin description so they point to the new Paysera developers portal.
 
 = 3.11.1 =
 * Fix — Resolved a Fatal Error caused by a strict type check on the delivery gateway label filter when NULL is passed by third-party plugins or themes.

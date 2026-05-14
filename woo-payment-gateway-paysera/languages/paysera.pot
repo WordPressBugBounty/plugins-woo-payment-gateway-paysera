@@ -186,7 +186,7 @@ msgstr ""
 msgid "Read more about it >"
 msgstr ""
 
-msgid "https://developers.paysera.com/en/checkout/basic"
+msgid "https://developers.paysera.com/guides/checkout-classic"
 msgstr ""
 
 msgid "Instructions >"
@@ -195,7 +195,7 @@ msgstr ""
 msgid "https://www.paysera.com/v2/en-GB/checkout-delivery-service"
 msgstr ""
 
-msgid "https://developers.paysera.com/en/delivery"
+msgid "https://developers.paysera.com/guides/delivery"
 msgstr ""
 
 msgid "Need assistance?"

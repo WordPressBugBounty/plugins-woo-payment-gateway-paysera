@@ -205,11 +205,11 @@ msgstr "Номер на улица/блок"
 msgid "House number field"
 msgstr "Поле за номер на улица/блок"
 
-msgid "https://developers.paysera.com/en/checkout/basic"
-msgstr "https://developers.paysera.com/en/checkout/basic"
+msgid "https://developers.paysera.com/guides/checkout-classic"
+msgstr "https://developers.paysera.com/guides/checkout-classic"
 
-msgid "https://developers.paysera.com/en/delivery"
-msgstr "https://developers.paysera.com/en/delivery"
+msgid "https://developers.paysera.com/guides/delivery"
+msgstr "https://developers.paysera.com/guides/delivery"
 
 msgid ""
 "https://support.paysera.com/index.php?"

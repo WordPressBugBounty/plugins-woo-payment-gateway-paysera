@@ -36,12 +36,12 @@ class PayseraAdminHtml
             . '</div></div><div class="paysera-delivery-inline-container-wrapper"><div class="paysera-delivery-inline-container">'
             . '<p class="paysera-delivery-small-paragraph"><a href="' . __('https://www.paysera.com/v2/en-GB/payment-gateway-checkout', PayseraPaths::PAYSERA_TRANSLATIONS)
             . '" target="_blank" rel="noopener noreferrer">' . __('Read more about it >', PayseraPaths::PAYSERA_TRANSLATIONS) . '</a></p>'
-            . '<p class="paysera-delivery-small-paragraph"><a href="' . __('https://developers.paysera.com/en/checkout/basic', PayseraPaths::PAYSERA_TRANSLATIONS)
+            . '<p class="paysera-delivery-small-paragraph"><a href="' . __('https://developers.paysera.com/guides/checkout-classic', PayseraPaths::PAYSERA_TRANSLATIONS)
             . '" target="_blank" rel="noopener noreferrer">' . __('Instructions >', PayseraPaths::PAYSERA_TRANSLATIONS) . '</a></p>'
             . '</div><div class="paysera-delivery-inline-container">'
             . '<p class="paysera-delivery-small-paragraph"><a href="' . __('https://www.paysera.com/v2/en-GB/checkout-delivery-service', PayseraPaths::PAYSERA_TRANSLATIONS)
             . '" target="_blank" rel="noopener noreferrer">' . __('Read more about it >', PayseraPaths::PAYSERA_TRANSLATIONS) . '</a></p>'
-            . '<p class="paysera-delivery-small-paragraph"><a href="' . __('https://developers.paysera.com/en/delivery', PayseraPaths::PAYSERA_TRANSLATIONS)
+            . '<p class="paysera-delivery-small-paragraph"><a href="' . __('https://developers.paysera.com/guides/delivery', PayseraPaths::PAYSERA_TRANSLATIONS)
             . '" target="_blank" rel="noopener noreferrer">' . __('Instructions >', PayseraPaths::PAYSERA_TRANSLATIONS) . '</a></p>'
             . '</div></div><h1>' . __('Need assistance?', PayseraPaths::PAYSERA_TRANSLATIONS) . '</h1>'
             . '<p>' . __('Paysera client support in English is available 24/7!', PayseraPaths::PAYSERA_TRANSLATIONS) . '</p>'
