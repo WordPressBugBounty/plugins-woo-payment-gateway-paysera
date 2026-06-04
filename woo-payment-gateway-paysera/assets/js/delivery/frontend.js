@@ -45,17 +45,13 @@ jQuery(document).ready(function ($) {
         $('.paysera-delivery-terminal-location').hide();
 
         shippingCountry = $('#billing_country');
-        shippingCity = $('#billing_city').val();
-        shippingState = $('#billing_state').val();
+        shippingCity = $('#billing_city').val() || '';
+        shippingState = $('#billing_state').val() || '';
 
         if (isShippingToAnotherAddressEnabled === true) {
             shippingCountry = $('#shipping_country');
-            shippingCity = $('#shipping_city').val();
-            shippingState = $('#shipping_state').val();
-        }
-
-        if (typeof shippingState === 'undefined') {
-            shippingState = '';
+            shippingCity = $('#shipping_city').val() || '';
+            shippingState = $('#shipping_state').val() || '';
         }
 
         $('.paysera-delivery-error').each(function () {

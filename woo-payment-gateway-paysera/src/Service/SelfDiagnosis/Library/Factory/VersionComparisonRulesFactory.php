@@ -28,4 +28,35 @@ class VersionComparisonRulesFactory
 
         return null;
     }
+
+    public function getMinimumSupportedVersion(): string
+    {
+        $versions = array_keys($this->versionComparisonRules);
+        sort($versions, SORT_NATURAL);
+        return reset($versions);
+    }
+
+    public function getMaximumConfiguredVersion(): string
+    {
+        $versions = array_keys($this->versionComparisonRules);
+        rsort($versions, SORT_NATURAL);
+        return reset($versions);
+    }
+
+    public function getFallbackRuleForNewerVersion(): VersionComparisonRule
+    {
+        $maxVersion = $this->getMaximumConfiguredVersion();
+        $ruleConfig = $this->versionComparisonRules[$maxVersion];
+
+        return new VersionComparisonRule(
+            $ruleConfig['gte'],
+            $ruleConfig['lt']
+        );
+    }
+
+    public function isVersionBelowMinimum(string $version): bool
+    {
+        $minVersion = $this->getMinimumSupportedVersion();
+        return version_compare($version, $minVersion, '<');
+    }
 }

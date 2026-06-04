@@ -1,11 +1,11 @@
 === Paysera Payment Gateway for WooCommerce ===
-Version: 3.11.2
-Date: 2026-05-14
+Version: 3.12.0
+Date: 2028-06-03
 Contributors: Paysera
 Tags: online payment, payment, payment gateway, international payments, shipping
 Requires at least: 4.0
 Tested up to: 6.9
-Stable tag: 3.11.2
+Stable tag: 3.12.0
 Requires PHP: 7.4
 Requires PHP Extension: BCMath, Zip
 Minimum requirements: WooCommerce 5.0
@@ -130,6 +130,15 @@ Follow video tutorial or instructions below.
 9. Delivery Gateways Selection
 
 == Changelog ==
+
+= 3.12.0 =
+* Fix — Resolved missing translations in delivery terminal selection messages when the site language is switched to a supported locale.
+* Fix — When the shipping country is pre-selected at checkout, the City dropdown and dependent terminal fields now populate automatically without requiring a re-click.
+* Fix — Self-Diagnosis page no longer fails on newer PHP versions that are not yet listed in the version comparison rules.
+* Improvement — Activating both the legacy and the new Paysera plugin at the same time is now prevented to avoid conflicts.
+* Improvement — Delivery Project ID and Password are now validated against Paysera before being saved, with clear admin notices for invalid credentials or rate-limited requests.
+* Improvement — Refund operations are now compatible with WooCommerce High-Performance Order Storage (HPOS).
+* Improvement — Added a "One shipment per order" delivery setting. When enabled, the entire order is sent as a single shipment instead of creating multiple shipments.
 
 = 3.11.2 =
 * Fix — Resolved an issue where the checkout process could not be completed after changing the country value on the Checkout page.
@@ -546,6 +555,15 @@ Follow video tutorial or instructions below.
 * Fix - Admin textfield fix
 
 == Upgrade Notice ==
+
+= 3.12.0 =
+* Fix — Resolved missing translations in delivery terminal selection messages when the site language is switched to a supported locale.
+* Fix — When the shipping country is pre-selected at checkout, the City dropdown and dependent terminal fields now populate automatically without requiring a re-click.
+* Fix — Self-Diagnosis page no longer fails on newer PHP versions that are not yet listed in the version comparison rules.
+* Improvement — Activating both the legacy and the new Paysera plugin at the same time is now prevented to avoid conflicts.
+* Improvement — Delivery Project ID and Password are now validated against Paysera before being saved, with clear admin notices for invalid credentials or rate-limited requests.
+* Improvement — Refund operations are now compatible with WooCommerce High-Performance Order Storage (HPOS).
+* Improvement — Added a "One shipment per order" delivery setting. When enabled, the entire order is sent as a single shipment instead of creating multiple shipments.
 
 = 3.11.2 =
 * Fix — Resolved an issue where the checkout process could not be completed after changing the country value on the Checkout page.

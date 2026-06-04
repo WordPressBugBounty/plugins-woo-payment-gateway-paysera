@@ -8,15 +8,20 @@ defined('ABSPATH') || exit;
 
 use Paysera\Action\PayseraDeliveryActions;
 use Paysera\Action\PayseraSelfDiagnosisActions;
+use Paysera\Blocks\PayseraBlock;
 use Paysera\Scoped\Paysera\DeliverySdk\Entity\PayseraDeliverySettingsInterface;
 use Paysera\Scoped\Paysera\DeliverySdk\Service\DeliveryLoggerInterface;
 use Paysera\Entity\PayseraDeliverySettings;
 use Paysera\Entity\PayseraPaths;
+use Paysera\Entity\TransientNotice;
 use Paysera\Helper\EventHandlingHelper;
 use Paysera\Helper\LogHelper;
 use Paysera\Helper\PayseraDeliveryLibraryHelper;
+use Paysera\Provider\DeliveryNoticeMessageProvider;
 use Paysera\Provider\PayseraDeliverySettingsProvider;
 use Paysera\Service\SettingsSynchronizer;
+use Paysera\Service\TransientNoticeMessenger;
+use Paysera\Service\TransientNoticeRenderer;
 use Paysera\Service\WordPressContextInterface;
 use WC_Order;
 
@@ -34,6 +39,9 @@ class PayseraDeliveryAdmin
     private DeliveryLoggerInterface $logger;
     private EventHandlingHelper $eventHandlingHelper;
     private WordPressContextInterface $wordPressContext;
+    private TransientNoticeMessenger $noticeMessenger;
+    private DeliveryNoticeMessageProvider $noticeMessageProvider;
+    private TransientNoticeRenderer $noticeRenderer;
     private ?PayseraDeliverySettingsInterface $deliverySettings;
     private string $tab;
     /**
@@ -49,7 +57,10 @@ class PayseraDeliveryAdmin
         DeliveryLoggerInterface $logger,
         PayseraDeliverySettingsProvider $deliverySettingsProvider,
         EventHandlingHelper $eventHandlingHelper,
-        WordPressContextInterface $wordPressContext
+        WordPressContextInterface $wordPressContext,
+        TransientNoticeMessenger $noticeMessenger,
+        DeliveryNoticeMessageProvider $noticeMessageProvider,
+        TransientNoticeRenderer $noticeRenderer
     ) {
         $this->adminHtml = $adminHtml;
         $this->deliveryLibraryHelper = $deliveryLibraryHelper;
@@ -66,6 +77,9 @@ class PayseraDeliveryAdmin
         ];
         $this->logger = $logger;
         $this->eventHandlingHelper = $eventHandlingHelper;
+        $this->noticeMessenger = $noticeMessenger;
+        $this->noticeMessageProvider = $noticeMessageProvider;
+        $this->noticeRenderer = $noticeRenderer;
     }
 
     public function build(): void
@@ -86,26 +100,13 @@ class PayseraDeliveryAdmin
             100,
             1
         );
-        add_filter(
-                'woocommerce_admin_shipping_fields',
-                [$this, 'addHouseNumberFieldOnOrderEdit']
+        add_action(
+            'woocommerce_admin_order_data_after_shipping_address',
+            [$this, 'displayShippingHouseField']
         );
-        add_filter(
-                'woocommerce_order_formatted_shipping_address',
-                [$this, 'addShippingHouseNumberFieldAdminOrderPreview'],
-                10,
-                2
-        );
-        add_filter(
-                'woocommerce_formatted_address_replacements',
-                [$this, 'buildAddressReplacements'],
-                10,
-                2
-        );
-        add_filter(
-                'woocommerce_localisation_address_formats',
-                [$this, 'addHouseNumberToAddressFormat'],
-                10
+        add_action(
+            'woocommerce_admin_order_data_after_billing_address',
+            [$this, 'displayBillingHouseField']
         );
         add_action(
             'woocommerce_product_options_dimensions',
@@ -116,6 +117,26 @@ class PayseraDeliveryAdmin
             [$this, 'displayProductDimensionsAndWeight'],
             10,
             3
+        );
+        add_filter(
+            'woocommerce_admin_shipping_fields',
+            [$this, 'addHouseNumberFieldOnOrderEdit']
+        );
+        add_filter(
+            'woocommerce_order_formatted_shipping_address',
+            [$this, 'addShippingHouseNumberFieldAdminOrderPreview'],
+            10,
+            2
+        );
+        add_filter(
+            'woocommerce_formatted_address_replacements',
+            [$this, 'buildAddressReplacements'],
+            10,
+            2
+        );
+        add_filter(
+            'woocommerce_localisation_address_formats',
+            [$this, 'addHouseNumberToAddressFormat']
         );
     }
 
@@ -158,72 +179,88 @@ class PayseraDeliveryAdmin
         );
         register_setting(PayseraDeliverySettings::EXTRA_SETTINGS_NAME, PayseraDeliverySettings::EXTRA_SETTINGS_NAME);
 
-        if ($this->tab === self::TAB_GENERAL_SETTINGS) {
-            add_settings_field(
-                PayseraDeliverySettings::ENABLED,
-                __('Enable', PayseraPaths::PAYSERA_TRANSLATIONS),
-                [$this, 'enableRender'],
-                PayseraDeliverySettings::SETTINGS_NAME,
-                self::TAB_GENERAL_SETTINGS
-            );
-            add_settings_field(
-                PayseraDeliverySettings::PROJECT_ID,
-                __('Project ID', PayseraPaths::PAYSERA_TRANSLATIONS),
-                [$this, 'projectIdRender'],
-                PayseraDeliverySettings::SETTINGS_NAME,
-                self::TAB_GENERAL_SETTINGS
-            );
-            add_settings_field(
-                PayseraDeliverySettings::PROJECT_PASSWORD,
-                __('Project password', PayseraPaths::PAYSERA_TRANSLATIONS),
-                [$this, 'projectPasswordRender'],
-                PayseraDeliverySettings::SETTINGS_NAME,
-                self::TAB_GENERAL_SETTINGS
-            );
-            add_settings_field(
-                PayseraDeliverySettings::TEST_MODE,
-                __('Test mode', PayseraPaths::PAYSERA_TRANSLATIONS),
-                [$this, 'testModeRender'],
-                PayseraDeliverySettings::SETTINGS_NAME,
-                self::TAB_GENERAL_SETTINGS
-            );
-            add_settings_field(
-                PayseraDeliverySettings::HOUSE_NUMBER_FIELD,
-                __('House number field', PayseraPaths::PAYSERA_TRANSLATIONS),
-                [$this, 'houseNumberFieldRender'],
-                PayseraDeliverySettings::SETTINGS_NAME,
-                self::TAB_GENERAL_SETTINGS
-            );
-        } elseif ($this->tab === self::TAB_EXTRA_SETTINGS) {
-            add_settings_field(
-                PayseraDeliverySettings::GRID_VIEW,
-                __('Grid view', PayseraPaths::PAYSERA_TRANSLATIONS),
-                [$this, 'gridViewRender'],
-                PayseraDeliverySettings::EXTRA_SETTINGS_NAME,
-                self::TAB_EXTRA_SETTINGS
-            );
-            add_settings_field(
-                PayseraDeliverySettings::HIDE_SHIPPING_METHODS,
-                __('Hide shipping methods', PayseraPaths::PAYSERA_TRANSLATIONS),
-                [$this, 'hideShippingMethodsRender'],
-                PayseraDeliverySettings::EXTRA_SETTINGS_NAME,
-                self::TAB_EXTRA_SETTINGS
-            );
-            add_settings_field(
-                PayseraDeliverySettings::LOG_LEVEL,
-                __('Log Level', PayseraPaths::PAYSERA_TRANSLATIONS),
-                [$this, 'logLevelOptionsRender'],
-                PayseraDeliverySettings::EXTRA_SETTINGS_NAME,
-                self::TAB_EXTRA_SETTINGS
-            );
-        } elseif ($this->tab === self::TAB_DELIVERY_GATEWAYS_LIST_SETTINGS) {
-            add_settings_field(
-                PayseraDeliverySettings::DELIVERY_GATEWAYS,
-                __('Delivery Gateways', PayseraPaths::PAYSERA_TRANSLATIONS),
-                [$this, 'buildDeliveryGatewaysList'],
-                PayseraDeliverySettings::SETTINGS_NAME,
-                self::TAB_GENERAL_SETTINGS
-            );
+        switch ($this->tab) {
+            case self::TAB_GENERAL_SETTINGS:
+                add_settings_field(
+                        PayseraDeliverySettings::ENABLED,
+                        __('Enable', PayseraPaths::PAYSERA_TRANSLATIONS),
+                        [$this, 'enableRender'],
+                        PayseraDeliverySettings::SETTINGS_NAME,
+                        self::TAB_GENERAL_SETTINGS
+                );
+                add_settings_field(
+                        PayseraDeliverySettings::PROJECT_ID,
+                        __('Project ID', PayseraPaths::PAYSERA_TRANSLATIONS),
+                        [$this, 'projectIdRender'],
+                        PayseraDeliverySettings::SETTINGS_NAME,
+                        self::TAB_GENERAL_SETTINGS
+                );
+                add_settings_field(
+                        PayseraDeliverySettings::PROJECT_PASSWORD,
+                        __('Project password', PayseraPaths::PAYSERA_TRANSLATIONS),
+                        [$this, 'projectPasswordRender'],
+                        PayseraDeliverySettings::SETTINGS_NAME,
+                        self::TAB_GENERAL_SETTINGS
+                );
+                add_settings_field(
+                        PayseraDeliverySettings::TEST_MODE,
+                        __('Test mode', PayseraPaths::PAYSERA_TRANSLATIONS),
+                        [$this, 'testModeRender'],
+                        PayseraDeliverySettings::SETTINGS_NAME,
+                        self::TAB_GENERAL_SETTINGS
+                );
+                add_settings_field(
+                        PayseraDeliverySettings::HOUSE_NUMBER_FIELD,
+                        __('House number field', PayseraPaths::PAYSERA_TRANSLATIONS),
+                        [$this, 'houseNumberFieldRender'],
+                        PayseraDeliverySettings::SETTINGS_NAME,
+                        self::TAB_GENERAL_SETTINGS
+                );
+
+                add_settings_field(
+                        PayseraDeliverySettings::SINGLE_PER_ORDER_SHIPMENT,
+                        __('One shipment per order', PayseraPaths::PAYSERA_TRANSLATIONS),
+                        [$this, 'singleShipmentPerOrderRender'],
+                        PayseraDeliverySettings::SETTINGS_NAME,
+                        self::TAB_GENERAL_SETTINGS
+                );
+                break;
+
+            case self::TAB_EXTRA_SETTINGS:
+                add_settings_field(
+                        PayseraDeliverySettings::GRID_VIEW,
+                        __('Grid view', PayseraPaths::PAYSERA_TRANSLATIONS),
+                        [$this, 'gridViewRender'],
+                        PayseraDeliverySettings::EXTRA_SETTINGS_NAME,
+                        self::TAB_EXTRA_SETTINGS
+                );
+
+                add_settings_field(
+                        PayseraDeliverySettings::HIDE_SHIPPING_METHODS,
+                        __('Hide shipping methods', PayseraPaths::PAYSERA_TRANSLATIONS),
+                        [$this, 'hideShippingMethodsRender'],
+                        PayseraDeliverySettings::EXTRA_SETTINGS_NAME,
+                        self::TAB_EXTRA_SETTINGS
+                );
+
+                add_settings_field(
+                        PayseraDeliverySettings::LOG_LEVEL,
+                        __('Log Level', PayseraPaths::PAYSERA_TRANSLATIONS),
+                        [$this, 'logLevelOptionsRender'],
+                        PayseraDeliverySettings::EXTRA_SETTINGS_NAME,
+                        self::TAB_EXTRA_SETTINGS
+                );
+                break;
+
+            case self::TAB_DELIVERY_GATEWAYS_LIST_SETTINGS:
+                add_settings_field(
+                        PayseraDeliverySettings::DELIVERY_GATEWAYS,
+                        __('Delivery Gateways', PayseraPaths::PAYSERA_TRANSLATIONS),
+                        [$this, 'buildDeliveryGatewaysList'],
+                        PayseraDeliverySettings::SETTINGS_NAME,
+                        self::TAB_GENERAL_SETTINGS
+                );
+                break;
         }
     }
 
@@ -231,33 +268,22 @@ class PayseraDeliveryAdmin
     {
         $this->ensureDeliverySettingsLoaded();
 
-        if (isset($_REQUEST['settings-updated'])) {
+        $notice = $this->noticeMessenger->get();
+
+        if (isset($_REQUEST['settings-updated']) && ($notice === null || !$notice->isError())) {
             printf($this->adminHtml->getSettingsSavedMessage());
         }
 
-        if (
-            (
-                empty($this->deliverySettings->getProjectId())
-                || empty($this->deliverySettings->getProjectPassword())
-            )
-            && isset($_REQUEST['enabled_massage'])
-            && sanitize_text_field(wp_unslash($_REQUEST['enabled_massage'])) === 'yes'
-        ) {
-            printf($this->adminHtml->getSettingsWarningNotice());
+        if ($notice !== null) {
+            echo $this->noticeRenderer->render($notice);
         }
 
         if (
-            !isset($_REQUEST['settings-updated'])
-            && isset($_REQUEST['invalid-credentials'])
-            && sanitize_text_field(wp_unslash($_REQUEST['invalid-credentials'])) === 'yes'
-        ) {
-            printf($this->adminHtml->getSettingsInvalidCredentialsNotice());
-        }
-
-        if (
-            !isset($_REQUEST['settings-updated'])
-            && isset($_REQUEST[PayseraSelfDiagnosisActions::COMPATIBILITY_CHECK_FAILED_KEY])
-            && sanitize_text_field(wp_unslash($_REQUEST[PayseraSelfDiagnosisActions::COMPATIBILITY_CHECK_FAILED_KEY])) === PayseraSelfDiagnosisActions::VALUE_ENABLED
+                !isset($_REQUEST['settings-updated'])
+                && isset($_REQUEST[PayseraSelfDiagnosisActions::COMPATIBILITY_CHECK_FAILED_KEY])
+                && sanitize_text_field(
+                        wp_unslash($_REQUEST[PayseraSelfDiagnosisActions::COMPATIBILITY_CHECK_FAILED_KEY])
+                ) === PayseraSelfDiagnosisActions::VALUE_ENABLED
         ) {
             printf($this->adminHtml->getSettingsCompatibilityValidationErrorNotice());
         }
@@ -275,28 +301,30 @@ class PayseraDeliveryAdmin
     public function enableRender(): void
     {
         printf(
-            $this->deliveryAdminHtml->enablePayseraDeliveryHtml(
-                $this->deliverySettings->isEnabled()
-            )
+                $this->deliveryAdminHtml->enablePayseraDeliveryHtml(
+                        $this->deliverySettings->isEnabled()
+                )
         );
     }
 
     public function projectIdRender(): void
     {
         printf(
-            $this->adminHtml->getNumberInput(),
-            esc_attr(PayseraDeliverySettings::SETTINGS_NAME . '[' . PayseraDeliverySettings::PROJECT_ID . ']'),
-            esc_attr($this->deliverySettings->getProjectId()),
-            0
+                $this->adminHtml->getNumberInput(),
+                esc_attr(PayseraDeliverySettings::SETTINGS_NAME . '[' . PayseraDeliverySettings::PROJECT_ID . ']'),
+                esc_attr($this->deliverySettings->getProjectId()),
+                0
         );
     }
 
     public function projectPasswordRender(): void
     {
         printf(
-            $this->adminHtml->getTextInput(),
-            esc_attr(PayseraDeliverySettings::SETTINGS_NAME . '[' . PayseraDeliverySettings::PROJECT_PASSWORD . ']'),
-            esc_attr($this->deliverySettings->getProjectPassword())
+                $this->adminHtml->getTextInput(),
+                esc_attr(
+                        PayseraDeliverySettings::SETTINGS_NAME . '[' . PayseraDeliverySettings::PROJECT_PASSWORD . ']'
+                ),
+                esc_attr($this->deliverySettings->getProjectPassword())
         );
     }
 
@@ -317,39 +345,56 @@ class PayseraDeliveryAdmin
     public function houseNumberFieldRender(): void
     {
         printf(
-            $this->adminHtml->getEnableInput(
-                PayseraDeliverySettings::SETTINGS_NAME . '[' . PayseraDeliverySettings::HOUSE_NUMBER_FIELD . ']',
-                $this->deliverySettings
-                    ->isHouseNumberFieldEnabled() ? 'yes' : 'no'
-            )
+                $this->adminHtml->getEnableInput(
+                        PayseraDeliverySettings::SETTINGS_NAME . '[' . PayseraDeliverySettings::HOUSE_NUMBER_FIELD . ']',
+                        $this->deliverySettings
+                                ->isHouseNumberFieldEnabled() ? 'yes' : 'no'
+                )
+        );
+    }
+
+    public function singleShipmentPerOrderRender(): void
+    {
+        printf(
+                $this->adminHtml->getEnableInput(
+                        PayseraDeliverySettings::SETTINGS_NAME . '[' . PayseraDeliverySettings::SINGLE_PER_ORDER_SHIPMENT . ']',
+                        $this->deliverySettings
+                                ->isSinglePerOrderShipmentEnabled() ? 'yes' : 'no'
+                ) .
+                $this->adminHtml->buildLabel(
+                        __(
+                                'When enabled, the system creates a single shipment for the entire order, when disabled, multiple shipments can be created as before.',
+                                PayseraPaths::PAYSERA_TRANSLATIONS
+                        )
+                )
         );
     }
 
     public function gridViewRender(): void
     {
         printf(
-            $this->adminHtml->getEnableInput(
-                PayseraDeliverySettings::EXTRA_SETTINGS_NAME . '[' . PayseraDeliverySettings::GRID_VIEW . ']',
-                $this->deliverySettings->isGridViewEnabled()
-                    ? 'yes' : 'no'
-            )
+                $this->adminHtml->getEnableInput(
+                        PayseraDeliverySettings::EXTRA_SETTINGS_NAME . '[' . PayseraDeliverySettings::GRID_VIEW . ']',
+                        $this->deliverySettings->isGridViewEnabled()
+                                ? 'yes' : 'no'
+                )
         );
     }
 
     public function hideShippingMethodsRender(): void
     {
         printf(
-            $this->adminHtml->getEnableInput(
-                PayseraDeliverySettings::EXTRA_SETTINGS_NAME . '[' . PayseraDeliverySettings::HIDE_SHIPPING_METHODS . ']',
-                $this->deliverySettings->isHideShippingMethodsEnabled()
-                    ? 'yes' : 'no'
-            ) .
-            $this->adminHtml->buildLabel(
-                __(
-                    'Hide shipping methods that are above or under set weight limits',
-                    PayseraPaths::PAYSERA_TRANSLATIONS
+                $this->adminHtml->getEnableInput(
+                        PayseraDeliverySettings::EXTRA_SETTINGS_NAME . '[' . PayseraDeliverySettings::HIDE_SHIPPING_METHODS . ']',
+                        $this->deliverySettings->isHideShippingMethodsEnabled()
+                                ? 'yes' : 'no'
+                ) .
+                $this->adminHtml->buildLabel(
+                        __(
+                                'Hide shipping methods that are above or under set weight limits',
+                                PayseraPaths::PAYSERA_TRANSLATIONS
+                        )
                 )
-            )
         );
     }
 
@@ -358,12 +403,12 @@ class PayseraDeliveryAdmin
         $logHelper = new LogHelper();
 
         printf(
-            $this->adminHtml->getLogLevelHtml(
-                PayseraDeliverySettings::EXTRA_SETTINGS_NAME . '[' . PayseraDeliverySettings::LOG_LEVEL . ']',
-                $this->deliverySettings->getLogLevel(),
-                LogHelper::LOGGER_TYPE_DELIVERY,
-                $logHelper
-            )
+                $this->adminHtml->getLogLevelHtml(
+                        PayseraDeliverySettings::EXTRA_SETTINGS_NAME . '[' . PayseraDeliverySettings::LOG_LEVEL . ']',
+                        $this->deliverySettings->getLogLevel(),
+                        LogHelper::LOGGER_TYPE_DELIVERY,
+                        $logHelper
+                )
         );
     }
 
@@ -373,24 +418,50 @@ class PayseraDeliveryAdmin
         $this->deliveryActions->setDeliveryGatewayTitles($deliveryGateways);
         $this->deliveryActions->reSyncDeliveryGatewayStatus($deliveryGateways);
         $this->deliveryActions->syncShipmentMethodsStatus(
-            $this->deliveryLibraryHelper->getPayseraShipmentMethods()
+                $this->deliveryLibraryHelper->getPayseraShipmentMethods()
         );
 
         if (empty($deliveryGateways) === false) {
             printf(
-                $this->deliveryAdminHtml->buildDeliveryGatewaysHtml(
-                    $deliveryGateways,
-                    get_option(PayseraDeliverySettings::DELIVERY_GATEWAYS_SETTINGS_NAME)
-                )
+                    $this->deliveryAdminHtml->buildDeliveryGatewaysHtml(
+                            $deliveryGateways,
+                            get_option(PayseraDeliverySettings::DELIVERY_GATEWAYS_SETTINGS_NAME)
+                    )
             );
         } else {
             printf(
-                sprintf(
-                    "<strong style='%s'>%s</strong>",
-                    'color: red',
-                    __('Either project id or project password is incorrect', PayseraPaths::PAYSERA_TRANSLATIONS)
-                )
+                    sprintf(
+                            "<strong style='%s'>%s</strong>",
+                            'color: red',
+                            __('Either project id or project password is incorrect', PayseraPaths::PAYSERA_TRANSLATIONS)
+                    )
             );
+        }
+    }
+
+    public function displayShippingHouseField(WC_Order $order): void
+    {
+        foreach ($order->get_meta_data() as $metaData) {
+            if ($metaData->get_data()['key'] === PayseraDeliverySettings::ORDER_META_KEY_SHIPPING_HOUSE_NO) {
+                echo '<div class="address"><p><strong>' . esc_html__(
+                                'House Number',
+                                PayseraPaths::PAYSERA_TRANSLATIONS
+                        ) . ':</strong> '
+                        . esc_html((string) $metaData->get_data()['value']) . '</p></div>';
+            }
+        }
+    }
+
+    public function displayBillingHouseField(WC_Order $order): void
+    {
+        foreach ($order->get_meta_data() as $metaData) {
+            if ($metaData->get_data()['key'] === PayseraDeliverySettings::ORDER_META_KEY_BILLING_HOUSE_NO) {
+                echo '<div class="address"><p><strong>' . esc_html__(
+                                'House Number',
+                                PayseraPaths::PAYSERA_TRANSLATIONS
+                        ) . ':</strong> '
+                        . esc_html((string) $metaData->get_data()['value']) . '</p></div>';
+            }
         }
     }
 
@@ -409,8 +480,8 @@ class PayseraDeliveryAdmin
             <span>
                     <?php
                     esc_html_e(
-                        'Please provide package dimensions if you would like to use the shipping methods provided by Paysera.',
-                        PayseraPaths::PAYSERA_TRANSLATIONS
+                            'Please provide package dimensions if you would like to use the shipping methods provided by Paysera.',
+                            PayseraPaths::PAYSERA_TRANSLATIONS
                     ); ?>
                 </span>
         </p>

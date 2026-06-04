@@ -5,7 +5,7 @@
   Text Domain: paysera
   Domain Path: /languages
   Description: Paysera offers payment and delivery gateway services for your e-shops
-  Version: 3.11.2
+  Version: 3.12.0
   Requires PHP: 7.4
   Author: Paysera
   Author URI: https://www.paysera.com
@@ -47,7 +47,11 @@ use Paysera\Format\PayseraCustomAddressFormat;
 class PayseraWoocommerce
 {
     const PAYSERA_MIN_REQUIRED_PHP_VERSION = '7.4';
-    const PAYSERA_PLUGIN_VERSION = '3.11.2';
+    const PAYSERA_PLUGIN_VERSION = '3.12.0';
+
+    private const NEW_PLUGIN_CONSTANT = 'PAYSERA_ESSENTIALS_PLUGIN_VERSION';
+    private const CONFLICT_SINGLE_MESSAGE = 'Conflict: Multiple Paysera Plugins Detected. Only one version of the Paysera Checkout plugin can be active at a time. Please deactivate the currently enabled version before activating another.';
+    private const CONFLICT_BULK_MESSAGE = 'Multiple versions of Paysera Plugin can not be active simultaneously. Please choose only one of them';
     public static bool $isInitialized = false;
     private PayseraDeliveryActions $payseraDeliveryActions;
     private ContainerInterface $container;
@@ -83,6 +87,11 @@ class PayseraWoocommerce
             return;
         }
 
+        if ($this->isNewPluginActive()) {
+            $this->handlePluginConflict();
+            return;
+        }
+
         if (
             !$this->isPhpSupported()
             || !$this->hasWoocommerce()
@@ -104,6 +113,21 @@ class PayseraWoocommerce
 
             if (isset($_GET['activate'])) {
                 unset($_GET['activate']);
+            }
+
+            if (isset($_GET['activate-multi'])) {
+                unset($_GET['activate-multi']);
+            }
+
+            $message = get_transient('paysera_plugins_deactivation_message');
+
+            if ($message !== false) {
+                add_action('admin_notices', function () use ($message) {
+                    echo '<div class="error"><p>';
+                    echo esc_html($message);
+                    echo '</p></div>';
+                });
+                delete_transient('paysera_plugins_deactivation_message');
             }
 
             delete_transient('paysera_plugins_needs_deactivation');
@@ -182,6 +206,39 @@ class PayseraWoocommerce
         return class_exists('WooCommerce');
     }
 
+    private function isNewPluginActive(): bool
+    {
+        return defined(self::NEW_PLUGIN_CONSTANT);
+    }
+
+    private function handlePluginConflict(): void
+    {
+        if (defined('WP_CLI') && WP_CLI) {
+            \WP_CLI::error(self::CONFLICT_SINGLE_MESSAGE);
+        }
+
+        if ($this->isBulkActivation()) {
+            $this->deactivateNewPlugin();
+            set_transient('paysera_plugins_deactivation_message', self::CONFLICT_BULK_MESSAGE, 30);
+        } else {
+            set_transient('paysera_plugins_deactivation_message', self::CONFLICT_SINGLE_MESSAGE, 30);
+        }
+
+        set_transient('paysera_plugins_needs_deactivation', true, 5);
+    }
+
+    private function isBulkActivation(): bool
+    {
+        return isset($_POST['action']) && $_POST['action'] === 'activate-selected';
+    }
+
+    private function deactivateNewPlugin(): void
+    {
+        if (defined('PAYSERA_ESSENTIALS_PLUGIN_BASENAME')) {
+            deactivate_plugins(PAYSERA_ESSENTIALS_PLUGIN_BASENAME, true);
+        }
+    }
+
     public function isWoocommerceInstalled(): bool
     {
         return in_array(
@@ -225,6 +282,9 @@ class PayseraWoocommerce
         }
         if (!defined('PayseraPluginPath')) {
             define('PayseraPluginPath', untrailingslashit(plugin_dir_path(__FILE__)));
+        }
+        if (!defined('PAYSERA_PLUGIN_BASENAME')) {
+            define('PAYSERA_PLUGIN_BASENAME', plugin_basename(__FILE__));
         }
     }
 

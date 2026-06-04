@@ -25,6 +25,27 @@ services:
   Paysera\Factory\DeliveryTerminalLocationFactory:
     class: Paysera\Factory\DeliveryTerminalLocationFactory
 
+  Paysera\Factory\TransientNoticeFactory:
+    class: Paysera\Factory\TransientNoticeFactory
+
+  Paysera\Service\TransientNoticeMessenger:
+    class: Paysera\Service\TransientNoticeMessenger
+
+  Paysera\Service\TransientNoticeRenderer:
+    class: Paysera\Service\TransientNoticeRenderer
+
+  Paysera\Service\WordPressRedirector:
+    class: Paysera\Service\WordPressRedirector
+
+  Paysera\Service\RedirectorInterface:
+    alias: Paysera\Service\WordPressRedirector
+
+  Paysera\Provider\DeliveryNoticeMessageProvider:
+    class: Paysera\Provider\DeliveryNoticeMessageProvider
+
+  Paysera\Handler\DeliveryCredentialErrorHandler:
+    class: Paysera\Handler\DeliveryCredentialErrorHandler
+
   Paysera\EventHandler\DeliveryOrderUpdatedHandler:
     class: Paysera\EventHandler\DeliveryOrderUpdatedHandler
 

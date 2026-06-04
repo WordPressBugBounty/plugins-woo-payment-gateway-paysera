@@ -12,10 +12,6 @@ return [
     'event.wc_order.created' => PayseraDeliverySettings::WC_ORDER_EVENT_CREATED,
     'event.wc_order.paid' => PayseraDeliverySettings::WC_ORDER_EVENT_PAYMENT_COMPLETED,
     'self-diagnosis.php_openssl_compatibility' => [
-        '7.0' => ['gte' => '0.9.8', 'lt' => '1.2'],
-        '7.1' => ['gte' => '1.0.1', 'lt' => '3.0'],
-        '7.2' => ['gte' => '1.0.1', 'lt' => '3.0'],
-        '7.3' => ['gte' => '1.0.1', 'lt' => '3.0'],
         '7.4' => ['gte' => '1.0.1', 'lt' => '3.0'],
         '8.0' => ['gte' => '1.0.1', 'lt' => '3.0'],
         '8.1' => ['gte' => '1.0.2', 'lt' => '4.0'],

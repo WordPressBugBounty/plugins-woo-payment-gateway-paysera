@@ -72,11 +72,6 @@ div.paysera-payments.grid div.paysera-image {
     color: #2271b1;
 }
 
-label[for="payment_method_paysera"] {
-    display: flex;
-    align-items: center;
-}
-
 label[for="payment_method_paysera"] img {
     margin-left: 5px;
     max-width: 4rem;

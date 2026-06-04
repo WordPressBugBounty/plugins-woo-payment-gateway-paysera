@@ -474,7 +474,7 @@ abstract class Paysera_Delivery_Gateway extends WC_Shipping_Method implements Pa
 
         if ($fee > 0) {
             $extraDescription .= $this->prepareExtraDescriptionText(
-                __('Delivery Fee:', PayseraPaths::PAYSERA_TRANSLATIONS),
+                __('Delivery Fee', PayseraPaths::PAYSERA_TRANSLATIONS) . ':',
                 sprintf(
                     '%0.2f%s',
                     $fee,
@@ -484,7 +484,7 @@ abstract class Paysera_Delivery_Gateway extends WC_Shipping_Method implements Pa
         }
 
         $extraDescription .= $this->prepareExtraDescriptionText(
-            __('Preferred pickup type:', PayseraPaths::PAYSERA_TRANSLATIONS),
+            __('Preferred pickup type', PayseraPaths::PAYSERA_TRANSLATIONS) . ':',
             sprintf(
                 '%s',
                 __(PayseraDeliverySettings::READABLE_TYPES[$preferredPickupType], PayseraPaths::PAYSERA_TRANSLATIONS)

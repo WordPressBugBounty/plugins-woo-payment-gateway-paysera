@@ -11,9 +11,6 @@ use WC_Order;
 use WC_Order_Refund;
 use WP_Error;
 
-/**
- * TODO: Make HPOS compatible
- */
 class RefundRepository
 {
     private const REFUND_ID_HASH_META_KEY = '_paysera_refund_id_hash';
@@ -61,21 +58,16 @@ class RefundRepository
         WC_Order $order,
         Refund $refundData
     ): bool {
+        $targetHash = $this->createHashKeyForRefund($refundData);
+        $refunds = $order->get_refunds();
 
-        $args = [
-            'type' => 'shop_order_refund',
-            'parent' => $order->get_id(),
-            'limit' => -1,
-            'status' => 'any',
-            'meta_query' => [
-                [
-                    'key' => self::REFUND_ID_HASH_META_KEY,
-                    'value' => $this->createHashKeyForRefund($refundData),
-                ]
-            ],
-        ];
-        $refunds = wc_get_orders($args);
+        foreach ($refunds as $refund) {
+            $hash = $refund->get_meta(self::REFUND_ID_HASH_META_KEY);
+            if ($hash === $targetHash) {
+                return true;
+            }
+        }
 
-        return !empty($refunds);
+        return false;
     }
 }

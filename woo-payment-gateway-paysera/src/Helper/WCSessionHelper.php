@@ -26,4 +26,15 @@ class WCSessionHelper implements SessionHelperInterface
     {
         return isset(WC()->session);
     }
+
+    public function getChosenShippingMethods(): array
+    {
+        if (!$this->isSessionAvailable()) {
+            return [];
+        }
+
+        $chosen = WC()->session->get('chosen_shipping_methods', []);
+
+        return is_array($chosen) ? $chosen : [];
+    }
 }

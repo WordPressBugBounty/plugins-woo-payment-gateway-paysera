@@ -11,4 +11,6 @@ interface SessionHelperInterface
     public function getData($key, $default = '');
 
     public function isSessionAvailable(): bool;
+
+    public function getChosenShippingMethods(): array;
 }

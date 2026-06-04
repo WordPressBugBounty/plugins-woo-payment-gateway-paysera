@@ -316,7 +316,15 @@ class PayseraDeliveryFrontHtml
             PayseraHTMLHelper::registerJS(
                 'paysera-cart-shipping-validation',
                 PayseraPaths::PAYSERA_DELIVERY_CART_VALIDATION_JS,
-                array_merge($scriptAsset['dependencies'], ['wp-components']),
+                array_merge($scriptAsset['dependencies'], [
+                    'wp-components',
+                    'wp-plugins',
+                    'wp-element',
+                    'wp-i18n',
+                    'wp-data',
+                    'react',
+                    'wc-blocks-data-store',
+                ]),
                 ['in_footer' => true]
             );
 
@@ -385,7 +393,7 @@ class PayseraDeliveryFrontHtml
         string $selectionName,
         string $defaultOption
     ): string {
-        return '<div class="' . $className . ' paysera-delivery-terminal">' . '<span>'
+        return '<div class="' . $className . ' paysera-delivery-terminal" style="display:none;">' . '<span>'
             . __($label, PayseraPaths::PAYSERA_TRANSLATIONS) . ' <span class="paysera-delivery-required">*</span></span>'
             . '<select class="' . $className . '-selection" name="' . $selectionName . '">' . '<option value="default">'
             . __($defaultOption, PayseraPaths::PAYSERA_TRANSLATIONS) . '</option>' . '</select></div>';

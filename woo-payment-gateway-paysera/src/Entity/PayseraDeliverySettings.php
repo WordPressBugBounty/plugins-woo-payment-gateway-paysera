@@ -21,6 +21,7 @@ class PayseraDeliverySettings implements PayseraDeliverySettingsInterface
     public const PROJECT_PASSWORD = 'project_password';
     public const TEST_MODE = 'test_mode';
     public const HOUSE_NUMBER_FIELD = 'house_number_field';
+    public const SINGLE_PER_ORDER_SHIPMENT = 'single_per_order_shipment';
     public const GRID_VIEW = 'grid_view';
     public const HIDE_SHIPPING_METHODS = 'hide_shipping_methods';
     public const LOG_LEVEL = 'log_level';
@@ -108,6 +109,10 @@ class PayseraDeliverySettings implements PayseraDeliverySettingsInterface
     private array $shipmentMethods;
     private string $userAgent;
     private ?bool $singlePerOrderShipmentEnabled;
+    private int $defaultParcelWidth;
+    private int $defaultParcelHeight;
+    private int $defaultParcelLength;
+    private int $defaultParcelWeight;
 
     public function __construct()
     {
@@ -125,6 +130,10 @@ class PayseraDeliverySettings implements PayseraDeliverySettingsInterface
         $this->shipmentMethods = [];
         $this->userAgent = '';
         $this->singlePerOrderShipmentEnabled = false;
+        $this->defaultParcelWidth = 0;
+        $this->defaultParcelHeight = 0;
+        $this->defaultParcelLength = 0;
+        $this->defaultParcelWeight = 0;
     }
 
     public function isEnabled(): bool
@@ -271,14 +280,10 @@ class PayseraDeliverySettings implements PayseraDeliverySettingsInterface
         return $this;
     }
 
-    public function getUserAgent(): string
+    public function setSinglePerOrderShipmentEnabled(bool $singlePerOrderShipmentEnabled): self
     {
-        return $this->userAgent;
-    }
+        $this->singlePerOrderShipmentEnabled = $singlePerOrderShipmentEnabled;
 
-    public function setUserAgent(string $userAgent): self
-    {
-        $this->userAgent = $userAgent;
         return $this;
     }
 
@@ -287,9 +292,62 @@ class PayseraDeliverySettings implements PayseraDeliverySettingsInterface
         return $this->singlePerOrderShipmentEnabled;
     }
 
-    public function setSinglePerOrderShipmentEnabled(bool $singlePerOrderShipmentEnabled): self
+    public function getDefaultParcelWidth(): int
     {
-        $this->singlePerOrderShipmentEnabled = $singlePerOrderShipmentEnabled;
+        return $this->defaultParcelWidth;
+    }
+
+    public function setDefaultParcelWidth(int $defaultParcelWidth): self
+    {
+        $this->defaultParcelWidth = $defaultParcelWidth;
+
+        return $this;
+    }
+
+    public function getDefaultParcelHeight(): int
+    {
+        return $this->defaultParcelHeight;
+    }
+
+    public function setDefaultParcelHeight(int $defaultParcelHeight): self
+    {
+        $this->defaultParcelHeight = $defaultParcelHeight;
+
+        return $this;
+    }
+
+    public function getDefaultParcelLength(): int
+    {
+        return $this->defaultParcelLength;
+    }
+
+    public function setDefaultParcelLength(int $defaultParcelLength): self
+    {
+        $this->defaultParcelLength = $defaultParcelLength;
+
+        return $this;
+    }
+
+    public function getDefaultParcelWeight(): int
+    {
+        return $this->defaultParcelWeight;
+    }
+
+    public function setDefaultParcelWeight(int $defaultParcelWeight): self
+    {
+        $this->defaultParcelWeight = $defaultParcelWeight;
+
+        return $this;
+    }
+
+    public function getUserAgent(): string
+    {
+        return $this->userAgent;
+    }
+
+    public function setUserAgent(string $userAgent): self
+    {
+        $this->userAgent = $userAgent;
         return $this;
     }
 }

@@ -34,6 +34,10 @@ class PayseraAdmin
 
     public function payseraAdminMenu(): void
     {
+        if (!is_plugin_active(PAYSERA_PLUGIN_BASENAME) || get_transient('paysera_plugins_needs_deactivation')) {
+            return;
+        }
+
         if (class_exists('woocommerce') === true) {
             add_menu_page(
                 'Paysera',

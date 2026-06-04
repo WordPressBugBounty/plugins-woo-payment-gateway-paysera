@@ -189,7 +189,7 @@ class PayseraAdminHtml
                     PayseraPaths::PAYSERA_TRANSLATIONS
                 ),
                 '<a href="' . __('https://support.paysera.com/index.php?/payseraeng/Knowledgebase/Article/View/1815/135/1005-project-id-and-signature', PayseraPaths::PAYSERA_TRANSLATIONS) . '" target="_blank">'
-                . __('more', PayseraPaths::PAYSERA_TRANSLATIONS) . '</a>'
+                . __('Learn more.', PayseraPaths::PAYSERA_TRANSLATIONS) . '</a>'
             )
             . '</p></div>'
         ;

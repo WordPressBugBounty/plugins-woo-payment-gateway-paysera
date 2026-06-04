@@ -98,8 +98,7 @@ class PayseraDeliverySettingsProvider
                 $deliveryGatewaysSettings[PayseraDeliverySettings::DELIVERY_GATEWAYS]
             );
         }
-
-        if (isset($deliveryGatewaysSettings[PayseraDeliverySettings::DELIVERY_GATEWAYS])) {
+        if (isset($deliveryGatewaysTitles[PayseraDeliverySettings::DELIVERY_GATEWAYS])) {
             $payseraDeliverySettings->setDeliveryGatewayTitles(
                 $deliveryGatewaysTitles[PayseraDeliverySettings::DELIVERY_GATEWAYS]
             );
@@ -116,6 +115,17 @@ class PayseraDeliverySettingsProvider
                 $extraSettings[PayseraDeliverySettings::LOG_LEVEL]
             );
         }
+
+        $payseraDeliverySettings->setSinglePerOrderShipmentEnabled(
+            ($settings[PayseraDeliverySettings::SINGLE_PER_ORDER_SHIPMENT] ?? 'no') === 'yes'
+        );
+
+        $payseraDeliverySettings
+            ->setDefaultParcelWidth(0)
+            ->setDefaultParcelHeight(0)
+            ->setDefaultParcelLength(0)
+            ->setDefaultParcelWeight(0)
+        ;
 
         return $payseraDeliverySettings;
     }

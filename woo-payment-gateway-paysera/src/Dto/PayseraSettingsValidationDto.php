@@ -11,25 +11,27 @@ class PayseraSettingsValidationDto implements PayseraDeliverySettingsInterface
     private ?int $projectId;
     private ?string $projectPassword;
     private ?string $resolvedProjectId;
-    private ?bool $testMode;
+    private ?bool $isTestModeEnabled;
+    private bool $isSinglePerOrderShipmentEnabled;
     private ?bool $enableNumberField;
-    private string $userAgent;
+    private ?string $userAgent;
 
     public function __construct(
         ?string $projectId = null,
         ?string $projectPassword = null,
         string $userAgent = '',
         ?string $resolvedProjectId = null,
-        ?bool $testMode = null,
-        ?bool $enableNumberField = null
-    )
-    {
+        ?bool $isTestModeEnabled = null,
+        ?bool $enableNumberField = null,
+        bool $isSinglePerOrderShipmentEnabled = false
+    ) {
         $this->projectId = $projectId !== null ? (int)$projectId : null;
         $this->userAgent = $userAgent;
         $this->resolvedProjectId = $resolvedProjectId;
         $this->projectPassword = $projectPassword;
-        $this->testMode = $testMode;
-        $this->enableNumberField = $enableNumberField ?? false;
+        $this->isTestModeEnabled = $isTestModeEnabled;
+        $this->enableNumberField = $enableNumberField;
+        $this->isSinglePerOrderShipmentEnabled = $isSinglePerOrderShipmentEnabled;
     }
 
     public function getProjectId(): ?int
@@ -49,7 +51,7 @@ class PayseraSettingsValidationDto implements PayseraDeliverySettingsInterface
 
     public function isTestModeEnabled(): ?bool
     {
-        return $this->testMode;
+        return $this->isTestModeEnabled;
     }
 
     public function isHouseNumberFieldEnabled(): ?bool
@@ -64,6 +66,26 @@ class PayseraSettingsValidationDto implements PayseraDeliverySettingsInterface
 
     public function isSinglePerOrderShipmentEnabled(): bool
     {
-        return false;
+        return $this->isSinglePerOrderShipmentEnabled;
+    }
+
+    public function getDefaultParcelWidth(): int
+    {
+        return 0;
+    }
+
+    public function getDefaultParcelHeight(): int
+    {
+        return 0;
+    }
+
+    public function getDefaultParcelLength(): int
+    {
+        return 0;
+    }
+
+    public function getDefaultParcelWeight(): int
+    {
+        return 0;
     }
 }
