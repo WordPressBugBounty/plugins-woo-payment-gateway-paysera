@@ -1,11 +1,11 @@
 === Paysera Payment Gateway for WooCommerce ===
-Version: 3.12.0
-Date: 2028-06-03
+Version: 3.12.1
+Date: 2026-07-28
 Contributors: Paysera
 Tags: online payment, payment, payment gateway, international payments, shipping
 Requires at least: 4.0
 Tested up to: 6.9
-Stable tag: 3.12.0
+Stable tag: 3.12.1
 Requires PHP: 7.4
 Requires PHP Extension: BCMath, Zip
 Minimum requirements: WooCommerce 5.0
@@ -130,6 +130,10 @@ Follow video tutorial or instructions below.
 9. Delivery Gateways Selection
 
 == Changelog ==
+
+= 3.12.1 =
+* Fix — Resolved a fatal error on the checkout page that could occur when the list of payment methods could not be retrieved; the checkout now continues to work and the issue is logged instead.
+* Fix — Resolved an issue on the block-based checkout where the parcel terminal selection message kept blocking order submission after the shipping method was switched to local pickup.
 
 = 3.12.0 =
 * Fix — Resolved missing translations in delivery terminal selection messages when the site language is switched to a supported locale.
@@ -555,6 +559,10 @@ Follow video tutorial or instructions below.
 * Fix - Admin textfield fix
 
 == Upgrade Notice ==
+
+= 3.12.1 =
+* Fix — Resolved a fatal error on the checkout page that could occur when the list of payment methods could not be retrieved; the checkout now continues to work and the issue is logged instead.
+* Fix — Resolved an issue on the block-based checkout where the parcel terminal selection message kept blocking order submission after the shipping method was switched to local pickup.
 
 = 3.12.0 =
 * Fix — Resolved missing translations in delivery terminal selection messages when the site language is switched to a supported locale.

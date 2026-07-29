@@ -430,9 +430,9 @@
             'dev_requirement' => false,
         ),
         'webtopay/libwebtopay' => array(
-            'pretty_version' => '3.1.5',
-            'version' => '3.1.5.0',
-            'reference' => '2e70d938097cee5ef817362416865b0e80a77ce0',
+            'pretty_version' => '3.1.6',
+            'version' => '3.1.6.0',
+            'reference' => '6e3a34743dffbb2bb717acd6da24aee524d71915',
             'type' => 'library',
             'install_path' => __DIR__ . '/../webtopay/libwebtopay',
             'aliases' => array(),

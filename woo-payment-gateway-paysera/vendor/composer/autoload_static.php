@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit7982885443a38c8a8ca5fceff3be2e3d
+class ComposerStaticInite1010999a285b02070f1ba4dcb6c3476
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -1352,30 +1352,30 @@ class ComposerStaticInit7982885443a38c8a8ca5fceff3be2e3d
         'Paysera\\Scoped\\Symfony\\Contracts\\Translation\\TranslatableInterface' => __DIR__ . '/../..' . '/vendor-scoped/symfony/translation-contracts/TranslatableInterface.php',
         'Paysera\\Scoped\\Symfony\\Contracts\\Translation\\TranslatorInterface' => __DIR__ . '/../..' . '/vendor-scoped/symfony/translation-contracts/TranslatorInterface.php',
         'Paysera\\Scoped\\Symfony\\Contracts\\Translation\\TranslatorTrait' => __DIR__ . '/../..' . '/vendor-scoped/symfony/translation-contracts/TranslatorTrait.php',
-        'Paysera\\Scoped\\WebToPay' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/src/WebToPay.php',
-        'Paysera\\Scoped\\WebToPayException' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/src/WebToPayException.php',
-        'Paysera\\Scoped\\WebToPay_CallbackValidator' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/src/WebToPay/CallbackValidator.php',
-        'Paysera\\Scoped\\WebToPay_Config' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/src/WebToPay/Config/Config.php',
-        'Paysera\\Scoped\\WebToPay_EnvReader' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/src/WebToPay/Config/Provider/EnvReader.php',
-        'Paysera\\Scoped\\WebToPay_Exception_Callback' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/src/WebToPay/Exception/Callback.php',
-        'Paysera\\Scoped\\WebToPay_Exception_Configuration' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/src/WebToPay/Exception/Configuration.php',
-        'Paysera\\Scoped\\WebToPay_Exception_Validation' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/src/WebToPay/Exception/Validation.php',
-        'Paysera\\Scoped\\WebToPay_Factory' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/src/WebToPay/Factory.php',
-        'Paysera\\Scoped\\WebToPay_Functions' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/src/WebToPay/Functions.php',
-        'Paysera\\Scoped\\WebToPay_PaymentMethod' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/src/WebToPay/PaymentMethod.php',
-        'Paysera\\Scoped\\WebToPay_PaymentMethodCountry' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/src/WebToPay/PaymentMethodCountry.php',
-        'Paysera\\Scoped\\WebToPay_PaymentMethodGroup' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/src/WebToPay/PaymentMethodGroup.php',
-        'Paysera\\Scoped\\WebToPay_PaymentMethodList' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/src/WebToPay/PaymentMethodList.php',
-        'Paysera\\Scoped\\WebToPay_PaymentMethodListProvider' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/src/WebToPay/PaymentMethodListProvider.php',
-        'Paysera\\Scoped\\WebToPay_RequestBuilder' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/src/WebToPay/RequestBuilder.php',
-        'Paysera\\Scoped\\WebToPay_Routes' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/src/WebToPay/Config/Routes.php',
-        'Paysera\\Scoped\\WebToPay_Sign_SS1SignChecker' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/src/WebToPay/Sign/SS1SignChecker.php',
-        'Paysera\\Scoped\\WebToPay_Sign_SSOpenSslSignChecker' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/src/WebToPay/Sign/SSOpenSslSignChecker.php',
-        'Paysera\\Scoped\\WebToPay_Sign_SignCheckerInterface' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/src/WebToPay/Sign/SignCheckerInterface.php',
-        'Paysera\\Scoped\\WebToPay_SmsAnswerSender' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/src/WebToPay/SmsAnswerSender.php',
-        'Paysera\\Scoped\\WebToPay_UrlBuilder' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/src/WebToPay/UrlBuilder.php',
-        'Paysera\\Scoped\\WebToPay_Util' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/src/WebToPay/Util.php',
-        'Paysera\\Scoped\\WebToPay_WebClient' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/src/WebToPay/WebClient.php',
+        'Paysera\\Scoped\\WebToPay' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/WebToPay.php',
+        'Paysera\\Scoped\\WebToPayException' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/WebToPay.php',
+        'Paysera\\Scoped\\WebToPay_CallbackValidator' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/WebToPay.php',
+        'Paysera\\Scoped\\WebToPay_Config' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/WebToPay.php',
+        'Paysera\\Scoped\\WebToPay_EnvReader' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/WebToPay.php',
+        'Paysera\\Scoped\\WebToPay_Exception_Callback' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/WebToPay.php',
+        'Paysera\\Scoped\\WebToPay_Exception_Configuration' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/WebToPay.php',
+        'Paysera\\Scoped\\WebToPay_Exception_Validation' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/WebToPay.php',
+        'Paysera\\Scoped\\WebToPay_Factory' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/WebToPay.php',
+        'Paysera\\Scoped\\WebToPay_Functions' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/WebToPay.php',
+        'Paysera\\Scoped\\WebToPay_PaymentMethod' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/WebToPay.php',
+        'Paysera\\Scoped\\WebToPay_PaymentMethodCountry' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/WebToPay.php',
+        'Paysera\\Scoped\\WebToPay_PaymentMethodGroup' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/WebToPay.php',
+        'Paysera\\Scoped\\WebToPay_PaymentMethodList' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/WebToPay.php',
+        'Paysera\\Scoped\\WebToPay_PaymentMethodListProvider' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/WebToPay.php',
+        'Paysera\\Scoped\\WebToPay_RequestBuilder' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/WebToPay.php',
+        'Paysera\\Scoped\\WebToPay_Routes' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/WebToPay.php',
+        'Paysera\\Scoped\\WebToPay_Sign_SS1SignChecker' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/WebToPay.php',
+        'Paysera\\Scoped\\WebToPay_Sign_SSOpenSslSignChecker' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/WebToPay.php',
+        'Paysera\\Scoped\\WebToPay_Sign_SignCheckerInterface' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/WebToPay.php',
+        'Paysera\\Scoped\\WebToPay_SmsAnswerSender' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/WebToPay.php',
+        'Paysera\\Scoped\\WebToPay_UrlBuilder' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/WebToPay.php',
+        'Paysera\\Scoped\\WebToPay_Util' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/WebToPay.php',
+        'Paysera\\Scoped\\WebToPay_WebClient' => __DIR__ . '/../..' . '/vendor-scoped/webtopay/libwebtopay/WebToPay.php',
         'Paysera\\Service\\AdminNotice' => __DIR__ . '/../..' . '/src/Service/AdminNotice.php',
         'Paysera\\Service\\CompatibilityManager' => __DIR__ . '/../..' . '/src/Service/CompatibilityManager.php',
         'Paysera\\Service\\DeliveryLogger' => __DIR__ . '/../..' . '/src/Service/DeliveryLogger.php',
@@ -1619,10 +1619,10 @@ class ComposerStaticInit7982885443a38c8a8ca5fceff3be2e3d
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit7982885443a38c8a8ca5fceff3be2e3d::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit7982885443a38c8a8ca5fceff3be2e3d::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit7982885443a38c8a8ca5fceff3be2e3d::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit7982885443a38c8a8ca5fceff3be2e3d::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInite1010999a285b02070f1ba4dcb6c3476::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInite1010999a285b02070f1ba4dcb6c3476::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInite1010999a285b02070f1ba4dcb6c3476::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInite1010999a285b02070f1ba4dcb6c3476::$classMap;
 
         }, null, ClassLoader::class);
     }

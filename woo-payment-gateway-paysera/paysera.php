@@ -5,7 +5,7 @@
   Text Domain: paysera
   Domain Path: /languages
   Description: Paysera offers payment and delivery gateway services for your e-shops
-  Version: 3.12.0
+  Version: 3.12.1
   Requires PHP: 7.4
   Author: Paysera
   Author URI: https://www.paysera.com
@@ -47,7 +47,7 @@ use Paysera\Format\PayseraCustomAddressFormat;
 class PayseraWoocommerce
 {
     const PAYSERA_MIN_REQUIRED_PHP_VERSION = '7.4';
-    const PAYSERA_PLUGIN_VERSION = '3.12.0';
+    const PAYSERA_PLUGIN_VERSION = '3.12.1';
 
     private const NEW_PLUGIN_CONSTANT = 'PAYSERA_ESSENTIALS_PLUGIN_VERSION';
     private const CONFLICT_SINGLE_MESSAGE = 'Conflict: Multiple Paysera Plugins Detected. Only one version of the Paysera Checkout plugin can be active at a time. Please deactivate the currently enabled version before activating another.';

@@ -6,12 +6,10 @@ namespace Paysera\Helper;
 
 defined('ABSPATH') || exit;
 
-use Exception;
+use Paysera\Scoped\Paysera\CheckoutSdk\CheckoutFacade;
 use Paysera\Scoped\Paysera\CheckoutSdk\CheckoutFacadeFactory;
 use Paysera\Scoped\Paysera\CheckoutSdk\Entity\Collection\PaymentMethodCountryCollection;
 use Paysera\Scoped\Paysera\CheckoutSdk\Entity\Request\PaymentMethodsRequest;
-use Paysera\Scoped\Psr\Container\ContainerExceptionInterface;
-use Paysera\Scoped\Psr\Container\NotFoundExceptionInterface;
 use Paysera\Service\PaymentLoggerInterface;
 
 class PayseraPaymentLibraryHelper
@@ -26,7 +24,7 @@ class PayseraPaymentLibraryHelper
     public function getPaymentMethodList(int $projectId, float $amount, string $currency): ?PaymentMethodCountryCollection
     {
         try {
-            $checkoutFacade = (new CheckoutFacadeFactory())->create();
+            $checkoutFacade = $this->createCheckoutFacade();
             $request = new PaymentMethodsRequest(
                 $projectId,
                 (int) number_format($amount, 2, '', ''),
@@ -34,12 +32,17 @@ class PayseraPaymentLibraryHelper
             );
 
             $collection = $checkoutFacade->getPaymentMethods($request);
-        } catch (NotFoundExceptionInterface|ContainerExceptionInterface|Exception $exception) {
+        } catch (\Throwable $exception) {
             $this->logger->error('Error while getting payment method list', $exception);
 
             return null;
         }
 
         return $collection;
+    }
+
+    protected function createCheckoutFacade(): CheckoutFacade
+    {
+        return (new CheckoutFacadeFactory())->create();
     }
 }
