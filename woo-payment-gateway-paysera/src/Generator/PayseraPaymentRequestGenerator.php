@@ -8,6 +8,7 @@ defined('ABSPATH') || exit;
 
 use Evp\Component\Money\Money;
 use Paysera\Entity\PayseraPaymentSettings;
+use Paysera\Helper\UrlHelper;
 use Paysera\Scoped\Paysera\CheckoutSdk\CheckoutFacadeFactory;
 use Paysera\Scoped\Paysera\CheckoutSdk\Entity\Order;
 use Paysera\Scoped\Paysera\CheckoutSdk\Entity\Request\PaymentRedirectRequest;
@@ -59,9 +60,9 @@ class PayseraPaymentRequestGenerator
         $redirectRequest = new PaymentRedirectRequest(
             $this->limitIntLength($this->payseraPaymentSettings->getProjectId(), 11),
             $this->limitStringLength($this->payseraPaymentSettings->getProjectPassword()),
-            $this->limitStringLength($acceptUrl),
-            $this->limitStringLength(htmlspecialchars_decode($wcOrder->get_cancel_order_url())),
-            $this->limitStringLength(trailingslashit(get_home_url()) . '?wc-api=wc_gateway_paysera'),
+            $this->limitStringLength(UrlHelper::toAbsolute($acceptUrl)),
+            $this->limitStringLength(UrlHelper::toAbsolute(htmlspecialchars_decode($wcOrder->get_cancel_order_url()))),
+            $this->limitStringLength(UrlHelper::buildWcApiUrl('wc_gateway_paysera')),
             $order
         );
         $redirectRequest->setCountry($this->limitStringLength($wcOrder->get_billing_country(), 2))

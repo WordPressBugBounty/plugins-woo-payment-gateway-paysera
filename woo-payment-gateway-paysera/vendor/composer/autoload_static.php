@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInite1010999a285b02070f1ba4dcb6c3476
+class ComposerStaticInit4310f74fab5d556045ce0e18f3383a5a
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -578,6 +578,7 @@ class ComposerStaticInite1010999a285b02070f1ba4dcb6c3476
         'Paysera\\Helper\\SecurityHelper' => __DIR__ . '/../..' . '/src/Helper/SecurityHelper.php',
         'Paysera\\Helper\\SessionHelperInterface' => __DIR__ . '/../..' . '/src/Helper/SessionHelperInterface.php',
         'Paysera\\Helper\\TerminalsHelper' => __DIR__ . '/../..' . '/src/Helper/TerminalsHelper.php',
+        'Paysera\\Helper\\UrlHelper' => __DIR__ . '/../..' . '/src/Helper/UrlHelper.php',
         'Paysera\\Helper\\WCSessionHelper' => __DIR__ . '/../..' . '/src/Helper/WCSessionHelper.php',
         'Paysera\\PayseraInit' => __DIR__ . '/../..' . '/src/PayseraInit.php',
         'Paysera\\Provider\\ContainerProvider' => __DIR__ . '/../..' . '/src/Provider/ContainerProvider.php',
@@ -1468,6 +1469,7 @@ class ComposerStaticInite1010999a285b02070f1ba4dcb6c3476
         'Paysera\\Tests\\Helper\\PostDataHelperTest' => __DIR__ . '/../..' . '/tests/phpunit/Helper/PostDataHelperTest.php',
         'Paysera\\Tests\\Helper\\SecurityHelperTest' => __DIR__ . '/../..' . '/tests/phpunit/Helper/SecurityHelperTest.php',
         'Paysera\\Tests\\Helper\\TerminalsHelperTest' => __DIR__ . '/../..' . '/tests/phpunit/Helper/TerminalsHelperTest.php',
+        'Paysera\\Tests\\Helper\\UrlHelperTest' => __DIR__ . '/../..' . '/tests/phpunit/Helper/UrlHelperTest.php',
         'Paysera\\Tests\\Init\\PayseraInitTest' => __DIR__ . '/../..' . '/tests/phpunit/Init/PayseraInitTest.php',
         'Paysera\\Tests\\Init\\PayseraWoocommerceTest' => __DIR__ . '/../..' . '/tests/phpunit/Init/PayseraWoocommerceTest.php',
         'Paysera\\Tests\\Provider\\DeliveryNoticeMessageProviderTest' => __DIR__ . '/../..' . '/tests/phpunit/Provider/DeliveryNoticeMessageProviderTest.php',
@@ -1619,10 +1621,10 @@ class ComposerStaticInite1010999a285b02070f1ba4dcb6c3476
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInite1010999a285b02070f1ba4dcb6c3476::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInite1010999a285b02070f1ba4dcb6c3476::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInite1010999a285b02070f1ba4dcb6c3476::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInite1010999a285b02070f1ba4dcb6c3476::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit4310f74fab5d556045ce0e18f3383a5a::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit4310f74fab5d556045ce0e18f3383a5a::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit4310f74fab5d556045ce0e18f3383a5a::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit4310f74fab5d556045ce0e18f3383a5a::$classMap;
 
         }, null, ClassLoader::class);
     }

@@ -1,9 +1,9 @@
 Paysera Payment Gateway for WooCommerce
 =======================
 
-Version: 3.12.1
+Version: 3.12.2
 
-Date: 2026-07-28
+Date: 2026-08-17
 
 Contributors: Paysera
 
@@ -11,9 +11,9 @@ Tags: online payment, payment, payment gateway, international payments, shipping
 
 Requires at least: 4.0
 
-Tested up to: 6.9
+Tested up to: 7.1
 
-Stable tag: 3.12.1
+Stable tag: 3.12.2
 
 Requires PHP: 7.4
 
@@ -166,6 +166,10 @@ Installation from admin panel (marketplace):
 
 Changelog
 ---------
+
+= 3.12.2 =
+* Fix — Payments no longer fail with gateway error 0x15x0 when a page builder (e.g. Elementor Pro) makes the order-received return URL relative; the accept URL is now always sent as an absolute URL.
+* Fix — Order confirmation callbacks now reach the store on multilingual sites that add a language query string to the home URL (e.g. ?lang=xx); the callback URL is built without a malformed double query string.
 
 = 3.12.1 =
 * Fix — Resolved a fatal error on the checkout page that could occur when the list of payment methods could not be retrieved; the checkout now continues to work and the issue is logged instead.
@@ -598,6 +602,10 @@ Changelog
 
 Upgrade Notice
 --------------
+
+= 3.12.2 =
+* Fix — Payments no longer fail with gateway error 0x15x0 when a page builder (e.g. Elementor Pro) makes the order-received return URL relative; the accept URL is now always sent as an absolute URL.
+* Fix — Order confirmation callbacks now reach the store on multilingual sites that add a language query string to the home URL (e.g. ?lang=xx); the callback URL is built without a malformed double query string.
 
 = 3.12.1 =
 * Fix — Resolved a fatal error on the checkout page that could occur when the list of payment methods could not be retrieved; the checkout now continues to work and the issue is logged instead.
