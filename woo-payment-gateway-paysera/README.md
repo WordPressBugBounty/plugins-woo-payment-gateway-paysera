@@ -1,9 +1,9 @@
 Paysera Payment Gateway for WooCommerce
 =======================
 
-Version: 3.12.2
+Version: 3.12.3
 
-Date: 2026-08-17
+Date: 2026-10-21
 
 Contributors: Paysera
 
@@ -13,7 +13,7 @@ Requires at least: 4.0
 
 Tested up to: 7.1
 
-Stable tag: 3.12.2
+Stable tag: 3.12.3
 
 Requires PHP: 7.4
 
@@ -166,6 +166,11 @@ Installation from admin panel (marketplace):
 
 Changelog
 ---------
+
+= 3.12.3 =
+* Fix — Orders with a parcel terminal no longer fail with "Terminal … does not exist" in the block-based checkout on slower servers; the selected terminal is now taken from the checkout request instead of the shopper session.
+* Fix — The house number entered in the block-based checkout is now also taken from the checkout request, so it is no longer lost on slower servers.
+* Tweak — When parcel terminals cannot be loaded from Paysera Delivery, the block-based checkout now asks the shopper to try again later instead of asking them to select a terminal, and the problem is logged.
 
 = 3.12.2 =
 * Fix — Payments no longer fail with gateway error 0x15x0 when a page builder (e.g. Elementor Pro) makes the order-received return URL relative; the accept URL is now always sent as an absolute URL.
@@ -602,6 +607,11 @@ Changelog
 
 Upgrade Notice
 --------------
+
+= 3.12.3 =
+* Fix — Orders with a parcel terminal no longer fail with "Terminal … does not exist" in the block-based checkout on slower servers; the selected terminal is now taken from the checkout request instead of the shopper session.
+* Fix — The house number entered in the block-based checkout is now also taken from the checkout request, so it is no longer lost on slower servers.
+* Tweak — When parcel terminals cannot be loaded from Paysera Delivery, the block-based checkout now asks the shopper to try again later instead of asking them to select a terminal, and the problem is logged.
 
 = 3.12.2 =
 * Fix — Payments no longer fail with gateway error 0x15x0 when a page builder (e.g. Elementor Pro) makes the order-received return URL relative; the accept URL is now always sent as an absolute URL.

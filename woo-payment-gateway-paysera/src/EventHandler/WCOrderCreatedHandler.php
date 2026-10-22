@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Paysera\EventHandler;
 
-use Paysera\Helper\PayseraDeliveryHelper;
 use Paysera\Scoped\Paysera\DeliverySdk\Entity\DeliveryTerminalLocationFactoryInterface;
 use Paysera\Scoped\Paysera\DeliverySdk\Entity\PayseraDeliveryOrderRequest;
 use Paysera\Scoped\Paysera\DeliverySdk\Entity\PayseraDeliverySettingsInterface;
@@ -35,7 +34,6 @@ class WCOrderCreatedHandler implements EventHandlerInterface
     private DeliveryGatewayUtils $deliveryGatewayUtils;
     private DeliveryTerminalLocationFactoryInterface $terminalLocationFactory;
     private DeliveryLoggerInterface $logger;
-    private PayseraDeliveryHelper $payseraDeliveryHelper;
 
     public function __construct(
         PayseraDeliveryOrderService $deliveryOrderService,
@@ -46,8 +44,7 @@ class WCOrderCreatedHandler implements EventHandlerInterface
         LogMessageFormatter $logMessageFormatter,
         DeliveryGatewayUtils $deliveryGatewayUtils,
         DeliveryTerminalLocationFactoryInterface $terminalLocationFactory,
-        DeliveryLoggerInterface $logger,
-        PayseraDeliveryHelper $payseraDeliveryHelper
+        DeliveryLoggerInterface $logger
     ) {
         $this->deliveryOrderService = $deliveryOrderService;
         $this->deliverySettingsProvider = $deliverySettingsProvider;
@@ -58,7 +55,6 @@ class WCOrderCreatedHandler implements EventHandlerInterface
         $this->deliveryGatewayUtils = $deliveryGatewayUtils;
         $this->terminalLocationFactory = $terminalLocationFactory;
         $this->logger = $logger;
-        $this->payseraDeliveryHelper = $payseraDeliveryHelper;
     }
 
     /**
@@ -188,8 +184,6 @@ class WCOrderCreatedHandler implements EventHandlerInterface
             $wcOrder = $deliveryOrderRequest
                 ->getOrder()
                 ->getWcOrder();
-
-            $this->payseraDeliveryHelper->setTerminalAsShippingAddress($wcOrder, $selectedTerminal);
 
             $wcOrder->add_order_note(
                     $this->orderNotesFormatter->formatSelectedTerminalNote(

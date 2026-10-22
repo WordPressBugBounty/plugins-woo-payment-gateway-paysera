@@ -12,6 +12,7 @@ use Paysera\Scoped\Paysera\DeliverySdk\Entity\DeliveryTerminalLocationInterface;
 use Paysera\Scoped\Paysera\DeliverySdk\Util\DeliveryGatewayUtils;
 use Paysera\Entity\PayseraDeliverySettings;
 use Paysera\Entity\PayseraPaths;
+use Paysera\Exception\ParcelMachinesUnavailableException;
 use RuntimeException;
 use WC;
 use WC_Order;
@@ -236,6 +237,32 @@ class PayseraDeliveryHelper
         return $this->cartTotalWeight;
     }
 
+    /**
+     * @param string $shippingMethod
+     * @param string $country
+     * @param string $city
+     * @param string $terminalId
+     * @return bool
+     * @throws ParcelMachinesUnavailableException
+     */
+    public function isTerminalAvailable(
+        string $shippingMethod,
+        string $country,
+        string $city,
+        string $terminalId
+    ): bool {
+        $terminalsList = $this->payseraDeliveryLibraryHelper->fetchParcelMachinesLocations(
+            $this->terminalLocationFactory->create()
+            ->setCountry($country)
+            ->setCity($city)
+            ->setDeliveryGatewayCode(
+                $this->deliveryGatewayUtils->resolveDeliveryGatewayCode($shippingMethod)
+            )
+        );
+
+        return isset($terminalsList[$terminalId]);
+    }
+
     public function getTerminalLocationName(DeliveryTerminalLocationInterface $deliveryTerminalLocation): string
     {
         $terminalsList = $this->payseraDeliveryLibraryHelper->getParcelMachinesLocations(
@@ -263,6 +290,5 @@ class PayseraDeliveryHelper
         ]);
 
         $order->update_meta_data(PayseraDeliverySettings::SELECTED_TERMINAL_NAME_KEY, $terminalName);
-        $order->save();
     }
 }

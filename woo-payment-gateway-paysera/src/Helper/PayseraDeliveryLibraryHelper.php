@@ -21,6 +21,7 @@ use Paysera\Scoped\Paysera\DeliverySdk\Entity\DeliveryTerminalLocationInterface;
 use Paysera\Scoped\Paysera\DeliverySdk\Exception\MerchantClientNotFoundException;
 use Paysera\Scoped\Paysera\DeliverySdk\Service\DeliveryLoggerInterface;
 use Paysera\Entity\PayseraDeliverySettings;
+use Paysera\Exception\ParcelMachinesUnavailableException;
 use Paysera\Provider\PayseraDeliverySettingsProvider;
 use WC_Product;
 
@@ -29,6 +30,7 @@ class PayseraDeliveryLibraryHelper
     private PayseraDeliverySettings $deliverySettings;
     private MerchantClientProvider $merchantClientProvider;
     private DeliveryLoggerInterface $logger;
+    private array $parcelMachinesLocations = [];
 
     public function __construct(
         MerchantClientProvider $merchantClientProvider,
@@ -102,6 +104,34 @@ class PayseraDeliveryLibraryHelper
 
     public function getParcelMachinesLocations(DeliveryTerminalLocationInterface $terminalLocationDto): array
     {
+        try {
+            return $this->fetchParcelMachinesLocations($terminalLocationDto);
+        } catch (ParcelMachinesUnavailableException $exception) {
+            if ($exception->getPrevious() !== null) {
+                $this->logger->error($exception->getMessage(), $exception->getPrevious());
+            }
+
+            return [];
+        }
+    }
+
+    /**
+     * @param DeliveryTerminalLocationInterface $terminalLocationDto
+     * @return array<string, string>
+     * @throws ParcelMachinesUnavailableException
+     */
+    public function fetchParcelMachinesLocations(DeliveryTerminalLocationInterface $terminalLocationDto): array
+    {
+        $cacheKey = implode('|', [
+            $terminalLocationDto->getCountry(),
+            $terminalLocationDto->getCity(),
+            $terminalLocationDto->getDeliveryGatewayCode(),
+        ]);
+
+        if (isset($this->parcelMachinesLocations[$cacheKey])) {
+            return $this->parcelMachinesLocations[$cacheKey];
+        }
+
         $parcelMachineFilter = (new ParcelMachineFilter())
             ->setCountry($terminalLocationDto->getCountry())
             ->setCity($terminalLocationDto->getCity())
@@ -111,15 +141,13 @@ class PayseraDeliveryLibraryHelper
         $merchantClient = $this->getMerchantClient();
 
         if ($merchantClient === null) {
-            return [];
+            throw ParcelMachinesUnavailableException::merchantClientNotFound();
         }
 
         try {
             $parcelMachines = $merchantClient->getParcelMachines($parcelMachineFilter)->getList();
         } catch (Exception $exception) {
-            $this->logger->error('Could not fetch parcel machines.', $exception);
-
-            return [];
+            throw ParcelMachinesUnavailableException::requestFailed($exception);
         }
 
         $locations = [];
@@ -134,6 +162,8 @@ class PayseraDeliveryLibraryHelper
         }
 
         asort($locations);
+
+        $this->parcelMachinesLocations[$cacheKey] = $locations;
 
         return $locations;
     }

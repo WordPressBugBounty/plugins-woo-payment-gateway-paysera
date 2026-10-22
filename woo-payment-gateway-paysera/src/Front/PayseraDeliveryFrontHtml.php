@@ -6,6 +6,11 @@ namespace Paysera\Front;
 
 defined('ABSPATH') || exit;
 
+use Automattic\WooCommerce\StoreApi\Exceptions\RouteException;
+use Paysera\Blocks\CheckoutStoreEndpoint;
+use Paysera\Blocks\PayseraBlock;
+use Paysera\Dto\SelectedTerminal;
+use Paysera\Exception\ParcelMachinesUnavailableException;
 use Paysera\Helper\PayseraHTMLHelper;
 use Paysera\Validation\PayseraDeliveryWeightValidator;
 use Paysera\PayseraInit;
@@ -13,10 +18,12 @@ use WP_Error;
 use Paysera\Helper\PayseraDeliveryHelper;
 use Paysera\Helper\SessionHelperInterface;
 use Paysera\Provider\PayseraDeliverySettingsProvider;
+use Paysera\Scoped\Paysera\DeliverySdk\Service\DeliveryLoggerInterface;
 use Paysera\Entity\PayseraPaths;
 use Paysera\Entity\PayseraDeliverySettings;
 use WC_Shipping_Rate;
 use WC_Order;
+use WP_REST_Request;
 
 class PayseraDeliveryFrontHtml
 {
@@ -27,15 +34,18 @@ class PayseraDeliveryFrontHtml
     private PayseraDeliverySettingsProvider $payseraDeliverySettingsProvider;
     private SessionHelperInterface $sessionHelper;
     private PayseraDeliveryWeightValidator $payseraDeliveryWeightValidator;
+    private DeliveryLoggerInterface $logger;
 
     public function __construct(
         PayseraDeliveryHelper $payseraDeliveryHelper,
         PayseraDeliverySettingsProvider $payseraDeliverySettingsProvider,
-        SessionHelperInterface $sessionHelper
+        SessionHelperInterface $sessionHelper,
+        DeliveryLoggerInterface $logger
     ) {
         $this->payseraDeliveryHelper = $payseraDeliveryHelper;
         $this->payseraDeliverySettingsProvider = $payseraDeliverySettingsProvider;
         $this->sessionHelper = $sessionHelper;
+        $this->logger = $logger;
         $this->payseraDeliveryWeightValidator = new PayseraDeliveryWeightValidator(
             $this->sessionHelper,
             $this->payseraDeliveryHelper,
@@ -61,6 +71,8 @@ class PayseraDeliveryFrontHtml
         add_filter('woocommerce_checkout_fields', [$this, 'addRequiredHouseField']);
         add_filter('woocommerce_shipping_packages', [$this, 'setActivePayseraShippingPackageRates']);
         add_action('woocommerce_store_api_checkout_update_order_from_request', [$this, 'storeHouseNoInOrderMeta'], 9999, 2);
+        add_action('woocommerce_store_api_checkout_update_order_from_request', [$this, 'storeTerminalLocationFromRequest'], 10, 2);
+        $this->extendCheckoutStoreApi();
         add_action('woocommerce_checkout_update_order_meta', [$this, 'removeHouseNumberFromOrderMeta'], 10, 1);
         add_filter('woocommerce_package_rates', [$this, 'filterShippingRatesByCartWeightSuitability'], 9999, 1);
         add_action(self::DELIVERY_ASSETS_INIT_ACTION_KEY, [$this, 'deliveryAssets']);
@@ -440,7 +452,190 @@ class PayseraDeliveryFrontHtml
         return $activePackageRates;
     }
 
-    public function storeHouseNoInOrderMeta($order): void
+    /**
+     * @param WC_Order $order
+     * @param WP_REST_Request $request
+     * @throws RouteException
+     */
+    public function storeTerminalLocationFromRequest(WC_Order $order, WP_REST_Request $request): void
+    {
+        if (!$this->payseraDeliverySettingsProvider->getPayseraDeliverySettings()->isEnabled()) {
+            return;
+        }
+
+        $shippingMethod = $this->findTerminalShippingMethod($order);
+
+        if ($shippingMethod === null) {
+            $this->logTerminalDataWithoutTerminalMethod($order, $request);
+
+            return;
+        }
+
+        $terminal = $this->getTerminalFromRequest($request) ?? $this->getTerminalFromSession();
+
+        if ($terminal === null || !$this->isSelectedTerminalAvailable($order, $shippingMethod, $terminal)) {
+            throw new RouteException(
+                'paysera_delivery_terminal_not_selected',
+                __('Please select the terminal location', PayseraPaths::PAYSERA_TRANSLATIONS),
+                400
+            );
+        }
+
+        $this->sessionHelper->setData(PayseraDeliverySettings::TERMINAL_COUNTRY, $terminal->getCountry());
+        $this->sessionHelper->setData(PayseraDeliverySettings::TERMINAL_CITY, $terminal->getCity());
+        $this->sessionHelper->setData(PayseraDeliverySettings::TERMINAL, $terminal->getTerminalId());
+        $this->sessionHelper->setData(PayseraDeliverySettings::TERMINAL_LOCATION, $terminal->getTerminalId());
+    }
+
+    /**
+     * @param WC_Order $order
+     * @param string $shippingMethod
+     * @param SelectedTerminal $terminal
+     * @return bool
+     * @throws RouteException
+     */
+    private function isSelectedTerminalAvailable(
+        WC_Order $order,
+        string $shippingMethod,
+        SelectedTerminal $terminal
+    ): bool {
+        try {
+            return $this->payseraDeliveryHelper->isTerminalAvailable(
+                $shippingMethod,
+                $terminal->getCountry(),
+                $terminal->getCity(),
+                $terminal->getTerminalId()
+            );
+        } catch (ParcelMachinesUnavailableException $exception) {
+            $this->logger->error(
+                sprintf(
+                    'Order %d: parcel terminals could not be loaded for %s (%s, %s), checkout rejected.',
+                    $order->get_id(),
+                    $shippingMethod,
+                    $terminal->getCountry(),
+                    $terminal->getCity()
+                ),
+                $exception
+            );
+
+            throw new RouteException(
+                'paysera_delivery_terminals_unavailable',
+                __(
+                    'Parcel terminals are temporarily unavailable. Please try again later.',
+                    PayseraPaths::PAYSERA_TRANSLATIONS
+                ),
+                503
+            );
+        }
+    }
+
+    private function extendCheckoutStoreApi(): void
+    {
+        if (did_action('woocommerce_blocks_loaded')) {
+            CheckoutStoreEndpoint::init();
+
+            return;
+        }
+
+        add_action('woocommerce_blocks_loaded', [CheckoutStoreEndpoint::class, 'init']);
+    }
+
+    private function findTerminalShippingMethod(WC_Order $order): ?string
+    {
+        $firstPayseraMethod = null;
+
+        foreach ($order->get_items('shipping') as $shippingItem) {
+            $methodId = (string) $shippingItem->get_method_id();
+
+            if (!$this->payseraDeliveryHelper->isPayseraDeliveryGateway($methodId)) {
+                continue;
+            }
+
+            $receiverType = $this->payseraDeliverySettingsProvider
+                ->getPayseraDeliveryGatewaySettings($methodId, (int) $shippingItem->get_instance_id())
+                ->getReceiverType()
+            ;
+            $isTerminalMethod = $receiverType === PayseraDeliverySettings::TYPE_PARCEL_MACHINE;
+
+            if ($firstPayseraMethod === null) {
+                if ($isTerminalMethod) {
+                    return $methodId;
+                }
+
+                $firstPayseraMethod = $methodId;
+
+                continue;
+            }
+
+            if ($isTerminalMethod) {
+                $this->logger->info(
+                    sprintf(
+                        'Order %d: parcel terminal method %s is not the first Paysera shipping method (%s) and will be ignored.',
+                        $order->get_id(),
+                        $methodId,
+                        $firstPayseraMethod
+                    )
+                );
+
+                return null;
+            }
+        }
+
+        return null;
+    }
+
+    private function logTerminalDataWithoutTerminalMethod(WC_Order $order, WP_REST_Request $request): void
+    {
+        $country = $this->getPayseraRequestData($request)['payseraDeliveryCountry'] ?? '';
+
+        if (!is_string($country) || $country === '' || $country === 'default') {
+            return;
+        }
+
+        $shippingMethods = array_map(
+            fn ($shippingItem) => (string) $shippingItem->get_method_id(),
+            array_values($order->get_items('shipping'))
+        );
+
+        $this->logger->error(
+            sprintf(
+                'Order %d: parcel terminal data received in the checkout request, but the order shipping method is not a parcel terminal (%s).',
+                $order->get_id(),
+                $shippingMethods === [] ? 'none' : implode(', ', $shippingMethods)
+            )
+        );
+    }
+
+    private function getPayseraRequestData(WP_REST_Request $request): array
+    {
+        $extensions = $request->get_param('extensions');
+
+        return is_array($extensions) && is_array($extensions[CheckoutStoreEndpoint::IDENTIFIER] ?? null)
+            ? $extensions[CheckoutStoreEndpoint::IDENTIFIER]
+            : [];
+    }
+
+    private function getTerminalFromRequest(WP_REST_Request $request): ?SelectedTerminal
+    {
+        $payseraData = $this->getPayseraRequestData($request);
+
+        return SelectedTerminal::fromValues(
+            $payseraData['payseraDeliveryCountry'] ?? '',
+            $payseraData['payseraDeliveryCity'] ?? '',
+            $payseraData['payseraDeliveryLocation'] ?? ''
+        );
+    }
+
+    private function getTerminalFromSession(): ?SelectedTerminal
+    {
+        return SelectedTerminal::fromValues(
+            $this->sessionHelper->getData(PayseraDeliverySettings::TERMINAL_COUNTRY),
+            $this->sessionHelper->getData(PayseraDeliverySettings::TERMINAL_CITY),
+            $this->sessionHelper->getData(PayseraDeliverySettings::TERMINAL)
+        );
+    }
+
+    public function storeHouseNoInOrderMeta($order, ?WP_REST_Request $request = null): void
     {
         if (!$this->payseraDeliverySettingsProvider->getPayseraDeliverySettings()->isHouseNumberFieldEnabled()) {
             $this->sessionHelper->setData(PayseraDeliverySettings::BILLING_HOUSE_NO, null);
@@ -448,11 +643,15 @@ class PayseraDeliveryFrontHtml
             return;
         }
 
-        $billingHouseNo = sanitize_text_field(
-            (string) $this->sessionHelper->getData(PayseraDeliverySettings::BILLING_HOUSE_NO)
+        $payseraData = $request !== null ? $this->getPayseraRequestData($request) : [];
+
+        $billingHouseNo = $this->resolveHouseNo(
+            $payseraData[PayseraBlock::PAYSERA_BILLING_HOUSE_NO] ?? null,
+            PayseraDeliverySettings::BILLING_HOUSE_NO
         );
-        $shippingHouseNo = sanitize_text_field(
-            (string) $this->sessionHelper->getData(PayseraDeliverySettings::SHIPPING_HOUSE_NO)
+        $shippingHouseNo = $this->resolveHouseNo(
+            $payseraData[PayseraBlock::PAYSERA_SHIPPING_HOUSE_NO] ?? null,
+            PayseraDeliverySettings::SHIPPING_HOUSE_NO
         );
 
         if ($billingHouseNo !== '') {
@@ -468,6 +667,23 @@ class PayseraDeliveryFrontHtml
                 $shippingHouseNo
             );
         }
+    }
+
+    /**
+     * @param mixed $requestHouseNo
+     * @param string $sessionKey
+     */
+    private function resolveHouseNo($requestHouseNo, string $sessionKey): string
+    {
+        $houseNo = is_string($requestHouseNo) ? sanitize_text_field($requestHouseNo) : '';
+
+        if ($houseNo === '') {
+            return sanitize_text_field((string) $this->sessionHelper->getData($sessionKey));
+        }
+
+        $this->sessionHelper->setData($sessionKey, $houseNo);
+
+        return $houseNo;
     }
 
     /**

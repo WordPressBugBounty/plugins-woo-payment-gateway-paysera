@@ -77,6 +77,8 @@ class Party extends AbstractEntity implements MerchantOrderPartyInterface
             $this->order->update_meta_data($metaKey, $terminalLocation->{$getterMethod}());
         }
 
+        $this->order->save();
+
         return $this;
     }
 

@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit4310f74fab5d556045ce0e18f3383a5a
+class ComposerStaticInit4c30c43bbfb7d1f04ea892c72db40325
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -528,6 +528,7 @@ class ComposerStaticInit4310f74fab5d556045ce0e18f3383a5a
         'Paysera\\DeliverySdk\\Util\\Container' => __DIR__ . '/..' . '/paysera/lib-delivery-sdk/src/Util/Container.php',
         'Paysera\\DeliverySdk\\Util\\DeliveryGatewayUtils' => __DIR__ . '/..' . '/paysera/lib-delivery-sdk/src/Util/DeliveryGatewayUtils.php',
         'Paysera\\Dto\\PayseraSettingsValidationDto' => __DIR__ . '/../..' . '/src/Dto/PayseraSettingsValidationDto.php',
+        'Paysera\\Dto\\SelectedTerminal' => __DIR__ . '/../..' . '/src/Dto/SelectedTerminal.php',
         'Paysera\\Dto\\TerminalLocationMessageDto' => __DIR__ . '/../..' . '/src/Dto/TerminalLocationMessageDto.php',
         'Paysera\\Entity\\Delivery\\AbstractEntity' => __DIR__ . '/../..' . '/src/Entity/Delivery/AbstractEntity.php',
         'Paysera\\Entity\\Delivery\\Address' => __DIR__ . '/../..' . '/src/Entity/Delivery/Address.php',
@@ -549,6 +550,7 @@ class ComposerStaticInit4310f74fab5d556045ce0e18f3383a5a
         'Paysera\\EventHandler\\WCOrderPaymentCompletedHandler' => __DIR__ . '/../..' . '/src/EventHandler/WCOrderPaymentCompletedHandler.php',
         'Paysera\\Exception\\DatabaseOperationException' => __DIR__ . '/../..' . '/src/Exception/DatabaseOperationException.php',
         'Paysera\\Exception\\DeliveryActionException' => __DIR__ . '/../..' . '/src/Exception/DeliveryActionException.php',
+        'Paysera\\Exception\\ParcelMachinesUnavailableException' => __DIR__ . '/../..' . '/src/Exception/ParcelMachinesUnavailableException.php',
         'Paysera\\Exception\\PayseraPaymentException' => __DIR__ . '/../..' . '/src/Exception/PayseraPaymentException.php',
         'Paysera\\Exception\\PayseraPaymentRefundException' => __DIR__ . '/../..' . '/src/Exception/PayseraPaymentRefundException.php',
         'Paysera\\Exception\\RedirectStopException' => __DIR__ . '/../..' . '/src/Exception/RedirectStopException.php',
@@ -1452,6 +1454,8 @@ class ComposerStaticInit4310f74fab5d556045ce0e18f3383a5a
         'Paysera\\Tests\\Blocks\\PayseraBlockTest' => __DIR__ . '/../..' . '/tests/phpunit/Blocks/PayseraBlockTest.php',
         'Paysera\\Tests\\DeliveryGatewaySettingsMockingTrait' => __DIR__ . '/../..' . '/tests/phpunit/DeliveryGatewaySettingsMockingTrait.php',
         'Paysera\\Tests\\Dto\\PayseraSettingsValidationDtoTest' => __DIR__ . '/../..' . '/tests/phpunit/Dto/PayseraSettingsValidationDtoTest.php',
+        'Paysera\\Tests\\Dto\\SelectedTerminalTest' => __DIR__ . '/../..' . '/tests/phpunit/Dto/SelectedTerminalTest.php',
+        'Paysera\\Tests\\Entity\\Delivery\\PartyTest' => __DIR__ . '/../..' . '/tests/phpunit/Entity/Delivery/PartyTest.php',
         'Paysera\\Tests\\Entity\\OrderItemTest' => __DIR__ . '/../..' . '/tests/phpunit/Entity/OrderItemTest.php',
         'Paysera\\Tests\\Entity\\PayseraDeliverySettingsTest' => __DIR__ . '/../..' . '/tests/phpunit/Entity/PayseraDeliverySettingsTest.php',
         'Paysera\\Tests\\Entity\\TransientNoticeTest' => __DIR__ . '/../..' . '/tests/phpunit/Entity/TransientNoticeTest.php',
@@ -1460,10 +1464,12 @@ class ComposerStaticInit4310f74fab5d556045ce0e18f3383a5a
         'Paysera\\Tests\\EventHandlers\\WCOrderPaymentCompletedHandlerTest' => __DIR__ . '/../..' . '/tests/phpunit/EventHandlers/WCOrderPaymentCompletedHandlerTest.php',
         'Paysera\\Tests\\Exception\\PayseraPaymentExceptionTest' => __DIR__ . '/../..' . '/tests/phpunit/Exception/PayseraPaymentExceptionTest.php',
         'Paysera\\Tests\\Factory\\TransientNoticeFactoryTest' => __DIR__ . '/../..' . '/tests/phpunit/Factory/TransientNoticeFactoryTest.php',
+        'Paysera\\Tests\\Front\\PayseraDeliveryFrontHtmlTerminalFromRequestTest' => __DIR__ . '/../..' . '/tests/phpunit/Front/PayseraDeliveryFrontHtmlTerminalFromRequestTest.php',
         'Paysera\\Tests\\Generator\\PayseraPaymentFieldGeneratorTest' => __DIR__ . '/../..' . '/tests/phpunit/Generator/PayseraPaymentFieldGeneratorTest.php',
         'Paysera\\Tests\\Handler\\DeliveryCredentialErrorHandlerTest' => __DIR__ . '/../..' . '/tests/phpunit/Handler/DeliveryCredentialErrorHandlerTest.php',
         'Paysera\\Tests\\Helper\\EventHandlingHelperTest' => __DIR__ . '/../..' . '/tests/phpunit/Helper/EventHandlingHelperTest.php',
         'Paysera\\Tests\\Helper\\PayseraDeliveryHelperTest' => __DIR__ . '/../..' . '/tests/phpunit/Helper/PayseraDeliveryHelperTest.php',
+        'Paysera\\Tests\\Helper\\PayseraDeliveryLibraryHelperTest' => __DIR__ . '/../..' . '/tests/phpunit/Helper/PayseraDeliveryLibraryHelperTest.php',
         'Paysera\\Tests\\Helper\\PayseraPaymentHelperTest' => __DIR__ . '/../..' . '/tests/phpunit/Helper/PayseraPaymentHelperTest.php',
         'Paysera\\Tests\\Helper\\PayseraPaymentLibraryHelperTest' => __DIR__ . '/../..' . '/tests/phpunit/Helper/PayseraPaymentLibraryHelperTest.php',
         'Paysera\\Tests\\Helper\\PostDataHelperTest' => __DIR__ . '/../..' . '/tests/phpunit/Helper/PostDataHelperTest.php',
@@ -1621,10 +1627,10 @@ class ComposerStaticInit4310f74fab5d556045ce0e18f3383a5a
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit4310f74fab5d556045ce0e18f3383a5a::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit4310f74fab5d556045ce0e18f3383a5a::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit4310f74fab5d556045ce0e18f3383a5a::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit4310f74fab5d556045ce0e18f3383a5a::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit4c30c43bbfb7d1f04ea892c72db40325::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit4c30c43bbfb7d1f04ea892c72db40325::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit4c30c43bbfb7d1f04ea892c72db40325::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit4c30c43bbfb7d1f04ea892c72db40325::$classMap;
 
         }, null, ClassLoader::class);
     }
