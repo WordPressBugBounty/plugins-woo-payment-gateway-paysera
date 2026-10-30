@@ -78,6 +78,34 @@
     min-width: 100%;
 }
 
+/*
+ * EC-9494: keep the Terminal country/city/location select2 fields readable under any theme.
+ * select2 locks the single-selection box to height:28px with the value rendered at
+ * line-height:28px and overflow:hidden; a theme that enlarges the checkout font-size
+ * (e.g. e-storefront) pushes the descenders past that fixed box and they get clipped at the
+ * bottom. Scoped under #order_review (matching the width rule above) for enough specificity to
+ * beat the theme: let the control grow to fit its text instead of a fixed height.
+ */
+#order_review .paysera-delivery-terminal .select2-selection--single {
+    height: auto;
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+}
+
+#order_review .paysera-delivery-terminal .select2-selection--single .select2-selection__rendered {
+    flex: 1;
+    min-width: 0;
+    line-height: 1.5;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+#order_review .paysera-delivery-terminal .select2-selection--single .select2-selection__arrow {
+    height: 100%;
+    top: 0;
+}
+
 .paysera-delivery-terminal-city {
     display: none;
 }

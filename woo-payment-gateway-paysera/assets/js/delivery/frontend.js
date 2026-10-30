@@ -100,6 +100,7 @@ jQuery(document).ready(function ($) {
                         url: ajax_object.ajaxurl,
                         data: {
                             action: 'change_paysera_method',
+                            nonce: ajax_object.nonce,
                             shipping_method: shipping_method,
                         },
                         success: function (response) {
@@ -138,6 +139,7 @@ jQuery(document).ready(function ($) {
                                         url: ajax_object.ajaxurl,
                                         data: {
                                             action: 'change_paysera_country',
+                                            nonce: ajax_object.nonce,
                                             country: shippingCountryId,
                                             shipping_method: shipping_method,
                                         },
@@ -290,6 +292,7 @@ jQuery(document).ready(function ($) {
                     url: ajax_object.ajaxurl,
                     data: {
                         action: 'change_paysera_city',
+                        nonce: ajax_object.nonce,
                         country: $(
                             '.paysera-delivery-terminal-country-selection'
                         ).select2('data')[0]['id'],

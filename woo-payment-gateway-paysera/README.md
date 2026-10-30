@@ -1,9 +1,9 @@
 Paysera Payment Gateway for WooCommerce
 =======================
 
-Version: 3.12.3
+Version: 3.13.0
 
-Date: 2026-10-21
+Date: 2026-10-29
 
 Contributors: Paysera
 
@@ -13,7 +13,7 @@ Requires at least: 4.0
 
 Tested up to: 7.1
 
-Stable tag: 3.12.3
+Stable tag: 3.13.0
 
 Requires PHP: 7.4
 
@@ -21,9 +21,9 @@ Requires PHP Extension: BCMath, Zip
 
 Minimum requirements: WooCommerce 5.0
 
-License: GPLv3
+License: GPLv3 or later
 
-License URL: http://www.gnu.org/licenses/gpl-3.0.html
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 Description
 -----------
@@ -166,6 +166,17 @@ Installation from admin panel (marketplace):
 
 Changelog
 ---------
+
+= 3.13.0 =
+* Fix — The block-based checkout no longer places an order with the previously selected shipping method when a parcel terminal method was selected just before; if the shipping method changes while the order is submitted, the shopper is asked to check it and place the order again.
+* Fix — Parcel terminal selectors and the house number field in the block-based checkout now work when Paysera payments are not configured.
+* Fix — After switching from a parcel terminal to another shipping method, the block-based checkout no longer sends the previously selected terminal city and terminal, and terminal lists are no longer requested without a country.
+* Fix — When a parcel terminal shipment is switched to a courier, the stored terminal data is now cleared; other shipment updates keep the selected terminal.
+* Fix — Parcel terminal selectors and their styles now load on the checkout when the Paysera payment method is disabled.
+* Fix — Parcel terminal country, city and terminal selectors no longer cut off the bottom of their text in themes with a larger checkout font; long terminal names are shortened with an ellipsis.
+* Tweak — The block-based checkout keeps the selected parcel terminal and house number in the browser tab across page reloads instead of writing them to the shopper session.
+* Tweak — Tested with WordPress 7.1 and WooCommerce 11.2.
+* Tweak — The plugin license is declared the same way in the plugin header, readme and composer.json: GPL-3.0-or-later (GPLv3 or later).
 
 = 3.12.3 =
 * Fix — Orders with a parcel terminal no longer fail with "Terminal … does not exist" in the block-based checkout on slower servers; the selected terminal is now taken from the checkout request instead of the shopper session.
@@ -607,6 +618,9 @@ Changelog
 
 Upgrade Notice
 --------------
+
+= 3.13.0 =
+Stability release with block-based checkout fixes for parcel terminals. Updating is recommended; if your store uses a custom checkout integration, test the checkout after updating.
 
 = 3.12.3 =
 * Fix — Orders with a parcel terminal no longer fail with "Terminal … does not exist" in the block-based checkout on slower servers; the selected terminal is now taken from the checkout request instead of the shopper session.

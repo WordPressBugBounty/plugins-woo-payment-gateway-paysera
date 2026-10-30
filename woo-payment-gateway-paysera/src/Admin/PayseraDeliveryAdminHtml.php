@@ -41,7 +41,7 @@ class PayseraDeliveryAdminHtml
             printf('nav-tab-active');
         }
 
-        printf('" href="' . $this->payseraDeliveryHelper->settingsUrl() . '">');
+        printf('" href="' . esc_url($this->payseraDeliveryHelper->settingsUrl()) . '">');
         printf(__('Main Settings', PayseraPaths::PAYSERA_TRANSLATIONS) . '</a>');
 
         if ($projectId !== null) {
@@ -52,7 +52,7 @@ class PayseraDeliveryAdminHtml
 
             printf(
                 '" href="'
-                . $this->payseraDeliveryHelper->settingsUrl(['tab' => PayseraDeliveryAdmin::TAB_EXTRA_SETTINGS]) . '">'
+                . esc_url($this->payseraDeliveryHelper->settingsUrl(['tab' => PayseraDeliveryAdmin::TAB_EXTRA_SETTINGS])) . '">'
             );
             printf(__('Extra Settings', PayseraPaths::PAYSERA_TRANSLATIONS) . '</a>');
 
@@ -64,9 +64,9 @@ class PayseraDeliveryAdminHtml
 
             printf(
                 '" href="' .
-                $this->payseraDeliveryHelper->settingsUrl(
+                esc_url($this->payseraDeliveryHelper->settingsUrl(
                     ['tab' => PayseraDeliveryAdmin::TAB_DELIVERY_GATEWAYS_LIST_SETTINGS]
-                ) . '">'
+                )) . '">'
             );
             printf(__('Delivery Gateway List', PayseraPaths::PAYSERA_TRANSLATIONS) . '</a>');
         }
@@ -122,29 +122,29 @@ class PayseraDeliveryAdminHtml
 
             $html .= '<div class="paysera-delivery-list-row"><div class="paysera-delivery-list-col"><div>'
                 . $this->generateDeliveryGatewayLogoHtml($deliveryGateway) . '<p class="paysera-delivery-gateway-title">'
-                . $deliveryGateway->getDescription() . '</p><br></div></div>'
+                . esc_html($deliveryGateway->getDescription()) . '</p><br></div></div>'
             ;
 
             if ($deliveryGatewayEnabled === true) {
                 $html .= '<div class="paysera-delivery-list-col">' . '<a href="'
-                    . admin_url('admin.php?page=wc-settings&tab=shipping') . '" class="button">'
+                    . esc_url(admin_url('admin.php?page=wc-settings&tab=shipping')) . '" class="button">'
                     . __('Shipping zones', PayseraPaths::PAYSERA_TRANSLATIONS)
                     . '</a></div><div class="paysera-delivery-list-col"><a href="'
-                    . wp_nonce_url(
+                    . esc_url(wp_nonce_url(
                         admin_url('admin-post.php?action=paysera_delivery_gateway_change&change=disable&gateway='
                         . $deliveryGateway->getCode()),
                         'paysera_delivery_gateway_change'
-                    ) . '" class="button">'
+                    )) . '" class="button">'
                     . __('Disable', PayseraPaths::PAYSERA_TRANSLATIONS)
                 ;
             } else {
                 $html .= '<div class="paysera-delivery-list-col"></div><div class="paysera-delivery-list-col">'
                     . '<a href="'
-                    . wp_nonce_url(
+                    . esc_url(wp_nonce_url(
                         admin_url('admin-post.php?action=paysera_delivery_gateway_change&change=enable&gateway='
                         . $deliveryGateway->getCode()),
                         'paysera_delivery_gateway_change'
-                    ) . '" class="button">'
+                    )) . '" class="button">'
                     . __('Enable', PayseraPaths::PAYSERA_TRANSLATIONS)
                 ;
             }
@@ -157,8 +157,8 @@ class PayseraDeliveryAdminHtml
 
     public function generateDeliveryGatewayLogoHtml(ShipmentGateway $deliveryGateway, bool $isCheckout = false): string
     {
-        return '<img src="' . $deliveryGateway->getLogo() . '" '
-            . (($isCheckout) ? 'class="paysera-delivery-checkout-logo"' : '') . ' alt="' . $deliveryGateway->getCode()
+        return '<img src="' . esc_url($deliveryGateway->getLogo()) . '" '
+            . (($isCheckout) ? 'class="paysera-delivery-checkout-logo"' : '') . ' alt="' . esc_attr($deliveryGateway->getCode())
             . '"><br>'
         ;
     }
@@ -166,17 +166,18 @@ class PayseraDeliveryAdminHtml
     public function enablePayseraDeliveryHtml(bool $isEnabled): string
     {
         $html = '<input type="hidden" name="' . PayseraDeliverySettings::SETTINGS_NAME . '[' . PayseraDeliverySettings::ENABLED . ']" value="' . ($isEnabled ? 'yes' : 'no') . '">';
-        $html .= '<a href="' . wp_nonce_url(
+        $html .= '<a href="' . esc_url(wp_nonce_url(
             admin_url('admin-post.php?action=paysera_delivery_change_status&status=enable'),
             'paysera_delivery_change_status'
-        ) . '" class="button paysera-button' . ($isEnabled ? ' paysera-button-active"' : '"') . '>'
+        )) . '" class="button paysera-button' . ($isEnabled ? ' paysera-button-active"' : '"') . '>'
             . __('Enable', PayseraPaths::PAYSERA_TRANSLATIONS)
+            . '</a>'
         ;
 
-        $html .= '<a href="' . wp_nonce_url(
+        $html .= '<a href="' . esc_url(wp_nonce_url(
             admin_url('admin-post.php?action=paysera_delivery_change_status&status=disable'),
             'paysera_delivery_change_status'
-        ) . '" class="button paysera-button' . (!$isEnabled ? ' paysera-button-active"' : '"') . '>'
+        )) . '" class="button paysera-button' . (!$isEnabled ? ' paysera-button-active"' : '"') . '>'
             . __('Disable', PayseraPaths::PAYSERA_TRANSLATIONS)
         ;
 

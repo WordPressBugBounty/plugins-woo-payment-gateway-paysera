@@ -23,12 +23,14 @@ use Paysera\Entity\PayseraPaths;
 use Paysera\Entity\PayseraDeliverySettings;
 use WC_Shipping_Rate;
 use WC_Order;
+use WC_Order_Item_Shipping;
 use WP_REST_Request;
 
 class PayseraDeliveryFrontHtml
 {
     private const WEIGHT_ERROR_MESSAGE_KEY = 'weight_error_message';
     private const DELIVERY_ASSETS_INIT_ACTION_KEY = 'paysera_enqueue_delivery_assets';
+    private const DELIVERY_AJAX_NONCE_ACTION = 'paysera_delivery_nonce';
 
     private PayseraDeliveryHelper $payseraDeliveryHelper;
     private PayseraDeliverySettingsProvider $payseraDeliverySettingsProvider;
@@ -78,17 +80,17 @@ class PayseraDeliveryFrontHtml
         add_action(self::DELIVERY_ASSETS_INIT_ACTION_KEY, [$this, 'deliveryAssets']);
         add_action('woocommerce_blocks_enqueue_cart_block_scripts_after', [$this, 'initDeliveryAssets']);
         add_action('woocommerce_blocks_enqueue_checkout_block_scripts_after', [$this, 'initDeliveryAssets']);
-        add_action('woocommerce_after_cart', [$this, 'initDeliveryAssets']);;
+        add_action('woocommerce_after_cart', [$this, 'initDeliveryAssets']);
         add_action('woocommerce_after_checkout_form', [$this, 'initDeliveryAssets']);
     }
-
 
     public function addRequiredHouseField($fields)
     {
         if (
             $this->payseraDeliverySettingsProvider
                 ->getPayseraDeliverySettings()
-                ->isHouseNumberFieldEnabled() === true
+                ->isHouseNumberFieldEnabled()
+            === true
         ) {
             $fields['billing'][PayseraDeliverySettings::BILLING_HOUSE_NO] = [
                 'label' => __('House Number', PayseraPaths::PAYSERA_TRANSLATIONS),
@@ -145,6 +147,8 @@ class PayseraDeliveryFrontHtml
 
     public function changePayseraMethod(): void
     {
+        check_ajax_referer(self::DELIVERY_AJAX_NONCE_ACTION, 'nonce');
+
         if (isset($_POST['shipping_method']) === false) {
             return;
         }
@@ -160,10 +164,15 @@ class PayseraDeliveryFrontHtml
 
     public function changePayseraCountry(): void
     {
+        check_ajax_referer(self::DELIVERY_AJAX_NONCE_ACTION, 'nonce');
+
+        $country = sanitize_text_field(wp_unslash($_POST['country']));
         $cities = $this->payseraDeliveryHelper->getFormattedCitiesByCountry(
             sanitize_text_field(wp_unslash($_POST['shipping_method'])),
-            sanitize_text_field(wp_unslash($_POST['country']))
+            $country
         );
+
+        $this->sessionHelper->setData(PayseraDeliverySettings::TERMINAL_COUNTRY, $country);
 
         $data = [
             'cities' => $cities,
@@ -181,11 +190,16 @@ class PayseraDeliveryFrontHtml
 
     public function changePayseraCity(): void
     {
+        check_ajax_referer(self::DELIVERY_AJAX_NONCE_ACTION, 'nonce');
+
+        $city = sanitize_text_field(wp_unslash($_POST['city']));
         $terminalLocations = $this->payseraDeliveryHelper->getFormattedLocationsByCountryAndCity(
             sanitize_text_field(wp_unslash($_POST['shipping_method'])),
             sanitize_text_field(wp_unslash($_POST['country'])),
-            sanitize_text_field(wp_unslash($_POST['city']))
+            $city
         );
+
+        $this->sessionHelper->setData(PayseraDeliverySettings::TERMINAL_CITY, $city);
 
         printf(json_encode($terminalLocations));
 
@@ -194,10 +208,12 @@ class PayseraDeliveryFrontHtml
 
     public function changePayseraTerminalLocation(): void
     {
-        $this->sessionHelper->setData(
-            PayseraDeliverySettings::TERMINAL_LOCATION,
-            sanitize_text_field(wp_unslash($_POST['terminal']))
-        );
+        check_ajax_referer(self::DELIVERY_AJAX_NONCE_ACTION, 'nonce');
+
+        $terminal = sanitize_text_field(wp_unslash($_POST['terminal']));
+
+        $this->sessionHelper->setData(PayseraDeliverySettings::TERMINAL_LOCATION, $terminal);
+        $this->sessionHelper->setData(PayseraDeliverySettings::TERMINAL, $terminal);
 
         wp_die();
     }
@@ -284,15 +300,22 @@ class PayseraDeliveryFrontHtml
                 ]
             );
 
+            $ajaxObject = [
+                'ajaxurl' => admin_url('admin-ajax.php'),
+                'nonce' => wp_create_nonce(self::DELIVERY_AJAX_NONCE_ACTION),
+            ];
+
             PayseraHTMLHelper::enqueueJS('paysera-delivery-frontend-js', PayseraPaths::PAYSERA_DELIVERY_FRONTEND_JS, ['jquery']);
 
             wp_localize_script(
                 'paysera-delivery-frontend-js',
                 'payseraDeliveryFrontEndData',
                 [
-                    'isTestModeEnabled' => $this->payseraDeliverySettingsProvider->getPayseraDeliverySettings()->isTestModeEnabled()
+                    'isTestModeEnabled' => $this->payseraDeliverySettingsProvider->getPayseraDeliverySettings()->isTestModeEnabled(),
                 ]
             );
+
+            wp_localize_script('paysera-delivery-frontend-js', 'ajax_object', $ajaxObject);
 
             PayseraHTMLHelper::registerJS(
                 'paysera-delivery-frontend-ajax-js',
@@ -301,13 +324,21 @@ class PayseraDeliveryFrontHtml
                 ['in_footer' => true]
             );
             PayseraHTMLHelper::enqueueJS('paysera-delivery-frontend-ajax-js');
-            wp_localize_script(
-                'paysera-delivery-frontend-ajax-js',
-                'ajax_object',
-                ['ajaxurl' => admin_url('admin-ajax.php')]
-            );
+            wp_localize_script('paysera-delivery-frontend-ajax-js', 'ajax_object', $ajaxObject);
 
             PayseraHTMLHelper::enqueueCSS('paysera-shipping-block-frontend-css', PayseraPluginUrl . 'assets/build/style-paysera-shipping-block-frontend.css');
+
+            // EC-7908: the block-checkout delivery terminal comboboxes are styled by
+            // paysera-checkout.css, the WC >= 9 ComboboxControl backward-compatibility sheet.
+            // It was previously enqueued only by the payment block under payment isEnabled, so
+            // with the payment module disabled the comboboxes rendered unstyled. Enqueue it here
+            // on the delivery side so delivery styling never depends on the payment module.
+            // deliveryAssets() runs on both the classic and block checkout enqueue hooks; on
+            // classic checkout (which uses select2, not ComboboxControl) the sheet is unused
+            // and harmless.
+            if (defined('WC_VERSION') && version_compare(WC_VERSION, '9.0', '>=')) {
+                PayseraHTMLHelper::enqueueCSS('paysera-checkout-css', PayseraPaths::PAYSERA_CHECKOUT_CSS);
+            }
 
             if ($this->payseraDeliverySettingsProvider->getPayseraDeliverySettings()->isGridViewEnabled() === true) {
                 PayseraHTMLHelper::enqueueCSS('paysera-delivery-grid-css', PayseraPaths::PAYSERA_DELIVERY_GRID_CSS);
@@ -466,7 +497,7 @@ class PayseraDeliveryFrontHtml
         $shippingMethod = $this->findTerminalShippingMethod($order);
 
         if ($shippingMethod === null) {
-            $this->logTerminalDataWithoutTerminalMethod($order, $request);
+            $this->rejectTerminalDataWithoutTerminalMethod($order, $request);
 
             return;
         }
@@ -551,11 +582,7 @@ class PayseraDeliveryFrontHtml
                 continue;
             }
 
-            $receiverType = $this->payseraDeliverySettingsProvider
-                ->getPayseraDeliveryGatewaySettings($methodId, (int) $shippingItem->get_instance_id())
-                ->getReceiverType()
-            ;
-            $isTerminalMethod = $receiverType === PayseraDeliverySettings::TYPE_PARCEL_MACHINE;
+            $isTerminalMethod = $this->isTerminalShippingItem($shippingItem);
 
             if ($firstPayseraMethod === null) {
                 if ($isTerminalMethod) {
@@ -584,7 +611,21 @@ class PayseraDeliveryFrontHtml
         return null;
     }
 
-    private function logTerminalDataWithoutTerminalMethod(WC_Order $order, WP_REST_Request $request): void
+    private function isTerminalShippingItem(WC_Order_Item_Shipping $shippingItem): bool
+    {
+        $methodId = (string) $shippingItem->get_method_id();
+
+        return $this->payseraDeliveryHelper->isPayseraDeliveryGateway($methodId)
+            && $this->payseraDeliverySettingsProvider
+                ->getPayseraDeliveryGatewaySettings($methodId, (int) $shippingItem->get_instance_id())
+                ->getReceiverType() === PayseraDeliverySettings::TYPE_PARCEL_MACHINE
+        ;
+    }
+
+    /**
+     * @throws RouteException
+     */
+    private function rejectTerminalDataWithoutTerminalMethod(WC_Order $order, WP_REST_Request $request): void
     {
         $country = $this->getPayseraRequestData($request)['payseraDeliveryCountry'] ?? '';
 
@@ -603,6 +644,21 @@ class PayseraDeliveryFrontHtml
                 $order->get_id(),
                 $shippingMethods === [] ? 'none' : implode(', ', $shippingMethods)
             )
+        );
+
+        foreach ($order->get_items('shipping') as $shippingItem) {
+            if ($this->isTerminalShippingItem($shippingItem)) {
+                return;
+            }
+        }
+
+        throw new RouteException(
+            'paysera_delivery_shipping_method_changed',
+            __(
+                'The shipping method has changed. Please check the selected shipping method and place the order again.',
+                PayseraPaths::PAYSERA_TRANSLATIONS
+            ),
+            409
         );
     }
 

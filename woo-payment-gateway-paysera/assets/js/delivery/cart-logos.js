@@ -5,17 +5,23 @@ function setupPayseraLogos() {
         return;
     }
 
+    function escapeCssValue(value) {
+        return String(value).replace(/[^A-Za-z0-9_\-./:?=&%#~+,@]/gu, function (char) {
+            return '\\' + char.codePointAt(0).toString(16) + ' ';
+        });
+    }
+
     const style = document.createElement('style');
 
     document.getElementsByTagName('head')[0].appendChild(style);
 
     function applyCSS(extraCSS) {
-        style.innerHTML = `${extraCSS}`;
+        style.textContent = `${extraCSS}`;
 
         for (const shippingOption of Object.keys(shippingLogos)) {
-            style.innerHTML += `
-                .wc-block-components-radio-control__label[id*="${shippingOption}"]::before {
-                    background-image: url('${shippingLogos[shippingOption].url}');
+            style.textContent += `
+                .wc-block-components-radio-control__label[id*="${escapeCssValue(shippingOption)}"]::before {
+                    background-image: url('${escapeCssValue(shippingLogos[shippingOption].url)}');
                 }
             `;
         }
@@ -50,7 +56,7 @@ function setupPayseraLogos() {
                         display: block;
                         width: 100px;
                         padding-top: 10%;
-                        background: url('${shippingLogos[shippingOption].url}') no-repeat center / contain;
+                        background: url('${escapeCssValue(shippingLogos[shippingOption].url)}') no-repeat center / contain;
                     }
                 `);
             }

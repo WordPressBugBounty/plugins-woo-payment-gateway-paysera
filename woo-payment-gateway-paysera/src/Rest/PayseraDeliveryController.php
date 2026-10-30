@@ -80,6 +80,8 @@ class PayseraDeliveryController extends PayseraRestController
                         'country' => [
                             'required' => true,
                             'type' => 'string',
+                            'minLength' => 1,
+                            'validate_callback' => 'rest_validate_request_arg',
                             'sanitize_callback' => 'sanitize_text_field',
                         ],
                     ],
@@ -104,11 +106,15 @@ class PayseraDeliveryController extends PayseraRestController
                         'country' => [
                             'required' => true,
                             'type' => 'string',
+                            'minLength' => 1,
+                            'validate_callback' => 'rest_validate_request_arg',
                             'sanitize_callback' => 'sanitize_text_field',
                         ],
                         'city' => [
                             'required' => true,
                             'type' => 'string',
+                            'minLength' => 1,
+                            'validate_callback' => 'rest_validate_request_arg',
                             'sanitize_callback' => 'sanitize_text_field',
                         ],
                     ],

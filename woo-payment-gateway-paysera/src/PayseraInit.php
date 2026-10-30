@@ -286,6 +286,10 @@ class PayseraInit
             }
 
             foreach (PayseraDeliverySettings::DELIVERY_GATEWAY_TYPE_MAP as $deliveryGatewayType) {
+                if (!$this->isSafeDeliveryGatewayIdentifier((string) $deliveryGateway, (string) $deliveryGatewayType)) {
+                    continue;
+                }
+
                 if (
                     $this->isDeliveryGatewayShippingMethodAllowed(
                         $payseraDeliverySettings->getShipmentMethods(),
@@ -332,14 +336,28 @@ class PayseraInit
         $payseraDeliverySettings = $this->deliverySettingsProvider->getPayseraDeliverySettings();
         foreach ($payseraDeliverySettings->getDeliveryGateways() as $deliveryGateway => $isEnabled) {
             foreach (PayseraDeliverySettings::DELIVERY_GATEWAY_TYPE_MAP as $deliveryGatewayType) {
+                if (!$this->isSafeDeliveryGatewayIdentifier((string) $deliveryGateway, (string) $deliveryGatewayType)) {
+                    continue;
+                }
 
                 if (!$this->deliveryHelper->deliveryGatewayClassExists($deliveryGateway, $deliveryGatewayType)) {
                     $this->createDeliveryEntity($deliveryGateway, $deliveryGatewayType);
                 }
 
-                require_once 'Entity/class-paysera-' . $deliveryGateway . '-' . $deliveryGatewayType . '-delivery.php';
+                require_once sprintf(
+                    self::DELIVERY_CLASS_FILE_TEMPLATE,
+                    __DIR__,
+                    $deliveryGateway,
+                    $deliveryGatewayType
+                );
             }
         }
+    }
+
+    private function isSafeDeliveryGatewayIdentifier(string $deliveryGateway, string $deliveryGatewayType): bool
+    {
+        return preg_match('/^[a-z0-9_]+$/', $deliveryGateway) === 1
+            && preg_match('/^[a-z0-9_]+$/', $deliveryGatewayType) === 1;
     }
 
     public function deliveryGatewayLogos($label, WC_Shipping_Rate $shippingRate): string
@@ -367,7 +385,9 @@ class PayseraInit
         $hints = $this->sessionHelper->getData(self::DELIVERY_GATEWAY_WEIGHT_HINT_SESSION_KEY, []);
 
         if (isset($hints[$shippingRate->get_id()])) {
-            $label .= '<p class="paysera-delivery-error">' . $hints[$shippingRate->get_id()] . '</p>';
+            $label .= '<p class="paysera-delivery-error">'
+                . esc_html($hints[$shippingRate->get_id()])
+                . '</p>';
             $error = true;
         }
 
@@ -530,12 +550,24 @@ class PayseraInit
 
     private function createDeliveryEntity(string $deliveryGateway, string $deliveryGatewayType): void
     {
+        $entityContent = $this->buildDeliveryEntityContent($deliveryGateway, $deliveryGatewayType);
+
+        $fileName = basename('class-paysera-' . $deliveryGateway . '-' . $deliveryGatewayType . '-delivery.php');
+
+        file_put_contents(
+            plugin_dir_path(__FILE__) . 'Entity/' . $fileName,
+            $entityContent
+        );
+    }
+
+    private function buildDeliveryEntityContent(string $deliveryGateway, string $deliveryGatewayType): string
+    {
         $deliveryEntity = 'Paysera_' . ucfirst($deliveryGateway) . '_' . ucfirst($deliveryGatewayType) . '_Delivery';
 
         $description = '%s courier will deliver the parcel to the selected parcel terminal for customer to pickup any time.';
 
         if ($deliveryGatewayType === PayseraDeliverySettings::TYPE_COURIER) {
-            $description = "%s courier will deliver the parcel right to the customer\'s hands.";
+            $description = "%s courier will deliver the parcel right to the customer's hands.";
         }
 
         $receiverType = $deliveryGatewayType === PayseraDeliverySettings::TYPE_COURIER ?
@@ -546,7 +578,7 @@ class PayseraInit
         $defaultDeliveryGatewayName = $deliveryGatewayTitles[$deliveryGateway];
         $defaultDeliveryGatewayType = ucfirst($deliveryGatewayType);
 
-        $entityContent = '<?php
+        return '<?php
 
 declare(strict_types=1);
 
@@ -558,19 +590,13 @@ if (class_exists(\'Paysera_Delivery_Gateway\') === false) {
 
 class ' . $deliveryEntity . ' extends Paysera_Delivery_Gateway
 {
-    public $deliveryGatewayCode = \'' . $deliveryGateway . '_' . $deliveryGatewayType . '\';
-    public $defaultGatewayName = \'' . $defaultDeliveryGatewayName . '\';
-    public $defaultGatewayType = \'' . $defaultDeliveryGatewayType . '\';
-    public $receiverType = \'' . $receiverType . '\';
-    public $defaultDescription = \'' . $description . '\';
+    public $deliveryGatewayCode = ' . var_export($deliveryGateway . '_' . $deliveryGatewayType, true) . ';
+    public $defaultGatewayName = ' . var_export($defaultDeliveryGatewayName, true) . ';
+    public $defaultGatewayType = ' . var_export($defaultDeliveryGatewayType, true) . ';
+    public $receiverType = ' . var_export($receiverType, true) . ';
+    public $defaultDescription = ' . var_export($description, true) . ';
 }
 ';
-
-        file_put_contents(
-            plugin_dir_path(__FILE__) . 'Entity/class-paysera-' . $deliveryGateway . '-'
-            . $deliveryGatewayType . '-delivery.php',
-            $entityContent
-        );
     }
 
     public function registerRestRoutes(): void

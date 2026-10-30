@@ -5,14 +5,15 @@
   Text Domain: paysera
   Domain Path: /languages
   Description: Paysera offers payment and delivery gateway services for your e-shops
-  Version: 3.12.3
+  Version: 3.13.0
   Requires PHP: 7.4
   Author: Paysera
   Author URI: https://www.paysera.com
-  License: GPL version 3 or later - http://www.gnu.org/licenses/gpl-3.0.html
+  License: GPL-3.0-or-later
+  License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
   WC requires at least: 8.2
-  WC tested up to: 10.3.5
+  WC tested up to: 11.2
 
   @package WordPress
   @author Paysera (https://www.paysera.com)
@@ -36,7 +37,6 @@ use Paysera\Front\PayseraDeliveryFrontHtml;
 use Paysera\Helper\DatabaseHelper;
 use Paysera\Helper\LogHelper;
 use Paysera\Helper\PayseraDeliveryHelper;
-use Paysera\Helper\SessionHelperInterface;
 use Paysera\PayseraInit;
 use Paysera\Provider\ContainerProvider;
 use Paysera\Provider\PayseraDeliverySettingsProvider;
@@ -47,7 +47,7 @@ use Paysera\Format\PayseraCustomAddressFormat;
 class PayseraWoocommerce
 {
     const PAYSERA_MIN_REQUIRED_PHP_VERSION = '7.4';
-    const PAYSERA_PLUGIN_VERSION = '3.12.3';
+    const PAYSERA_PLUGIN_VERSION = '3.13.0';
 
     private const NEW_PLUGIN_CONSTANT = 'PAYSERA_ESSENTIALS_PLUGIN_VERSION';
     private const CONFLICT_SINGLE_MESSAGE = 'Conflict: Multiple Paysera Plugins Detected. Only one version of the Paysera Checkout plugin can be active at a time. Please deactivate the currently enabled version before activating another.';
@@ -190,7 +190,6 @@ class PayseraWoocommerce
             new ShippingIntegrationBlock(
                 $this->container->get(PayseraDeliveryHelper::class),
                 $this->container->get(PayseraDeliverySettingsProvider::class),
-                $this->container->get(SessionHelperInterface::class),
             ),
         );
     }

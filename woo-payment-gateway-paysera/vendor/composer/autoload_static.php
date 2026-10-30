@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit4c30c43bbfb7d1f04ea892c72db40325
+class ComposerStaticInit8b867229fa8b43be19beb805c3225aee
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -1452,6 +1452,7 @@ class ComposerStaticInit4c30c43bbfb7d1f04ea892c72db40325
         'Paysera\\Tests\\Admin\\PayseraSelfDiagnosticAdminHtmlTest' => __DIR__ . '/../..' . '/tests/phpunit/Admin/PayseraSelfDiagnosticAdminHtmlTest.php',
         'Paysera\\Tests\\Admin\\PayseraSelfDiagnosticAdminTest' => __DIR__ . '/../..' . '/tests/phpunit/Admin/PayseraSelfDiagnosticAdminTest.php',
         'Paysera\\Tests\\Blocks\\PayseraBlockTest' => __DIR__ . '/../..' . '/tests/phpunit/Blocks/PayseraBlockTest.php',
+        'Paysera\\Tests\\Blocks\\ShippingIntegrationBlockTest' => __DIR__ . '/../..' . '/tests/phpunit/Blocks/ShippingIntegrationBlockTest.php',
         'Paysera\\Tests\\DeliveryGatewaySettingsMockingTrait' => __DIR__ . '/../..' . '/tests/phpunit/DeliveryGatewaySettingsMockingTrait.php',
         'Paysera\\Tests\\Dto\\PayseraSettingsValidationDtoTest' => __DIR__ . '/../..' . '/tests/phpunit/Dto/PayseraSettingsValidationDtoTest.php',
         'Paysera\\Tests\\Dto\\SelectedTerminalTest' => __DIR__ . '/../..' . '/tests/phpunit/Dto/SelectedTerminalTest.php',
@@ -1488,6 +1489,7 @@ class ComposerStaticInit4c30c43bbfb7d1f04ea892c72db40325
         'Paysera\\Tests\\Service\\AdminNoticeTest' => __DIR__ . '/../..' . '/tests/phpunit/Service/AdminNoticeTest.php',
         'Paysera\\Tests\\Service\\PayseraDeliveryOrderServiceTest' => __DIR__ . '/../..' . '/tests/phpunit/Service/PayseraDeliveryOrderServiceTest.php',
         'Paysera\\Tests\\Service\\RefundAmountCalculatorTest' => __DIR__ . '/../..' . '/tests/phpunit/Service/RefundAmountCalculatorTest.php',
+        'Paysera\\Tests\\Service\\SelfDiagnosis\\Checkers\\GetRequestLengthSupportCheckerTest' => __DIR__ . '/../..' . '/tests/phpunit/Service/SelfDiagnosis/Checkers/GetRequestLengthSupportCheckerTest.php',
         'Paysera\\Tests\\Service\\SelfDiagnosis\\Checkers\\SSLVersionCheckerTest' => __DIR__ . '/../..' . '/tests/phpunit/Service/SelfDiagnosis/Checkers/SSLVersionCheckerTest.php',
         'Paysera\\Tests\\Service\\SelfDiagnosis\\Library\\CompatibilityCheckerRegistryTest' => __DIR__ . '/../..' . '/tests/phpunit/Service/SelfDiagnosis/Library/CompatibilityCheckerRegistryTest.php',
         'Paysera\\Tests\\Service\\SelfDiagnosis\\Library\\Factory\\VersionComparisonRulesFactoryTest' => __DIR__ . '/../..' . '/tests/phpunit/Service/SelfDiagnosis/Library/Factory/VersionComparisonRulesFactoryTest.php',
@@ -1627,10 +1629,10 @@ class ComposerStaticInit4c30c43bbfb7d1f04ea892c72db40325
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit4c30c43bbfb7d1f04ea892c72db40325::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit4c30c43bbfb7d1f04ea892c72db40325::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit4c30c43bbfb7d1f04ea892c72db40325::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit4c30c43bbfb7d1f04ea892c72db40325::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit8b867229fa8b43be19beb805c3225aee::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit8b867229fa8b43be19beb805c3225aee::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit8b867229fa8b43be19beb805c3225aee::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit8b867229fa8b43be19beb805c3225aee::$classMap;
 
         }, null, ClassLoader::class);
     }

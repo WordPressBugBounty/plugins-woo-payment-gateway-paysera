@@ -27,11 +27,13 @@ class PayseraPaymentFrontHtml
     {
         $html = '<select id="paysera_country" class="payment-country-select" >';
 
-        foreach ($countries as $country) {
-            $isCountrySelected = $country['code'] === $this->getDefaultCountryCode($countries, $billingCountryCode);
+        $defaultCountryCode = $this->getDefaultCountryCode($countries, $billingCountryCode);
 
-            $html .= '<option value="' . $country['code'] . '" ' . (($isCountrySelected === true) ? 'selected' : '')
-                . '>' . strtoupper($country['title']) . '</option>'
+        foreach ($countries as $country) {
+            $isCountrySelected = $country['code'] === $defaultCountryCode;
+
+            $html .= '<option value="' . esc_attr($country['code']) . '" ' . (($isCountrySelected === true) ? 'selected' : '')
+                . '>' . esc_html(strtoupper($country['title'])) . '</option>'
             ;
         }
 
@@ -44,10 +46,12 @@ class PayseraPaymentFrontHtml
     {
         $html = '';
 
-        foreach ($countries as $country) {
-            $isCountrySelected = $country['code'] === $this->getDefaultCountryCode($countries, $billingCountryCode);
+        $defaultCountryCode = $this->getDefaultCountryCode($countries, $billingCountryCode);
 
-            $html .= '<div id="' . $country['code'] . '" ' . ' class="payment-countries paysera-payments'
+        foreach ($countries as $country) {
+            $isCountrySelected = $country['code'] === $defaultCountryCode;
+
+            $html .= '<div id="' . esc_attr($country['code']) . '" ' . ' class="payment-countries paysera-payments'
                 . (($isGridViewEnabled) ? ' grid"' : '"') . ' style="display:'
                 . (($isCountrySelected === true) ? 'block' : 'none') . '">'
                 . $this->buildGroupList($country['groups'], $country['code'], $isCountrySelected) . '</div>'
@@ -87,7 +91,7 @@ class PayseraPaymentFrontHtml
 
         /** @var PaymentMethodGroup $group */
         foreach ($groups as $group) {
-            $html .= '<div class="payment-group-wrapper"><div class="payment-group-title">' . $translator->getTitle($group, $language)
+            $html .= '<div class="payment-group-wrapper"><div class="payment-group-title">' . esc_html($translator->getTitle($group, $language))
                 . '</div>' . $this->buildMethodsList($group->getPaymentMethods(), $countryCode, $isSelected) . '</div>'
             ;
         }
@@ -108,13 +112,18 @@ class PayseraPaymentFrontHtml
 
         $html = '';
 
+        $escapedCountryCode = esc_attr($countryCode);
+
         foreach ($methods as $method) {
-            $html .= '<div id="' . $method->getKey()
+            $methodKey = esc_attr($method->getKey());
+            $methodTitle = $translator->getTitle($method, $language);
+
+            $html .= '<div id="' . $methodKey
                 . '" class="paysera-payment-method"><label class="paysera-payment-method-label"><div><input type="radio" rel="r'
-                . $countryCode . $method->getKey() . '" name="payment[pay_type]" value="' . $method->getKey()
-                . '"/><span class="paysera-text">' . $translator->getTitle($method, $language)
-                . '</span></div><div class="paysera-image"><img src="' . $translator->getLogo($method, $language) . '" ' . 'alt="'
-                . $translator->getTitle($method, $language) . '"' . (($isSelected) ? '' : 'loading="lazy"') . '/></div></label></div>'
+                . $escapedCountryCode . $methodKey . '" name="payment[pay_type]" value="' . $methodKey
+                . '"/><span class="paysera-text">' . esc_html($methodTitle)
+                . '</span></div><div class="paysera-image"><img src="' . esc_url($translator->getLogo($method, $language)) . '" ' . 'alt="'
+                . esc_attr($methodTitle) . '"' . (($isSelected) ? '' : 'loading="lazy"') . '/></div></label></div>'
             ;
         }
 
@@ -123,6 +132,10 @@ class PayseraPaymentFrontHtml
 
     private function getDefaultCountryCode(array $countries, string $countryCode): string
     {
+        if ($countries === []) {
+            return '';
+        }
+
         $countryCodes = [];
 
         foreach ($countries as $country) {

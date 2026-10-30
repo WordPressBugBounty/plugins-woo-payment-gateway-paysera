@@ -62,11 +62,17 @@ class Party extends AbstractEntity implements MerchantOrderPartyInterface
     public function setTerminalLocation(?DeliveryTerminalLocationInterface $terminalLocation): MerchantOrderPartyInterface
     {
         if ($terminalLocation === null) {
+            if (!$this->isCourierShippingMethodSelected()) {
+                return $this;
+            }
+
             foreach (array_keys(self::META_MAP) as $metaKey) {
-                if ($this->order->meta_exists()) {
+                if ($this->order->meta_exists($metaKey)) {
                     $this->order->delete_meta_data($metaKey);
                 }
             }
+
+            $this->order->save();
 
             return $this;
         }
@@ -80,6 +86,27 @@ class Party extends AbstractEntity implements MerchantOrderPartyInterface
         $this->order->save();
 
         return $this;
+    }
+
+    private function isCourierShippingMethodSelected(): bool
+    {
+        foreach ($this->order->get_items('shipping') as $shippingItem) {
+            $methodId = (string) $shippingItem->get_method_id();
+
+            if (strpos($methodId, PayseraDeliverySettings::DELIVERY_GATEWAY_PREFIX) === false) {
+                continue;
+            }
+
+            $className = ucwords(str_replace('_delivery', '', $methodId), '_') . '_Delivery';
+
+            if (!class_exists($className)) {
+                return false;
+            }
+
+            return (get_class_vars($className)['receiverType'] ?? null) === PayseraDeliverySettings::TYPE_COURIER;
+        }
+
+        return false;
     }
 
     public function getTerminalLocation(): ?DeliveryTerminalLocationInterface

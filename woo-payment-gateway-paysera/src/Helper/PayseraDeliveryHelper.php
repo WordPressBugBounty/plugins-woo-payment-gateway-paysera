@@ -41,7 +41,7 @@ class PayseraDeliveryHelper
 
     public function settingsUrl(array $query = []): string
     {
-        return esc_url(admin_url('admin.php?page=paysera-delivery') . '&' . http_build_query($query));
+        return admin_url('admin.php?page=paysera-delivery') . '&' . http_build_query($query);
     }
 
     public function resolveDeliveryGatewayCode(string $deliveryGatewayCode): string
@@ -86,7 +86,7 @@ class PayseraDeliveryHelper
     public function deliveryGatewayClassExists(string $deliveryGateway, string $gatewayType): bool
     {
         return file_exists(
-            plugin_dir_path(__FILE__) . 'Entity/class-paysera-' . $deliveryGateway . '-' . $gatewayType
+            plugin_dir_path(dirname(__FILE__)) . 'Entity/class-paysera-' . $deliveryGateway . '-' . $gatewayType
                 . '-delivery.php'
         );
     }
@@ -149,8 +149,6 @@ class PayseraDeliveryHelper
             $cities[$city] = $city;
         }
 
-        $this->sessionHelper->setData('paysera_terminal_country', $shippingCountry);
-
         return $cities;
     }
 
@@ -163,15 +161,13 @@ class PayseraDeliveryHelper
             $terminalLocations,
             $this->payseraDeliveryLibraryHelper->getParcelMachinesLocations(
                 $this->terminalLocationFactory->create()
-                    ->setCountry($shippingCountry)
-                    ->setCity($shippingCity)
-                    ->setDeliveryGatewayCode(
+                ->setCountry($shippingCountry)
+                ->setCity($shippingCity)
+                ->setDeliveryGatewayCode(
                         $this->deliveryGatewayUtils->resolveDeliveryGatewayCode($shippingMethod)
-                    )
+                )
             )
         );
-
-        $this->sessionHelper->setData('paysera_terminal_city', $shippingCity);
 
         return $terminalLocations;
     }
@@ -226,7 +222,6 @@ class PayseraDeliveryHelper
     public function getCartTotalDeliveryWeight(): float
     {
         if ($this->cartTotalWeight === null) {
-
             $this->cartTotalWeight = WC()->cart->get_cart_contents_weight();
 
             if (get_option('woocommerce_weight_unit') === 'g') {
@@ -280,13 +275,13 @@ class PayseraDeliveryHelper
 
         $order->set_shipping([
             'first_name' => $order->get_billing_first_name(),
-            'last_name'  => $order->get_billing_last_name(),
-            'address_1'  => $terminalName,
-            'address_2'  => '',
-            'city'       => $terminalLocation->getCity(),
-            'state'      => $terminalLocation->getCountry(),
-            'postcode'   => '',
-            'country'    => $terminalLocation->getCountry(),
+            'last_name' => $order->get_billing_last_name(),
+            'address_1' => $terminalName,
+            'address_2' => '',
+            'city' => $terminalLocation->getCity(),
+            'state' => $terminalLocation->getCountry(),
+            'postcode' => '',
+            'country' => $terminalLocation->getCountry(),
         ]);
 
         $order->update_meta_data(PayseraDeliverySettings::SELECTED_TERMINAL_NAME_KEY, $terminalName);
